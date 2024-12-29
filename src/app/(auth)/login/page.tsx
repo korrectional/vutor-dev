@@ -1,45 +1,21 @@
-'use client';
+'use server';
 
 import { authClient } from '@/lib/auth-client'; //import the auth client
-import { useState } from 'react';
+import { redirect } from 'next/navigation';
+import { headers } from 'next/headers';
+import { auth } from '@/lib/auth';
+import SignIn from '../../../components/SignIn';
 
-export default function SignUp() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+export default async function SignInPage() {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
 
-  const login = async () => {
-    await authClient.signIn.email(
-      {
-        email,
-        password,
-      },
-      {
-        onRequest: () => {
-          //show loading
-        },
-        onSuccess: () => {
-          //redirect to dashboard
-        },
-        onError: (ctx) => {
-          alert(ctx.error.message);
-        },
-      }
-    );
-  };
+  if (session) {
+    redirect('/dashboard');
+  }
+  else{
+    return <SignIn />;
+  }
 
-  return (
-    <div>
-      <input
-        type="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <input
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <button onClick={login}>Login</button>
-    </div>
-  );
 }

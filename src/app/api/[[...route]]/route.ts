@@ -12,6 +12,9 @@ import { connectDB } from '@/services/db';
 const app = new Hono().basePath('/api');
 
 app.get('/hello', (c) => {
+
+  // I want to implement a testing feature here
+
   return c.json({
     message: 'Hello World!',
   });
