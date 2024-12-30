@@ -24,7 +24,7 @@ export default function SignIn() {
           //show loading
         },
         onSuccess: () => {
-          router.push('/test');
+          router.push('/dashboard');
         },
         onError: (ctx) => {
           alert(ctx.error.message);
