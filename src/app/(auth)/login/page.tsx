@@ -1,6 +1,5 @@
 'use server';
 
-import { authClient } from '@/lib/auth-client'; //import the auth client
 import { redirect } from 'next/navigation';
 import { headers } from 'next/headers';
 import { auth } from '@/lib/auth';

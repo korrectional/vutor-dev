@@ -8,10 +8,15 @@ import { auth } from '@/lib/auth';
 export default function SignIn() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-
-
+  const Loading = () => {
+    return (loading ? <div>Loading...</div> : <div>Login</div>);
+  }
+  const LoadingColor = (loading: boolean) => {
+    return (loading ? "#63aeff" : "#007bff");
+  }
 
   const login = async () => {
     await authClient.signIn.email(
@@ -21,9 +26,11 @@ export default function SignIn() {
       },
       {
         onRequest: () => {
-          //show loading
+          console.log("THINKING");
+          setLoading(true);
         },
         onSuccess: () => {
+          console.log("SUCCESS");
           router.push('/dashboard');
         },
         onError: (ctx) => {
@@ -89,7 +96,7 @@ export default function SignIn() {
           style={{
             width: "100%",
             padding: "0.75rem",
-            backgroundColor: "#007bff",
+            backgroundColor: LoadingColor(loading),
             color: "#fff",
             border: "none",
             borderRadius: "4px",
@@ -97,7 +104,7 @@ export default function SignIn() {
             cursor: "pointer",
           }}
         >
-          Login
+          <Loading/>
         </button>
       </div>
     </div>

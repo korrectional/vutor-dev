@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { authClient } from "@/lib/auth-client"; //import the auth client
 import { useEffect, useState } from "react";

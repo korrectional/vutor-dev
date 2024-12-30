@@ -1,4 +1,4 @@
-'use client';
+'use client'; // not moved yet
 
 import { useEffect, useState } from 'react';
 import { IMessage, IChat } from '@/lib/types';
