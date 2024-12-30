@@ -1,17 +1,20 @@
 'use client';
 
-import { authClient } from '@/lib/auth-client'; //import the auth client
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { authClient } from "@/lib/auth-client"; //import the auth client
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function SignUp() {
   const router = useRouter();
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [name, setName] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
+  const [full_name, setFullName] = useState("");
+  const [role, setRole] = useState("student");
+  const [phone_number, setPhoneNumber] = useState(0);
 
-
+  var isTutor = false;
 
   const register = async () => {
     try {
@@ -20,25 +23,26 @@ export default function SignUp() {
           email,
           password,
           name,
+          full_name,
+          role,
+          phone_number,
         },
         {
           onSuccess: (ctx) => {
-            if (ctx.data.session) {
-              router.push('/test');
-            }
+            router.push("/dashboard");
           },
           onError: (ctx) => {
             alert(ctx.error.message);
           },
-        }
+        },
       );
       if (error) {
-        console.error('Registration failed:', error);
+        console.error("Registration failed:", error);
       } else if (data) {
-        console.log('User registered successfully:', data);
+        console.log("User registered successfully:", data);
       }
     } catch (error) {
-      console.error('An error occurred:', error);
+      console.error("An error occurred:", error);
     }
   };
 
@@ -107,6 +111,64 @@ export default function SignUp() {
             fontSize: "1rem",
           }}
         />
+        <input
+          type="text"
+          placeholder="Full Name"
+          onChange={(e) => setFullName(e.target.value)}
+          style={{
+            width: "100%",
+            padding: "0.75rem",
+            marginBottom: "1rem",
+            borderRadius: "4px",
+            border: "1px solid #ccc",
+            fontSize: "1rem",
+          }}
+        />
+        <label style={{ display: "block", marginBottom: "1rem" }}>
+          <input
+            type="checkbox"
+            onChange={(e) => {
+              var trole = "student"; // temp var to store role
+              if (e.target.checked) {
+                trole = "tutor";
+              }
+              setRole(trole);
+            }}
+            style={{
+              marginRight: "0.5rem",
+            }}
+          />
+          Register as a tutor
+        </label>
+        <input
+          type="text"
+          placeholder="Other input field"
+          style={{
+            width: "100%",
+            padding: "0.75rem",
+            marginBottom: "1rem",
+            borderRadius: "4px",
+            border: "1px solid #ccc",
+            fontSize: "1rem",
+          }}
+        />
+        <input
+          type="tel"
+          placeholder="phone number"
+          pattern="/(7|8|9)\d{9}$/"
+          onChange={(e) => {
+            var num = Number(e.target.value);
+            setPhoneNumber(num);
+          }}
+          style={{
+            width: "100%",
+            padding: "0.75rem",
+            marginBottom: "1rem",
+            borderRadius: "4px",
+            border: "1px solid #ccc",
+            fontSize: "1rem",
+          }}
+        />
         <button
           onClick={register}
           style={{
@@ -125,4 +187,4 @@ export default function SignUp() {
       </div>
     </div>
   );
-}  
+}
