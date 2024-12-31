@@ -3,7 +3,7 @@
 import { redirect } from 'next/navigation';
 import { headers } from 'next/headers';
 import { auth } from '@/lib/auth';
-import SignIn from '../../../components/SignIn';
+import SignIn from '../../../pages/SignIn';
 
 export default async function SignInPage() {
   const session = await auth.api.getSession({

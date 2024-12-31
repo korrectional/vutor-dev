@@ -1,7 +1,7 @@
 import { redirect } from 'next/navigation';
 import { auth } from '@/lib/auth';
 import { headers } from 'next/headers';
-import Dashboard from '@/components/Dashboard';
+import Dashboard from '@/pages/Dashboard';
 
 export default function DashboardPage() {
   async function ServerComponent() {

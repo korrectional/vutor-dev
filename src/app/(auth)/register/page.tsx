@@ -1,7 +1,7 @@
 import { redirect } from 'next/navigation';
 import { headers } from 'next/headers';
 import { auth } from '@/lib/auth';
-import SignUp from '../../../components/SignUp';
+import SignUp from '../../../pages/SignUp';
 
 export default async function SignUpPage() {
   const session = await auth.api.getSession({

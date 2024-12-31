@@ -1,9 +1,8 @@
 'use client';
 
 import { authClient } from '@/lib/auth-client'; //import the auth client
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { auth } from '@/lib/auth';
 
 export default function SignIn() {
   const [email, setEmail] = useState('');
