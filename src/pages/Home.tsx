@@ -10,7 +10,7 @@ export default function Home() {
     const [message, setMessage] = useState({message: ''})
 
     useEffect(() => {
-        fetch("http://localhost:3000/api").then(
+        fetch("http://localhost:3001/api").then(
             response => response.json()
         ).then(
             data => setMessage(data)
@@ -44,6 +44,8 @@ export default function Home() {
                 {message.message || "Loading..."}
             </p>
             <a href="/contact">Contact</a>
+            <div/>
+            <a href="/signin">Sign In</a>
         </div>
     )
 }
