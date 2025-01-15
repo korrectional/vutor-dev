@@ -9,7 +9,7 @@ export default function SignInComponent() {
 
 
     const onSubmit = (e) => {
-        fetch("http://localhost:3001/api/signin", {
+        fetch("http://localhost:3000/api/signin", {
             method: "POST",
             body: JSON.stringify(formData)
         }).then((res) => {

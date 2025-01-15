@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import '../App.css'
 import axios from 'axios'
+import TextField from '../components/TextField'
 
 
 export default function Home() {
@@ -24,6 +25,7 @@ export default function Home() {
             <p className="read-the-docs">
                 {message.message || "Loading..."}
             </p>
+            <TextField />
             <a href="/contact">Contact</a>
             <div/>
             <a href="/signin">Sign In</a>
