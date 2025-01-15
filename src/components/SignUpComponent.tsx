@@ -1,16 +1,16 @@
 import { useState } from 'react';
-import useSignIn from 'react-auth-kit/hooks/useSignIn';
+import { useNavigate } from "react-router-dom";
 
 
-export default function SignInComponent() {
+export default function SignUpComponent() {
 
-    const signIn = useSignIn();
     const [formData, setFormData] = useState({email: '', password: ''})
+    const navigate = useNavigate();
     
 
     const onSubmit = (e) => {
         e.preventDefault();
-        fetch("http://localhost:3001/api/signin", {
+        fetch("http://localhost:3001/api/signup", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -19,21 +19,9 @@ export default function SignInComponent() {
         })
             .then(async (res) => {
                 const data = await res.json(); // Parse JSON response
-                if (res.status === 200) {
-                    if (
-                        signIn({
-                            auth: {
-                                token: data.token,
-                                type: "Bearer",
-                            },
-                            refresh: data.refreshToken,
-                            userState: data.authUserState,
-                        })
-                    ) {
-                        console.log("Sign-in successful!");
-                    } else {
-                        console.error("Sign-in failed!");
-                    }
+                if (res.status === 201) {
+                    console.log("account creation sucessful");
+                    navigate("/")
                 } else {
                     console.error(`Sign-in failed with status: ${res.status} and error ${data.message}`);
                 }

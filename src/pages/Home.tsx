@@ -5,16 +5,16 @@ import TextField from '../components/TextField'
 
 
 export default function Home() {
+
     const [message, setMessage] = useState({message: ''})
 
-    const fetchAPI = async () => {
-        const response = await axios.get('http://localhost:3000/api');
-        console.log(response.data);
-        setMessage(response.data);
-    }
-
     useEffect(() => {
-        fetchAPI();  
+        fetch("http://localhost:3001/api").then(
+            response => response.json()
+        ).then(
+            data => setMessage(data)
+        )
+    
     }, [])
 
 
@@ -29,6 +29,8 @@ export default function Home() {
             <a href="/contact">Contact</a>
             <div/>
             <a href="/signin">Sign In</a>
+            <div/>
+            <a href="/signup">Sign Up</a>
         </div>
     )
 }
