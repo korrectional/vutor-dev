@@ -24,8 +24,3 @@ function App() {
 }
 
 export default App
-
-
-/*
-This is how routes work in react.
-*/
