@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router';
 
 
 export default function SignUpComponent() {
@@ -10,7 +10,7 @@ export default function SignUpComponent() {
 
     const onSubmit = (e) => {
         e.preventDefault();
-        fetch("http://localhost:3001/api/signup", {
+        fetch("http://localhost:3000/api/signup", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
