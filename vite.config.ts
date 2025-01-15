@@ -5,10 +5,6 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   server: {
-<<<<<<< Updated upstream
-    port: 5173,
-=======
-    port: 3000, 
->>>>>>> Stashed changes
+    port: 3000,
   }
 })
