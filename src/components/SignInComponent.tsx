@@ -7,10 +7,11 @@ export default function SignInComponent() {
     const signIn = useSignIn();
     const [formData, setFormData] = useState({email: '', password: ''})
     
+    
 
     const onSubmit = (e) => {
         e.preventDefault();
-        fetch("http://localhost:3001/api/signin", {
+        fetch("http://localhost:3000/api/signin", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -20,16 +21,19 @@ export default function SignInComponent() {
             .then(async (res) => {
                 const data = await res.json(); // Parse JSON response
                 if (res.status === 200) {
+                    console.log(data.email);
                     if (
                         signIn({
                             auth: {
                                 token: data.token,
                                 type: "Bearer",
+                                expiresAt: data.exp,
                             },
-                            refresh: data.refreshToken,
-                            userState: data.authUserState,
+                            //refresh: data.refreshToken,
+                            userState: { email: data.email, token: data.token },
                         })
                     ) {
+
                         console.log("Sign-in successful!");
                     } else {
                         console.error("Sign-in failed!");

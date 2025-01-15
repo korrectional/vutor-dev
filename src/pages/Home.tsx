@@ -1,9 +1,21 @@
 import { useState, useEffect } from 'react'
 import '../App.css'
 import TextField from '../components/TextField'
+import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
+
+interface IUserData { // this is how we tell typescript that auth will return email
+    email: string;
+    token: string;
+};
 
 
 export default function Home() {
+    const authUser = useAuthUser<IUserData>();
+    let email = "Not authenticated";
+    if(authUser)
+    {
+        email = authUser.email;
+    }
 
     const [message, setMessage] = useState({message: ''})
 
@@ -17,12 +29,13 @@ export default function Home() {
     }, [])
 
 
-
-
     return (
         <div>
             <p className="read-the-docs">
                 {message.message || "Loading..."}
+            </p>
+            <p>
+                {email || "Loading"}
             </p>
             <TextField placeholder='Enter some text here'/>
             <a href="/contact">Contact</a>
