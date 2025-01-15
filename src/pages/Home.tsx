@@ -27,6 +27,8 @@ export default function Home() {
             <a href="/contact">Contact</a>
             <div/>
             <a href="/signin">Sign In</a>
+            <div/>
+            <a href="/signup">Sign Up</a>
         </div>
     )
 }

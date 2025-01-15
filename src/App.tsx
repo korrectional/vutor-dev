@@ -2,6 +2,7 @@
 import Home from './pages/Home'
 import Contact from './pages/Contact'
 import SignIn from './pages/SignIn'
+import SignUp from './pages/SignUp'
 
 import './App.css'
 import { BrowserRouter, Route, Routes } from 'react-router'
@@ -17,6 +18,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/signin" element={<SignIn />} />
+          <Route path="/signup" element={<SignUp />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
