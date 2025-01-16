@@ -1,5 +1,6 @@
 interface Props {
     placeholder: string,
+    type: string,
 }
 
 function TextField(props: Props) {

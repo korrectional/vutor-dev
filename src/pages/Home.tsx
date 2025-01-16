@@ -37,12 +37,14 @@ export default function Home() {
             <p>
                 {email || "Loading"}
             </p>
-            <TextField placeholder='Enter some text here'/>
+            <TextField placeholder='Enter some text here' type='Default'/>
             <a href="/contact">Contact</a>
             <div/>
             <a href="/signin">Sign In</a>
             <div/>
             <a href="/signup">Sign Up</a>
+            <div/>
+            <a href="/chat">Chats</a>
         </div>
     )
 }
