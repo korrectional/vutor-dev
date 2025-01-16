@@ -16,26 +16,24 @@ export default function SignUpComponent() {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify(formData),
+        }).then(async (res) => {
+            const data = await res.json(); // Parse JSON response
+            if (res.status === 201) {
+                console.log("account creation sucessful");
+                navigate("/")
+            } else {
+                console.error(`Sign-in failed with status: ${res.status} and error ${data.message}`);
+            }
         })
-            .then(async (res) => {
-                const data = await res.json(); // Parse JSON response
-                if (res.status === 201) {
-                    console.log("account creation sucessful");
-                    navigate("/")
-                } else {
-                    console.error(`Sign-in failed with status: ${res.status} and error ${data.message}`);
-                }
-            })
-            .catch((error) => {
-                console.error("Error during sign-in:", error);
-            });
-        
+        .catch((error) => {
+            console.error("Error during sign-in:", error);
+        });
     }
 
     return (
         <form onSubmit={onSubmit}>
-            <input type={"email"} onChange={(e)=>setFormData({...formData, email: e.target.value})}/>
-            <input type={"password"} onChange={(e)=>setFormData({...formData, password: e.target.value})}/>
+            <input type={"email"} placeholder='Enter an email' onChange={(e)=>setFormData({...formData, email: e.target.value})}/>
+            <input type={"password"} placeholder='Enter a password' onChange={(e)=>setFormData({...formData, password: e.target.value})}/>
 
             <button>Submit</button>
         </form>

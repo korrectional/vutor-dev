@@ -8,7 +8,6 @@ interface IUserData { // this is how we tell typescript that auth will return em
     token: string;
 };
 
-
 export default function Home() {
     const authUser = useAuthUser<IUserData>();
     let email = "Not authenticated";
