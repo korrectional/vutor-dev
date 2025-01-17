@@ -1,4 +1,6 @@
+import axios from "axios";
 import useAuthUser from "react-auth-kit/hooks/useAuthUser";
+import useIsAuthenticated from "react-auth-kit/hooks/useIsAuthenticated";
 import { redirect } from "react-router";
 
 interface IUserData {
@@ -6,23 +8,24 @@ interface IUserData {
     token: string
 }
 
-export default function Chats() {
-    const authUser = useAuthUser<IUserData>();  //Retrive the userInfo
-    if (!authUser) {
-        redirect('/');
+export default function Chats() {  //Retrive the userInfo
+    const isAuthed = useIsAuthenticated();
+    var userData : IUserData;
+    if (!isAuthed) {
+        alert("ERROR: You are not logged in. Redirecting to sign-in");
+        return redirect('/signin');
     }
+    userData = useAuthUser<IUserData>();
 
-
-    fetch('http://localhost:3000/api/chats', {
+    axios({
+        url: 'http://localhost:3000/api/chats',
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
+        headers: {'Authorization': 'Bearer ' + userData.token}
+    }).then(response => {
+        if (response.data.status === 401) {
+            console.log(response.data.message);
         }
-    }).then(
-        response => response.json()
-    ).then(
-        data => console.log(data)
-    );
+    });
 
     return (
         <div>    

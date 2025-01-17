@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import useSignIn from 'react-auth-kit/hooks/useSignIn';
+import { useNavigate } from 'react-router';
 
 
 export default function SignInComponent() {
 
     const signIn = useSignIn();
     const [formData, setFormData] = useState({email: '', password: ''})
+    const nav = useNavigate();
     
     
 
@@ -20,7 +22,6 @@ export default function SignInComponent() {
         }).then(async (res) => {
             const data = await res.json(); // Parse JSON response
             if (res.status === 200) {
-                console.log(data.email);
                 if (
                     signIn({
                         auth: {
@@ -32,8 +33,8 @@ export default function SignInComponent() {
                         userState: { email: data.email, token: data.token },
                     })
                 ) {
-
-                    console.log("Sign-in successful!");
+                    alert("Sign-in successful!");
+                    nav('/');
                 } else {
                     console.error("Sign-in failed!");
                 }

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import '../App.css'
 import TextField from '../components/TextField'
 import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
+import axios from 'axios';
 
 interface IUserData { // this is how we tell typescript that auth will return email
     email: string;
@@ -19,12 +20,12 @@ export default function Home() {
     const [message, setMessage] = useState({message: ''})
 
     useEffect(() => {
-        fetch("http://localhost:3000/api").then(
-            response => response.json()
-        ).then(
-            data => setMessage(data)
-        )
-    
+        axios({
+            method: 'GET',
+            url: 'http://localhost:3000/api',
+        }).then(
+            response => setMessage(response.data)
+        );
     }, [])
 
 
