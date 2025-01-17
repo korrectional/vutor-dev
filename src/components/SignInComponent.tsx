@@ -1,12 +1,12 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router';
 import useSignIn from 'react-auth-kit/hooks/useSignIn';
-
 
 export default function SignInComponent() {
 
     const signIn = useSignIn();
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({email: '', password: ''})
-    
     
 
     const onSubmit = (e) => {
@@ -27,14 +27,15 @@ export default function SignInComponent() {
                             auth: {
                                 token: data.token,
                                 type: "Bearer",
-                                expiresAt: data.exp,
+                                expiresAt: data.exp, // idk why this gives an error
                             },
-                            //refresh: data.refreshToken,
+                            //refresh: data.refreshToken, Ill add this later
                             userState: { email: data.email, token: data.token },
                         })
                     ) {
 
                         console.log("Sign-in successful!");
+                        navigate("/")
                     } else {
                         console.error("Sign-in failed!");
                     }
