@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router';
 
 export default function SignUpComponent() {
 
-    const [formData, setFormData] = useState({email: '', password: ''})
+    const [formData, setFormData] = useState({email: '', password: '', phone: '', fName: '', lName: '', isTutor: false})
     const navigate = useNavigate();
     
 
@@ -34,10 +34,46 @@ export default function SignUpComponent() {
 
     return (
         <form onSubmit={onSubmit}>
-            <input type={"email"} onChange={(e)=>setFormData({...formData, email: e.target.value})}/>
-            <input type={"password"} onChange={(e)=>setFormData({...formData, password: e.target.value})}/>
+            <input 
+                type="text" 
+                placeholder="First Name" 
+                onChange={(e) => setFormData({ ...formData, fName: e.target.value })} 
+                required 
+            />
+            <input 
+                type="text" 
+                placeholder="Last Name" 
+                onChange={(e) => setFormData({ ...formData, lName: e.target.value })} 
+                required 
+            />
+            <input 
+                type="email" 
+                placeholder="Email" 
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })} 
+                required 
+            />
+            <input 
+                type="password" 
+                placeholder="Password" 
+                onChange={(e) => setFormData({ ...formData, password: e.target.value })} 
+                required 
+            />
+            <input 
+                type="tel"
+                placeholder="123-456-7890" 
+                pattern="^\d{3}-\d{3}-\d{4}$" 
+                onChange={(e) => setFormData({ ...formData, phone: e.target.value })} 
+                required 
+            />
+            <label>
+            <input 
+                type="checkbox" 
+                onChange={(e) => setFormData({ ...formData, isTutor: e.target.checked })} 
+            />
+            Tutor (you can always change it later)
+            </label>
 
-            <button>Submit</button>
+            <button type="submit">Submit</button>
         </form>
     )
 }
