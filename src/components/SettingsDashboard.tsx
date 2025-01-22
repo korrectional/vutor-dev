@@ -19,20 +19,22 @@ const newUser = {
   };
   */
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import useAuthUser from "react-auth-kit/hooks/useAuthUser";
 
 export default function SettingsDashboard() {
     const authUser = useAuthUser<any>();
     const [settings, setSettings] = useState({
-        name: "ERROR",
-        role: "ERROR",
+        name: "LOADING",
+        role: "",
         description: "",
-        language: "ERROR",
+        language: [],
         state: "",
         GPA: 4.0,
-        teaches: "ERROR",
+        teaches: [],
     });
+
+
     useEffect(() => {
         fetch("http://localhost:3000/api/user/user-data", {
             method: "POST",
@@ -45,8 +47,8 @@ export default function SettingsDashboard() {
             setSettings(() => ({ 
                 name: data.name,
                 role: data.role,
-                description: data.role,
-                language: data.role,
+                description: data.description,
+                language: data.language,
                 state: data.state,
                 GPA: data.GPA,
                 teaches: data.teaches,
@@ -55,13 +57,47 @@ export default function SettingsDashboard() {
     },[])
 
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-        const { name, value } = e.target;
+    const handleChange = (e) => {
+        const { name, value, options } = e.target;
+        if (e.target.multiple) {
+            const selectedValues = Array.from(options)
+            .filter((option) => option?.selected)
+            .map((option) => option?.value);
+      
+            setSettings((prevSettings) => ({
+            ...prevSettings,
+            [name]: selectedValues,
+            }));
+        } else {
+            setSettings((prevSettings) => ({
+            ...prevSettings,
+            [name]: value,
+            }));
+        }
+      };
+
+    const handleToggle = (e) => {
+        const { value, checked } = e.target;
+        
         setSettings((prevSettings) => ({
-        ...prevSettings,
-        [name]: value,
+            ...prevSettings,
+            language: checked
+            ? [...prevSettings.language, value] // Add if checked
+            : prevSettings.language.filter((lang) => lang !== value), // Remove if unchecked
         }));
     };
+      
+    const handleTeachesToggle = (e) => {
+        const { value, checked } = e.target;
+      
+        setSettings((prevSettings) => ({
+            ...prevSettings,
+            teaches: checked
+            ? [...prevSettings.teaches, value] // Add if checked
+            : prevSettings.teaches.filter((teach) => teach !== value), // Remove if unchecked
+        }));
+    };
+      
 
     const saveSettings = () => {
         console.log("Updated Settings:", settings);
@@ -78,8 +114,8 @@ export default function SettingsDashboard() {
 
   return (
     <div style={{ padding: "20px", maxWidth: "400px", margin: "0 auto" }}>
-      <h2>Settings</h2>
-      {settings.name === "ERROR" ? (
+    <h2>Settings</h2>
+    {settings.name === "LOADING" ? (
        <p>Loading Page</p>
        ) : (
         <div>
@@ -115,13 +151,27 @@ export default function SettingsDashboard() {
             </label>
             <br />
 
-            <label>
-                Language:
-                <select name="language" value={settings.language} onChange={handleChange}>
-                <option value="en">English</option>
-                <option value="es">Spanish</option>
-                </select>
-            </label>
+            <label>Language:</label>
+                <div>
+                {["en", "es", "fr", "de"].map((lang) => (
+                    <label key={lang}>
+                    <input
+                        type="checkbox"
+                        name="language"
+                        value={lang}
+                        checked={settings.language.includes(lang)} // Check if the language is selected
+                        onChange={handleToggle}
+                    />
+                    {lang === "en"
+                        ? "English"
+                        : lang === "es"
+                        ? "Spanish"
+                        : lang === "fr"
+                        ? "French"
+                        : "German"}
+                    </label>
+                ))}
+                </div>
             <br />
 
             <label>
@@ -148,14 +198,30 @@ export default function SettingsDashboard() {
                 />
             </label>
             <br />
+            
+            {settings.role === "tutor" ? (
+                <div>
+                    <label>Teaches:</label>
+                        <div>
+                        {["math", "english", "science", "history"].map((subject) => (
+                            <label key={subject}>
+                            <input
+                                type="checkbox"
+                                name="teaches"
+                                value={subject}
+                                checked={settings.teaches.includes(subject)} // Check if the subject is selected
+                                onChange={handleTeachesToggle}
+                            />
+                            {subject.charAt(0).toUpperCase() + subject.slice(1)} {/* Capitalize the subject */}
+                            </label>
+                        ))}
+                        </div>
 
-            <label>
-                Teaches:
-                <select name="teaches" value={settings.teaches} onChange={handleChange}>
-                <option value="math">Math</option>
-                <option value="english">English</option>
-                </select>
-            </label>
+                </div>
+            ) : (
+                <div></div>
+            )}
+
             <br />
 
             <button onClick={saveSettings}>Save</button>
