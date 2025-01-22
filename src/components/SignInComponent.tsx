@@ -35,7 +35,7 @@ export default function SignInComponent() {
                     ) {
 
                         console.log("Sign-in successful!");
-                        navigate("/")
+                        navigate("/dashboard")
                     } else {
                         console.error("Sign-in failed!");
                     }

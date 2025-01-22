@@ -1,26 +1,20 @@
 import { useState, useEffect } from 'react'
 import '../App.css'
-import TextField from '../components/TextField'
-import SettingsButton from '../components/SettingsButton';
-import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
-
-interface IUserData { // this is how we tell typescript that auth will return email
-    email: string;
-    token: string;
-};
+import { useNavigate } from 'react-router';
+import useIsAuthenticated from 'react-auth-kit/hooks/useIsAuthenticated'
 
 
 export default function Home() {
-    const authUser = useAuthUser<IUserData>();
-    let email = "Not authenticated";
-    if(authUser)
-    {
-        email = authUser.email;
-    }
-
+    const navigate = useNavigate();
     const [message, setMessage] = useState({message: ''})
-
+    const isAuthenticated = useIsAuthenticated();
+    
     useEffect(() => {
+        
+        if(isAuthenticated){ // if you are authenticated well move you to the dashboard!
+            navigate("/dashboard")
+        }
+
         fetch("http://localhost:3000/api").then(
             response => response.json()
         ).then(
@@ -36,15 +30,11 @@ export default function Home() {
                 {message.message || "Loading..."}
             </p>
             <p>
-                {email || "Loading"}
+                Welcome to the website, hello hello
             </p>
-            <TextField placeholder='Enter some text here'/>
-            <a href="/contact">Contact</a>
-            <div/>
             <a href="/signin">Sign In</a>
             <div/>
             <a href="/signup">Sign Up</a>
-            <SettingsButton/>
         </div>
     )
 }
