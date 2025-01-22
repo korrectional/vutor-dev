@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
 import '../App.css'
 import TextField from '../components/TextField'
+import SettingsButton from '../components/SettingsButton';
 import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
-
 
 interface IUserData { // this is how we tell typescript that auth will return email
     email: string;
@@ -44,6 +44,7 @@ export default function Home() {
             <a href="/signin">Sign In</a>
             <div/>
             <a href="/signup">Sign Up</a>
+            <SettingsButton/>
         </div>
     )
 }
