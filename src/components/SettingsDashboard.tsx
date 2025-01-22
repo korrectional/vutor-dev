@@ -82,8 +82,8 @@ export default function SettingsDashboard() {
         setSettings((prevSettings) => ({
             ...prevSettings,
             language: checked
-            ? [...prevSettings.language, value] // Add if checked
-            : prevSettings.language.filter((lang) => lang !== value), // Remove if unchecked
+            ? [...(prevSettings.language || []), value] // Add if checked
+            : (prevSettings.language || []).filter((lang) => lang !== value), // Remove if unchecked
         }));
     };
       
@@ -159,7 +159,7 @@ export default function SettingsDashboard() {
                         type="checkbox"
                         name="language"
                         value={lang}
-                        checked={settings.language.includes(lang)} // Check if the language is selected
+                        checked={settings.language?.includes(lang)} // Check if the language is selected
                         onChange={handleToggle}
                     />
                     {lang === "en"
