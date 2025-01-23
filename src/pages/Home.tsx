@@ -39,7 +39,6 @@ export default function Home() {
             <div/>
             <a href="/signup">Sign Up</a>
             <div/>
-            <a href="/chat">Chats</a>
         </div>
     )
 }
