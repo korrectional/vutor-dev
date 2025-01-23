@@ -4,10 +4,13 @@ import Contact from './pages/Contact'
 import SignIn from './pages/SignIn'
 import SignUp from './pages/SignUp'
 import Chats from './pages/Chat'
-
+import Dashboard from './pages/Dashboard'
+import Search from './pages/Search'
 import './App.css'
-import { BrowserRouter, Route, Routes } from 'react-router'
 import { store } from './services/auth'
+//routing
+import { BrowserRouter, Routes, Route } from 'react-router'
+import ProtectedRoutes from './utils/protectedRoutes'
 import AuthProvider from 'react-auth-kit';
 
 function App() {
@@ -17,10 +20,14 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/contact" element={<Contact />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
-          <Route path='/chat' element={<Chats />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route element={<ProtectedRoutes/>}>
+            <Route path='/chat' element={<Chats />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/search" element={<Search />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </AuthProvider>
