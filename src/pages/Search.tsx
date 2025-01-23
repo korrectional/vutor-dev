@@ -46,6 +46,7 @@ export default function Search() {
 
   return (
     <div style={{ padding: "20px", maxWidth: "400px", margin: "0 auto" }}>
+        <a href="/dashboard">Go back</a>
         <h2>Search</h2>
         
         <div>

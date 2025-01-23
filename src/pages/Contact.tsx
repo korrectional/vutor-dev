@@ -24,6 +24,8 @@ export default function Contact() {
 
     return (
         <div>
+            <a href="/">Go back</a>
+            <br/>
             <div>This is the contact page, also I use it for my silly tests</div>
             <div>{authenticated || "loading"}</div>
         </div>
