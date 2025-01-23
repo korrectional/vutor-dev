@@ -4,6 +4,7 @@ import Contact from './pages/Contact'
 import SignIn from './pages/SignIn'
 import SignUp from './pages/SignUp'
 import Dashboard from './pages/Dashboard'
+import Search from './pages/Search'
 import './App.css'
 import { store } from './services/auth'
 //routing
@@ -23,6 +24,7 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route element={<ProtectedRoutes/>}>
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/search" element={<Search />} />
           </Route>
         </Routes>
       </BrowserRouter>
