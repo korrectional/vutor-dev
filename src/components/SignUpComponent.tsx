@@ -16,20 +16,18 @@ export default function SignUpComponent() {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify(formData),
+        }).then(async (res) => {
+            const data = await res.json(); // Parse JSON response
+            if (res.status === 201) {
+                console.log("account creation sucessful");
+                navigate("/")
+            } else {
+                console.error(`Sign-in failed with status: ${res.status} and error ${data.message}`);
+            }
         })
-            .then(async (res) => {
-                const data = await res.json(); // Parse JSON response
-                if (res.status === 201) {
-                    console.log("account creation sucessful");
-                    navigate("/")
-                } else {
-                    console.error(`Sign-in failed with status: ${res.status} and error ${data.message}`);
-                }
-            })
-            .catch((error) => {
-                console.error("Error during sign-in:", error);
-            });
-        
+        .catch((error) => {
+            console.error("Error during sign-in:", error);
+        });
     }
 
     return (

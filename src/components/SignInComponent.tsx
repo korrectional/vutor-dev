@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import useSignIn from 'react-auth-kit/hooks/useSignIn';
+import { useNavigate } from 'react-router';
 
 export default function SignInComponent() {
 
     const signIn = useSignIn();
     const navigate = useNavigate();
     const [formData, setFormData] = useState({email: '', password: ''})
+    const nav = useNavigate();
     
 
     const onSubmit = (e) => {
@@ -17,8 +19,7 @@ export default function SignInComponent() {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify(formData),
-        })
-            .then(async (res) => {
+        }).then(async (res) => {
                 const data = await res.json(); // Parse JSON response
                 if (res.status === 200) {
                     console.log(data.email);
@@ -40,19 +41,22 @@ export default function SignInComponent() {
                         console.error("Sign-in failed!");
                     }
                 } else {
-                    console.error(`Sign-in failed with status: ${res.status} and error ${data.message}`);
+                    console.error("Sign-in failed!");
                 }
-            })
-            .catch((error) => {
-                console.error("Error during sign-in:", error);
-            });
+            } else {
+                console.error(`Sign-in failed with status: ${res.status} and error ${data.message}`);
+            }
+        })
+        .catch((error) => {
+            console.error("Error during sign-in:", error);
+        });
         
     }
 
     return (
         <form onSubmit={onSubmit}>
-            <input type={"email"} onChange={(e)=>setFormData({...formData, email: e.target.value})}/>
-            <input type={"password"} onChange={(e)=>setFormData({...formData, password: e.target.value})}/>
+            <input type={"email"} placeholder='Email' onChange={(e)=>setFormData({...formData, email: e.target.value})}/>
+            <input type={"password"} placeholder='Password' onChange={(e)=>setFormData({...formData, password: e.target.value})}/>
 
             <button>Submit</button>
         </form>

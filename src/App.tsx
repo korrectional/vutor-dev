@@ -3,6 +3,7 @@ import Home from './pages/Home'
 import Contact from './pages/Contact'
 import SignIn from './pages/SignIn'
 import SignUp from './pages/SignUp'
+import Chats from './pages/Chat'
 import Dashboard from './pages/Dashboard'
 import Search from './pages/Search'
 import './App.css'
@@ -23,6 +24,7 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/contact" element={<Contact />} />
           <Route element={<ProtectedRoutes/>}>
+            <Route path='/chat' element={<Chats />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/search" element={<Search />} />
           </Route>
