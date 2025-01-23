@@ -1,3 +1,5 @@
+
+
 #root {
   max-width: 1280px;
   margin: 0 auto;
@@ -39,4 +41,35 @@
 
 .read-the-docs {
   color: #888;
+}
+
+.chats {
+    text-align: left;
+    width: 15%;
+    height: 200%;
+    float: left;
+    background-color: #888;
+    position: fixed;
+}
+
+.chat-messages {
+    text-align: left;
+    margin-left: 15%;
+}
+
+.chats-form {
+    margin-left: 16%;
+    display: flex;
+    position: fixed;
+    text-align: center;
+}
+
+.text-input {
+    width: 67vw;
+    margin-right: 1vw;
+}
+
+.chats-submit {
+    bottom: 5px;
+    width: 10vw;
 }

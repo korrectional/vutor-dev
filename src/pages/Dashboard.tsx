@@ -37,10 +37,12 @@ export default function Dashboard() {
             <p>
                 {email || "Loading"}
             </p>
-            <TextField placeholder='Enter some text here'/>
+            <TextField type='default' placeholder='Enter some text here'/>
             <a href="/contact">Contact</a>
             <br/>
             <a href="/search">Find tutor</a>
+            <br/>
+            <a href="/chat">Chat</a>
             <div/>
             <SettingsButton/>
         </div>

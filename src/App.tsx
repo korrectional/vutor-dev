@@ -5,6 +5,7 @@ import SignIn from './pages/SignIn'
 import SignUp from './pages/SignUp'
 import Dashboard from './pages/Dashboard'
 import Search from './pages/Search'
+import Chats from './pages/Chats'
 import './App.css'
 import { store } from './services/auth'
 //routing
@@ -25,6 +26,8 @@ function App() {
           <Route element={<ProtectedRoutes/>}>
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/search" element={<Search />} />
+            <Route path='/chat' element={<Chats />} />
+            <Route path='/chat/:chatID' element={<Chats />} />
           </Route>
         </Routes>
       </BrowserRouter>

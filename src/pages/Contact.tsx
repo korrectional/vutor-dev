@@ -1,8 +1,5 @@
 import useIsAuthenticated from 'react-auth-kit/hooks/useIsAuthenticated'
 import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
-import { IUserData } from '../utils/interfaces'
-import { useNavigate } from 'react-router';
-import axios from 'axios'
 
 /*
 Some knowledge:
@@ -12,58 +9,21 @@ http://localhost:3000/api/verify-session WILL provide information on the validit
 
 */
 
+
+
+
 export default function Contact() {
-    const navigate = useNavigate();
 
-    const isAuthed = useIsAuthenticated();
-    if (!isAuthed) {
-        alert('Not authorized, please login before continuing.');
-        navigate('/signin');
-    }
-    
-    const userToken = useAuthUser<IUserData>().token
-    const userEmail = useAuthUser<IUserData>().email
-
-    axios({
-        url: 'http://localhost:3000/api/verify-token',
-        method: 'POST',
-        data: {
-            token: userToken
-        }
-    }).then(response => {
-        if (response.status == 401) {
-            alert('Not authorized, please login before continuing.');
-            navigate('/signin');
-        }
-    }).catch(error => {
-        alert('Failed to verify token.');
-        navigate('/signin');
-    });
-
-    var userData;
-
-    axios({
-        url: 'http://localhost:3000/api/chats',
-        method: 'POST',
-        headers: {'Authorization': 'Bearer ' + userToken},
-        data: {
-            email: userEmail,
-        },
-    }).then(response => {
-        if (response.data.status === 401) {
-            alert(response.data.message);
-        }
-        console.log(response.data);
-    });
+    const authUser = useAuthUser<any>();
+    const isAuthenticated = useIsAuthenticated();
+    const authenticated = isAuthenticated ? "You are authenticated" : "You are not logged in";
 
     return (
-        <div>    
-            <h1>Chats</h1>
-            <ul>
-                {userData?.chats?.map((chat, index) => (
-                    <li key={index}>{chat.name}</li>
-                ))}
-            </ul>
+        <div>
+            <a href="/dashboard">Go back</a>
+            <br/>
+            <div>This is the contact page, also I use it for my silly tests</div>
+            <div>{authenticated || "loading"}</div>
         </div>
     )
 }
