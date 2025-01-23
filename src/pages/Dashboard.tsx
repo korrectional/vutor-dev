@@ -39,6 +39,8 @@ export default function Dashboard() {
             </p>
             <TextField placeholder='Enter some text here'/>
             <a href="/contact">Contact</a>
+            <br/>
+            <a href="/search">Find tutor</a>
             <div/>
             <SettingsButton/>
         </div>
