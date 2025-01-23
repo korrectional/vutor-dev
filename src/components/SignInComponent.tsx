@@ -1,14 +1,12 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import useSignIn from 'react-auth-kit/hooks/useSignIn';
-import { useNavigate } from 'react-router';
 
 export default function SignInComponent() {
 
     const signIn = useSignIn();
     const navigate = useNavigate();
     const [formData, setFormData] = useState({email: '', password: ''})
-    const nav = useNavigate();
     
 
     const onSubmit = (e) => {
@@ -20,31 +18,28 @@ export default function SignInComponent() {
             },
             body: JSON.stringify(formData),
         }).then(async (res) => {
-                const data = await res.json(); // Parse JSON response
-                if (res.status === 200) {
-                    console.log(data.email);
-                    if (
-                        signIn({
-                            auth: {
-                                token: data.token,
-                                type: "Bearer",
-                                expiresAt: data.exp, // idk why this gives an error
-                            },
-                            //refresh: data.refreshToken, Ill add this later
-                            userState: { email: data.email, token: data.token },
-                        })
-                    ) {
+            const data = await res.json(); // Parse JSON response
+            if (res.status === 200) {
+                console.log(data.email);
+                if (
+                    signIn({
+                        auth: {
+                            token: data.token,
+                            type: "Bearer",
+                            expiresAt: data.exp, // idk why this gives an error
+                        },
+                        //refresh: data.refreshToken, Ill add this later
+                        userState: { email: data.email, token: data.token },
+                    })
+                ) {
 
-                        console.log("Sign-in successful!");
-                        navigate("/dashboard")
-                    } else {
-                        console.error("Sign-in failed!");
-                    }
+                    console.log("Sign-in successful!");
+                    navigate("/dashboard")
                 } else {
                     console.error("Sign-in failed!");
                 }
             } else {
-                console.error(`Sign-in failed with status: ${res.status} and error ${data.message}`);
+                console.error("Sign-in failed!");
             }
         })
         .catch((error) => {
