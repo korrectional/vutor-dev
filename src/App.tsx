@@ -6,6 +6,7 @@ import SignUp from './pages/SignUp'
 import Dashboard from './pages/Dashboard'
 import Search from './pages/Search'
 import Chats from './pages/Chats'
+import TutorPage from './pages/TutorPage'
 import './App.css'
 import { store } from './services/auth'
 //routing
@@ -26,6 +27,7 @@ function App() {
           <Route element={<ProtectedRoutes/>}>
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/search" element={<Search />} />
+            <Route path="/search/tutor/:tutorID" element={<TutorPage />} />
             <Route path='/chat' element={<Chats />} />
             <Route path='/chat/:chatID' element={<Chats />} />
           </Route>

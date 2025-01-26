@@ -29,7 +29,7 @@ export default function SignInComponent() {
                             expiresAt: data.exp, // idk why this gives an error
                         },
                         //refresh: data.refreshToken, Ill add this later
-                        userState: { email: data.email, token: data.token },
+                        userState: { email: data.email, token: data.token, _id: data._id, role: data.role},
                     })
                 ) {
 
