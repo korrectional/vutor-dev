@@ -45,6 +45,9 @@ export default function Dashboard() {
             <a href="/chat">Chat</a>
             <div/>
             <SettingsButton/>
+            
+            {authUser.role === "tutor" ? 
+            <a href={`/search/tutor/${authUser._id}`}>Your page</a> : <div></div>}
         </div>
     )
 }

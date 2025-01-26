@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 import useAuthUser from "react-auth-kit/hooks/useAuthUser";
 
 export default function Search() {
     const authUser = useAuthUser<any>();
+    const navigate = useNavigate();
     const [parameters, setParameters] = useState({
         name: "",
         language: "",
@@ -42,6 +44,10 @@ export default function Search() {
         })
     };
 
+    const openTutorPage = (id) => {
+        navigate(`/search/tutor/${id}`);
+    }
+
 
 
   return (
@@ -69,7 +75,10 @@ export default function Search() {
                     <li key={index}>
                         <strong>Name:</strong> {tutor.name} <br />
                         <strong>GPA:</strong> {tutor.GPA} <br />
-                        <strong>Description:</strong> {tutor.description}
+                        <strong>Description:</strong> {tutor.description} <br />
+                        <strong>RATING:</strong> {tutor.rating} <br />
+                        <button onClick={() => openTutorPage(tutor._id)}>More</button>
+                        <br />
                     </li>
                 ))}
             </ul>
