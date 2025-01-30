@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router"
+
 export default function TutorPage() {
     const [tutor, setTutor] = useState<any>();
 
@@ -20,7 +21,12 @@ export default function TutorPage() {
         })
     }, [])
 
-
+    
+    const joinMeeting = () => {
+        const roomName = tutor?.name.replace(" ", "-") + "-voluntor-call-" + Math.random().toString(); 
+        window.location.assign(`https://meet.jit.si/${roomName}`);
+    };
+      
 
     
     return (
@@ -28,7 +34,10 @@ export default function TutorPage() {
             <strong>Name:</strong> {tutor?.name} <br />
             <strong>GPA:</strong> {tutor?.GPA} <br />
             <strong>Description:</strong> {tutor?.description} <br />
-            <strong>RATING:</strong> {tutor?.rating}        
+            <strong>RATING:</strong> {tutor?.rating}
+
+            <br />
+            <button onClick={joinMeeting}>Join Meeting</button>
         </div>
     )
 }
