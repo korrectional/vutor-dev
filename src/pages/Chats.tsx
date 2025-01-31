@@ -1,6 +1,7 @@
 import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
 import { IUserData } from '../utils/interfaces'
 import axios from 'axios'
+import { io, Manager } from 'socket.io-client';
 import { useNavigate, useParams } from 'react-router';
 import { useEffect, useState } from 'react';
 import TextField from '../components/TextField';
@@ -14,6 +15,14 @@ export default function Chats() {
 
     const [userChats, setUserChats] = useState([]);
     const [userMsgs, setUserMsgs] = useState([{content: "", user: "", createdAt: ""}]);
+    const [socket, setSocket] = useState(null);
+
+    const manager = new Manager('http://localhost:3000', {
+        reconnectionDelay: 1000,
+        query: {
+            "my-key": "my-value",
+        }
+    })
 
     useEffect(() => {
         axios({
@@ -31,12 +40,15 @@ export default function Chats() {
             console.error('Error fetching chats:', error);
             navigate('/signin');
         })
+
+        const newSocket = manager.socket('/');
     }, [])
 
-    function sendMsg(formData) {
-        const msg = formData.get("chats-input");
+    async function sendMsg(e) {
+        e.preventDefault();
+        const msg = e.target.elements.msginput.value;
         axios({
-            url: `http://localhost:3000/api/messages/${chatID}/send`,
+            url: `http://localhost:3000/api/chats/send`,
             method: 'POST',
             headers: {'Authorization': 'Bearer '+ userToken},
             data: {
@@ -50,10 +62,16 @@ export default function Chats() {
                 alert("Failed to send message");
                 console.error('Error sending message:', response.data.message);
             }
+            else {
+                alert("Sent message");
+                console.log(response.data.message);
+            }
         }).catch(error => {
             alert("Failed to send message");
             console.error('Error sending message:', error);
         })
+
+        e.target.elements.msginput.value = "";
     }
 
     if (chatID) {
@@ -73,7 +91,7 @@ export default function Chats() {
                 console.error('Error fetching messages:', error);
                 navigate('/signin');
             })
-        })
+        }, [])
     }
 
     return (
@@ -98,8 +116,8 @@ export default function Chats() {
                     )
                 })}
             </ul>
-            <form className='chats-form' action='sendMsg'>
-                <TextField placeholder='Enter your message' type='Default' name="chats-input" />
+            <form className='chats-form' onSubmit={sendMsg}>
+                <TextField placeholder='Enter your message' type='Default' name="msginput" />
                 <button type='submit' className='chats-submit'>Send</button>
             </form>
         </div>
