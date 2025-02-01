@@ -1,21 +1,9 @@
-import { useState, useEffect } from 'react'
-import '../App.css'
-import { useNavigate } from 'react-router';
-import useIsAuthenticated from 'react-auth-kit/hooks/useIsAuthenticated'
-import TextField from '../components/TextField'
-import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-interface IUserData { // this is how we tell typescript that auth will return email
-    email: string;
-    token: string;
-};
+const Home = () => {
+    const [message, setMessage] = useState({ message: '' });
 
-export default function Home() {
-    const navigate = useNavigate();
-    const [message, setMessage] = useState({message: ''})
-    const isAuthenticated = useIsAuthenticated();
-    
     useEffect(() => {
         axios({
             method: 'GET',
@@ -23,19 +11,24 @@ export default function Home() {
         }).then(
             response => setMessage(response.data)
         );
-    }, [])
-
+    }, []);
 
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 p-6">
-            <p className="text-gray-600 mb-4">
-                { message.message || "Loading..." }
-            </p>
-            <p className="text-xl font-semibold mb-6">
-                Welcome to the website, hello hello
-            </p>
-            <a href="/signin" className="bg-blue-500 text-white font-bold py-2 px-4 rounded mb-2 hover:bg-blue-600 transition">Sign In</a>
-            <a href="/signup" className="bg-gray-300 text-gray-700 font-bold py-2 px-4 rounded hover:bg-gray-400 transition">Sign Up</a>
+        <div className="flex flex-col items-center justify-center text-center flex-1 bg-gray-100 min-h-screen">
+            <div className="bg-white p-8 rounded-lg shadow-md max-w-lg w-full">
+                <p className="text-gray-600 mb-4">
+                    {message.message || "Loading..."}
+                </p>
+                <p className="text-3xl font-semibold mb-6 text-gray-900">
+                    Welcome to the website
+                </p>
+                <div className="flex space-x-4">
+                    <a href="/signin" className="bg-blue-600 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition">Sign In</a>
+                    <a href="/signup" className="bg-gray-300 text-gray-700 font-bold py-2 px-4 rounded hover:bg-gray-400 transition">Sign Up</a>
+                </div>
+            </div>
         </div>
-    )
-}
+    );
+};
+
+export default Home;

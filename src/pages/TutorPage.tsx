@@ -30,15 +30,28 @@ export default function TutorPage() {
 
     
     return (
-        <div>
-            <h1>ABC</h1>
-            <strong>Name:</strong> {tutor?.name} <br />
-            <strong>GPA:</strong> {tutor?.GPA} <br />
-            <strong>Description:</strong> {tutor?.description} <br />
-            <strong>RATING:</strong> {tutor?.rating}
-
-            <br />
-            <button onClick={joinMeeting}>Join Meeting</button>
+        <div className="flex flex-col items-center justify-center text-center flex-1 bg-gray-100 min-h-screen">
+            <div className="bg-white p-8 rounded-lg shadow-md max-w-lg w-full">
+                <h1 className="text-3xl font-semibold mb-6 text-gray-900">Tutor Information</h1>
+                <p className="text-gray-600 mb-4">
+                    <strong>Name:</strong> {tutor?.name}
+                </p>
+                <p className="text-gray-600 mb-4">
+                    <strong>GPA:</strong> {tutor?.GPA}
+                </p>
+                <p className="text-gray-600 mb-4">
+                    <strong>Description:</strong> {tutor?.description}
+                </p>
+                <p className="text-gray-600 mb-4">
+                    <strong>Rating:</strong> {tutor?.rating}
+                </p>
+                <button
+                    onClick={joinMeeting}
+                    className="bg-blue-600 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition"
+                >
+                    Join Meeting
+                </button>
+            </div>
         </div>
     )
 }
