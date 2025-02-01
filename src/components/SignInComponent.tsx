@@ -49,11 +49,35 @@ export default function SignInComponent() {
     }
 
     return (
-        <form onSubmit={onSubmit}>
-            <input type={"email"} placeholder='Email' onChange={(e)=>setFormData({...formData, email: e.target.value})}/>
-            <input type={"password"} placeholder='Password' onChange={(e)=>setFormData({...formData, password: e.target.value})}/>
-
-            <button>Submit</button>
+        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
+        <form 
+            className="max-w-md w-full bg-white p-6 rounded-lg shadow-md"
+            onSubmit={onSubmit}
+        >
+          <input 
+              type="email" 
+              placeholder="Email" 
+              className="w-full p-2 border border-gray-300 rounded mb-4" 
+              onChange={(e) => setFormData({ ...formData, email: e.target.value })} 
+              required 
+          />
+          <input 
+              type="password" 
+              placeholder="Password" 
+              className="w-full p-2 border border-gray-300 rounded mb-4" 
+              onChange={(e) => setFormData({ ...formData, password: e.target.value })} 
+              required 
+          />
+          <button 
+              type="submit" 
+              className="w-full bg-blue-500 text-white font-bold py-2 rounded hover:bg-blue-600 transition"
+          >
+              Submit
+          </button>
         </form>
-    )
+        <p className="mt-4">
+          <a href="/signup" className="text-blue-500 hover:underline">Don't have an account? Register</a>
+        </p>
+      </div>
+      )
 }

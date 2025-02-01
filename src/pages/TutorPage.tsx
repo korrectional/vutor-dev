@@ -31,6 +31,7 @@ export default function TutorPage() {
     
     return (
         <div>
+            <h1>ABC</h1>
             <strong>Name:</strong> {tutor?.name} <br />
             <strong>GPA:</strong> {tutor?.GPA} <br />
             <strong>Description:</strong> {tutor?.description} <br />

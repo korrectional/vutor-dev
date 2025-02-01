@@ -31,47 +31,57 @@ export default function SignUpComponent() {
     }
 
     return (
-        <form onSubmit={onSubmit}>
-            <input 
-                type="text" 
-                placeholder="First Name" 
-                onChange={(e) => setFormData({ ...formData, fName: e.target.value })} 
-                required 
-            />
-            <input 
-                type="text" 
-                placeholder="Last Name" 
-                onChange={(e) => setFormData({ ...formData, lName: e.target.value })} 
-                required 
-            />
-            <input 
-                type="email" 
-                placeholder="Email" 
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })} 
-                required 
-            />
-            <input 
-                type="password" 
-                placeholder="Password" 
-                onChange={(e) => setFormData({ ...formData, password: e.target.value })} 
-                required 
-            />
-            <input 
-                type="tel"
-                placeholder="123-456-7890" 
-                pattern="^\d{3}-\d{3}-\d{4}$" 
-                onChange={(e) => setFormData({ ...formData, phone: e.target.value })} 
-                required 
-            />
-            <label>
+        <form className="max-w-md w-full bg-white p-6 rounded-lg shadow-md" onSubmit={onSubmit}>
+        <input 
+            type="text" 
+            placeholder="First Name" 
+            className="w-full p-2 border border-gray-300 rounded mb-4"
+            onChange={(e) => setFormData({ ...formData, fName: e.target.value })} 
+            required 
+        />
+        <input 
+            type="text" 
+            placeholder="Last Name" 
+            className="w-full p-2 border border-gray-300 rounded mb-4"
+            onChange={(e) => setFormData({ ...formData, lName: e.target.value })} 
+            required 
+        />
+        <input 
+            type="email" 
+            placeholder="Email" 
+            className="w-full p-2 border border-gray-300 rounded mb-4"
+            onChange={(e) => setFormData({ ...formData, email: e.target.value })} 
+            required 
+        />
+        <input 
+            type="password" 
+            placeholder="Password" 
+            className="w-full p-2 border border-gray-300 rounded mb-4"
+            onChange={(e) => setFormData({ ...formData, password: e.target.value })} 
+            required 
+        />
+        <input 
+            type="tel"
+            placeholder="123-456-7890" 
+            pattern="^\d{3}-\d{3}-\d{4}$" 
+            className="w-full p-2 border border-gray-300 rounded mb-4"
+            onChange={(e) => setFormData({ ...formData, phone: e.target.value })} 
+            required 
+        />
+        <label className="flex items-center mb-4">
             <input 
                 type="checkbox" 
+                className="mr-2"
                 onChange={(e) => setFormData({ ...formData, isTutor: e.target.checked })} 
             />
             Tutor (you can always change it later)
-            </label>
-
-            <button type="submit">Submit</button>
-        </form>
-    )
+        </label>
+        <button 
+            type="submit" 
+            className="w-full bg-blue-500 text-white font-bold py-2 rounded hover:bg-blue-600 transition"
+        >
+            Submit
+        </button>
+      </form>
+      )
 }
