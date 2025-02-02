@@ -1,10 +1,16 @@
 import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
-import { IUserData } from '../utils/interfaces'
-import axios from 'axios'
-import { io, Manager } from 'socket.io-client';
+import { IUserData } from '../utils/interfaces';
+import { io, Socket } from 'socket.io-client';
+import axios from 'axios';
 import { useNavigate, useParams } from 'react-router';
 import { useEffect, useState } from 'react';
 import TextField from '../components/TextField';
+
+interface Message {
+    content: string;
+    user: string;
+    createdAt: string;
+}
 
 export default function Chats() {
     const navigate = useNavigate();
@@ -12,19 +18,16 @@ export default function Chats() {
     const userEmail = useAuthUser<IUserData>().email;
 
     let { chatID } = useParams();
-
+    let chats = []; //This because react isnt letting me append to the state variables directly, so im doing appending and then setting.
+    let msgs = new Array<Message>; //Same here
     const [userChats, setUserChats] = useState([]);
-    const [userMsgs, setUserMsgs] = useState([{content: "", user: "", createdAt: ""}]);
-    const [socket, setSocket] = useState(null);
+    const [userMsgs, setUserMsgs] = useState<Message[]>([]);
 
-    const manager = new Manager('http://localhost:3000', {
-        reconnectionDelay: 1000,
-        query: {
-            "my-key": "my-value",
-        }
-    })
+    var socket : Socket = io('http://localhost:3000/');
 
+    //Runs on page load
     useEffect(() => {
+        //Retrieve chats accessable by user
         axios({
             url: 'http://localhost:3000/api/chats',
             method: 'POST',
@@ -34,48 +37,23 @@ export default function Chats() {
             },
         }).then(response => {
             if (response.status === 401) alert("Unauthorized access. Please sign-in before trying to access this page.");
-            setUserChats(response.data.chatIDs);
+            chats = response.data.chatIDs;
+            setUserChats(chats);
         }).catch(error => {
             alert("An error occurred while fetching chats. Please try again later.");
             console.error('Error fetching chats:', error);
             navigate('/signin');
         })
 
-        const newSocket = manager.socket('/');
-    }, [])
-
-    async function sendMsg(e) {
-        e.preventDefault();
-        const msg = e.target.elements.msginput.value;
-        axios({
-            url: `http://localhost:3000/api/chats/send`,
-            method: 'POST',
-            headers: {'Authorization': 'Bearer '+ userToken},
-            data: {
-                chatID: chatID,
-                content: msg,
-                user: userEmail,
-                createdAt: new Date()
-            }
-        }).then(response => {
-            if (response.status != 200) {
-                alert("Failed to send message");
-                console.error('Error sending message:', response.data.message);
-            }
-            else {
-                alert("Sent message");
-                console.log(response.data.message);
-            }
-        }).catch(error => {
-            alert("Failed to send message");
-            console.error('Error sending message:', error);
+        //Initialize socket (keep here so it runs only once)
+        socket.on('connect', () => {
+            console.log('Connected to websocket server');
         })
 
-        e.target.elements.msginput.value = "";
-    }
-
-    if (chatID) {
-        useEffect(() => {
+        //Looking at a specific chat room
+        if (chatID) {
+            socket.emit('joinChatRoom', chatID);
+            //Request for all Msgs in chat room
             axios({
                 url: `http://localhost:3000/api/messages/${chatID}`,
                 method: 'POST',
@@ -85,14 +63,58 @@ export default function Chats() {
                 }
             }).then(response => {
                 if (response.status === 401) alert("Unauthorized access. Please sign-in before trying to access this page.");
-                setUserMsgs(response.data.messages);
+                msgs = response.data.messages;
+                setUserMsgs(msgs);
             }).catch(error => {
                 alert("An error occurred while fetching messages. Please try again later.");
                 console.error('Error fetching messages:', error);
                 navigate('/signin');
             })
-        }, [])
+        }
+    }, [])
+
+    //Send message to server
+    async function sendMsg(e) {
+        e.preventDefault();
+        const msg = e.target.elements.msginput.value;
+        const dataToSend = {
+            chatID: parseInt(chatID),
+            content: msg,
+            user: userEmail,
+            createdAt: new Date()
+        }
+
+        socket.emit('send', dataToSend);
+
+        axios({
+            url: `http://localhost:3000/api/chats/send`,
+            method: 'POST',
+            headers: {'Authorization': 'Bearer '+ userToken},
+            data: dataToSend
+        }).then(response => {
+            if (response.status != 200) {
+                alert("Failed to send message");
+                console.error('Error sending message:', response.data.message);
+            }
+        }).catch(error => {
+            alert("Failed to send message");
+            console.error('Error sending message:', error);
+        })
+
+        e.target.elements.msginput.value = "";
     }
+
+    //Handles new message in chat room
+    socket.on('newMessage', (arg) => {
+        const nMsg = {content: arg.content, user: arg.user, createdAt: arg.createdAt};
+        msgs.push(nMsg);
+        setUserMsgs([...msgs]);
+    });
+
+    //Scroll to bottom of page if there are new messages
+    useEffect(() => {
+        window.scrollTo(0, document.body.scrollHeight);
+    }, [userMsgs]);
 
     return (
         <div>
