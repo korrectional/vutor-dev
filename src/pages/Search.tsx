@@ -13,21 +13,15 @@ export default function Search() {
     });
     const [tutors, setTutors] = useState([]); // State to store the list of tutors
 
-
-
-    
     const handleChange = (e) => {
         const { name, value } = e.target;
- 
-        console.log("changing to ", name,  value)
-        setParameters((prevSettings) => ({
-        ...prevSettings,
-        [name]: value,
-        }));
-        
-    };
 
-      
+        console.log("changing to ", name, value);
+        setParameters((prevSettings) => ({
+            ...prevSettings,
+            [name]: value,
+        }));
+    };
 
     const searchTutor = () => {
         console.log("Searching for tutor with parameters:", parameters);
@@ -38,52 +32,55 @@ export default function Search() {
             },
             body: JSON.stringify({ token: authUser.token, ...parameters }),
         }).then(async (res) => {
-            const data = await res.json()
+            const data = await res.json();
             console.log("Data sent", data);
-            setTutors(data)
-        })
+            setTutors(data);
+        });
     };
 
     const openTutorPage = (id) => {
         navigate(`/search/tutor/${id}`);
-    }
+    };
 
+    return (
+        <div style={{ padding: "20px", maxWidth: "400px", margin: "0 auto" }}>
+            <a href="/dashboard">Go back</a>
+            <h2>Search</h2>
 
+            <div>
+                <label>
+                    Class:
+                    <select
+                        name="teaches"
+                        value={parameters.teaches}
+                        onChange={handleChange}
+                    >
+                        <option value="math">Math</option>
+                        <option value="english">English</option>
+                    </select>
+                </label>
+                <br />
 
-  return (
-    <div style={{ padding: "20px", maxWidth: "400px", margin: "0 auto" }}>
-        <a href="/dashboard">Go back</a>
-        <h2>Search</h2>
-        
-        <div>
-            <label>
-                Class:
-                <select name="teaches" value={parameters.teaches} onChange={handleChange}>
-                <option value="math">Math</option>
-                <option value="english">English</option>
-                </select>
-            </label>
-            <br />
+                <button onClick={searchTutor}>Search</button>
+            </div>
 
-
-            <button onClick={searchTutor}>Search</button>
+            <div>
+                <ul>
+                    {tutors.map((tutor, index) => (
+                        <li key={index}>
+                            <strong>Name:</strong> {tutor.name} <br />
+                            <strong>GPA:</strong> {tutor.GPA} <br />
+                            <strong>Description:</strong> {tutor.description}{" "}
+                            <br />
+                            <strong>RATING:</strong> {tutor.rating} <br />
+                            <button onClick={() => openTutorPage(tutor._id)}>
+                                More
+                            </button>
+                            <br />
+                        </li>
+                    ))}
+                </ul>
+            </div>
         </div>
-
-        <div>
-            <ul>
-                {tutors.map((tutor, index) => (
-                    <li key={index}>
-                        <strong>Name:</strong> {tutor.name} <br />
-                        <strong>GPA:</strong> {tutor.GPA} <br />
-                        <strong>Description:</strong> {tutor.description} <br />
-                        <strong>RATING:</strong> {tutor.rating} <br />
-                        <button onClick={() => openTutorPage(tutor._id)}>More</button>
-                        <br />
-                    </li>
-                ))}
-            </ul>
-        </div>
-
-    </div>
-  );
+    );
 }

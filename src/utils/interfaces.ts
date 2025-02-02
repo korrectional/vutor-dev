@@ -1,4 +1,4 @@
 export interface IUserData {
-    email: string,
-    token: string
+    email: string;
+    token: string;
 }

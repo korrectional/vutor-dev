@@ -1,53 +1,45 @@
-import { useState, useEffect } from 'react'
-import '../App.css'
-import TextField from '../components/TextField'
-import SettingsButton from '../components/SettingsButton';
-import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
-
+import { useState, useEffect } from "react";
+import "../App.css";
+import TextField from "../components/TextField";
+import SettingsButton from "../components/SettingsButton";
+import useAuthUser from "react-auth-kit/hooks/useAuthUser";
 
 export default function Dashboard() {
     const authUser = useAuthUser<any>();
     let email = "Not authenticated";
-    if(authUser)
-    {
+    if (authUser) {
         email = authUser.email;
     }
 
-    
-    const [message, setMessage] = useState({message: ''})
+    const [message, setMessage] = useState({ message: "" });
 
     useEffect(() => {
-        fetch("http://localhost:3000/api").then(
-            response => response.json()
-        ).then(
-            data => setMessage(data)
-        )
-    
-    }, [])
-
+        fetch("http://localhost:3000/api")
+            .then((response) => response.json())
+            .then((data) => setMessage(data));
+    }, []);
 
     return (
         <div>
             <div>
                 <p>DASHBOARD</p>
             </div>
-            <p className="read-the-docs">
-                {message.message || "Loading..."}
-            </p>
-            <p>
-                {email || "Loading"}
-            </p>
-            <TextField type='default' placeholder='Enter some text here'/>
+            <p className="read-the-docs">{message.message || "Loading..."}</p>
+            <p>{email || "Loading"}</p>
+            <TextField type="default" placeholder="Enter some text here" />
             <a href="/contact">Contact</a>
-            <br/>
+            <br />
             <a href="/search">Find tutor</a>
-            <br/>
+            <br />
             <a href="/chat">Chat</a>
-            <div/>
-            <SettingsButton/>
-            
-            {authUser.role === "tutor" ? 
-            <a href={`/search/tutor/${authUser._id}`}>Your page</a> : <div></div>}
+            <div />
+            <SettingsButton />
+
+            {authUser.role === "tutor" ? (
+                <a href={`/search/tutor/${authUser._id}`}>Your page</a>
+            ) : (
+                <div></div>
+            )}
         </div>
-    )
+    );
 }

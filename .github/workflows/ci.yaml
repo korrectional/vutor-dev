@@ -3,12 +3,18 @@ name: Prettify Code
 on: [push, pull_request]
 
 jobs:
-  format:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 18
-      - run: npx prettier --write .
-      - run: git diff --exit-code || (git config --global user.name "github-actions" && git config --global user.email "actions@github.com" && git commit -am "chore: auto-format code" && git push)
+    format:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+            - uses: actions/setup-node@v3
+              with:
+                  node-version: 18
+            - run: npx prettier --tab-width 4 --write .
+            - run: |
+                  if [[ `git status --porcelain` ]]; then
+                    git config --global user.name "github-actions"
+                    git config --global user.email "actions@github.com"
+                    git commit -am "chore: auto-format code"
+                    git push
+                  fi
