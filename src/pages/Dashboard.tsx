@@ -1,43 +1,46 @@
-import { useState, useEffect } from "react";
-import "../App.css";
-import SettingsButton from "../components/SettingsButton";
-import useAuthUser from "react-auth-kit/hooks/useAuthUser";
+import { useState, useEffect } from 'react';
+import '../App.css';
+import TextField from '../components/TextField';
+import SettingsButton from '../components/SettingsButton';
+import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
 
 export default function Dashboard() {
     const authUser = useAuthUser<any>();
-    let email = "Not authenticated";
-    if (authUser) {
-        email = authUser.email;
-    }
-
-    const [message, setMessage] = useState({ message: "" });
+    const [message, setMessage] = useState({ message: '' });
 
     useEffect(() => {
-        fetch("http://localhost:3000/api")
-            .then((response) => response.json())
-            .then((data) => setMessage(data));
+        fetch("http://localhost:3000/api").then(
+            response => response.json()
+        ).then(
+            data => setMessage(data)
+        );
     }, []);
 
     return (
-        <div>
-            <div>
-                <p>DASHBOARD</p>
+        <div className="flex flex-col items-center justify-center text-center flex-1 bg-gray-100 min-h-screen">
+            <div className="bg-white p-8 rounded-lg shadow-md max-w-2xl w-full">
+                <h1 className="text-3xl font-semibold mb-6 text-gray-900">Dashboard</h1>
+                <p className="text-gray-600 mb-4">
+                    {message.message || "Loading..."}
+                </p>
+                <p className="text-gray-600 mb-4">
+                    {authUser ? authUser.email : "Not authenticated"}
+                </p>
+                <div className="mb-6">
+                    <TextField type='default' placeholder='Enter some text here' />
+                </div>
+                <div className="mt-4 space-y-4">
+                    <a href="/contact" className="text-blue-600 hover:underline block">Contact</a>
+                    <a href="/search" className="text-blue-600 hover:underline block">Find tutor</a>
+                    <a href="/chat" className="text-blue-600 hover:underline block">Chat</a>
+                    {authUser?.role === "tutor" && (
+                        <a href={`/search/tutor/${authUser._id}`} className="text-blue-600 hover:underline block">Your page</a>
+                    )}
+                </div>
+                <div className="mt-6">
+                    <SettingsButton />
+                </div>
             </div>
-            <p className="read-the-docs">{message.message || "Loading..."}</p>
-            <p>{email || "Loading"}</p>
-            <a href="/contact">Contact</a>
-            <br />
-            <a href="/search">Find tutor</a>
-            <br />
-            <a href="/chat">Chat</a>
-            <div />
-            <SettingsButton />
-
-            {authUser.role === "tutor" ? (
-                <a href={`/search/tutor/${authUser._id}`}>Your page</a>
-            ) : (
-                <div></div>
-            )}
         </div>
     );
 }

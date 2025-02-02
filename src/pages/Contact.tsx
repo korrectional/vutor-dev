@@ -15,13 +15,11 @@ export default function Contact() {
         : "You are not logged in";
 
     return (
-        <div>
-            <a href="/dashboard">Go back</a>
-            <br />
-            <div>
-                This is the contact page, also I use it for my silly tests
+        <div className="flex flex-col items-center justify-center text-center flex-1 bg-gray-100 min-h-screen">
+            <div className="bg-white p-8 rounded-lg shadow-md max-w-lg w-full">
+                <a href="/dashboard" className="text-blue-600 hover:underline mb-4 block">Go back</a>
+                <div className="text-gray-600 mb-4">This is the contact page, also I use it for my silly tests</div>
+                <div className="text-gray-600">{authenticated || "loading"}</div>
             </div>
-            <div>{authenticated || "loading"}</div>
-        </div>
-    );
+        </div>    )
 }
