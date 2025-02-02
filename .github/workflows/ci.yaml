@@ -22,7 +22,7 @@ jobs:
       run: npm install
 
     - name: Prettify code
-      run: npm run prettify
+      run: npx prettier -w .
 
     - name: Commit changes
       run: |
