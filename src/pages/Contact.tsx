@@ -1,5 +1,4 @@
-import useIsAuthenticated from 'react-auth-kit/hooks/useIsAuthenticated'
-import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
+import useIsAuthenticated from "react-auth-kit/hooks/useIsAuthenticated";
 
 /*
 Some knowledge:
@@ -9,14 +8,11 @@ http://localhost:3000/api/verify-session WILL provide information on the validit
 
 */
 
-
-
-
 export default function Contact() {
-
-    const authUser = useAuthUser<any>();
     const isAuthenticated = useIsAuthenticated();
-    const authenticated = isAuthenticated ? "You are authenticated" : "You are not logged in";
+    const authenticated = isAuthenticated
+        ? "You are authenticated"
+        : "You are not logged in";
 
     return (
         <div className="flex flex-col items-center justify-center text-center flex-1 bg-gray-100 min-h-screen">

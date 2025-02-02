@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router"
+import { useParams } from "react-router";
 
 export default function TutorPage() {
     const [tutor, setTutor] = useState<any>();
-
 
     let { tutorID } = useParams();
 
@@ -15,20 +14,20 @@ export default function TutorPage() {
             },
             body: JSON.stringify({ _id: tutorID }),
         }).then(async (res) => {
-            const data = await res.json()
+            const data = await res.json();
             console.log("Data recieved", data);
-            setTutor(data)
-        })
-    }, [])
+            setTutor(data);
+        });
+    }, []);
 
-    
     const joinMeeting = () => {
-        const roomName = tutor?.name.replace(" ", "-") + "-voluntor-call-" + Math.random().toString(); 
+        const roomName =
+            tutor?.name.replace(" ", "-") +
+            "-voluntor-call-" +
+            Math.random().toString();
         window.location.assign(`https://meet.jit.si/${roomName}`);
     };
-      
 
-    
     return (
         <div className="flex flex-col items-center justify-center text-center flex-1 bg-gray-100 min-h-screen">
             <div className="bg-white p-8 rounded-lg shadow-md max-w-lg w-full">
@@ -53,5 +52,5 @@ export default function TutorPage() {
                 </button>
             </div>
         </div>
-    )
+    );
 }
