@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import "../App.css";
-import TextField from "../components/TextField";
 import SettingsButton from "../components/SettingsButton";
 import useAuthUser from "react-auth-kit/hooks/useAuthUser";
 
@@ -26,7 +25,6 @@ export default function Dashboard() {
             </div>
             <p className="read-the-docs">{message.message || "Loading..."}</p>
             <p>{email || "Loading"}</p>
-            <TextField type="default" placeholder="Enter some text here" />
             <a href="/contact">Contact</a>
             <br />
             <a href="/search">Find tutor</a>

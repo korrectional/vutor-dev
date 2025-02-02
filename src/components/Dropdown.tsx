@@ -1,9 +1,8 @@
 import { useState } from "react";
 import SettingsDashboard from "./SettingsDashboard";
 
-interface Props {}
 
-export default function Dropdown(props: Props) {
+export default function Dropdown() {
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     return (
         <div>
