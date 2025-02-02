@@ -43,44 +43,62 @@ export default function Search() {
     };
 
     return (
-        <div style={{ padding: "20px", maxWidth: "400px", margin: "0 auto" }}>
-            <a href="/dashboard">Go back</a>
-            <h2>Search</h2>
+<div className="p-6 max-w-md mx-auto bg-white rounded-lg shadow-md">
+    {/* Back Link */}
+    <a href="/dashboard" className="text-blue-500 hover:underline">
+        ← Go back
+    </a>
 
-            <div>
-                <label>
-                    Class:
-                    <select
-                        name="teaches"
-                        value={parameters.teaches}
-                        onChange={handleChange}
-                    >
-                        <option value="math">Math</option>
-                        <option value="english">English</option>
-                    </select>
-                </label>
-                <br />
+    {/* Heading */}
+    <h2 className="text-xl font-semibold mt-4">Search</h2>
 
-                <button onClick={searchTutor}>Search</button>
-            </div>
+    {/* Search Form */}
+    <div className="mt-4 space-y-2">
+        <label className="block font-medium">
+            Class:
+            <select
+                name="teaches"
+                value={parameters.teaches}
+                onChange={handleChange}
+                className="block w-full mt-1 p-2 border rounded-md"
+            >
+                <option value="math">Math</option>
+                <option value="english">English</option>
+            </select>
+        </label>
 
-            <div>
-                <ul>
-                    {tutors.map((tutor, index) => (
-                        <li key={index}>
-                            <strong>Name:</strong> {tutor.name} <br />
-                            <strong>GPA:</strong> {tutor.GPA} <br />
-                            <strong>Description:</strong> {tutor.description}{" "}
-                            <br />
-                            <strong>RATING:</strong> {tutor.rating} <br />
-                            <button onClick={() => openTutorPage(tutor._id)}>
-                                More
-                            </button>
-                            <br />
-                        </li>
-                    ))}
-                </ul>
-            </div>
-        </div>
+        <button
+            onClick={searchTutor}
+            className="w-full mt-2 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition"
+        >
+            Search
+        </button>
+    </div>
+
+    {/* Tutor List */}
+    <div className="mt-6">
+        {tutors.length > 0 ? (
+            <ul className="space-y-4">
+                {tutors.map((tutor, index) => (
+                    <li key={index} className="p-4 bg-gray-100 rounded-lg shadow-sm">
+                        <p><strong>Name:</strong> {tutor.name}</p>
+                        <p><strong>GPA:</strong> {tutor.GPA}</p>
+                        <p><strong>Description:</strong> {tutor.description}</p>
+                        <p><strong>Rating:</strong> {tutor.rating}</p>
+
+                        <button
+                            onClick={() => openTutorPage(tutor._id)}
+                            className="mt-2 px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition"
+                        >
+                            More
+                        </button>
+                    </li>
+                ))}
+            </ul>
+        ) : (
+            <p className="text-gray-500 text-center mt-4">No tutors found.</p>
+        )}
+    </div>
+</div>
     );
 }

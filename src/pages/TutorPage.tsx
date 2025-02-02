@@ -1,12 +1,17 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
+import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
+import { useNavigate } from "react-router";
 
 export default function TutorPage() {
     const [tutor, setTutor] = useState<any>();
 
     let { tutorID } = useParams();
+    const authUser = useAuthUser<any>();
+    const navigate = useNavigate();
 
     useEffect(() => {
+
         fetch("http://localhost:3000/api/get-tutor", {
             method: "POST",
             headers: {
@@ -20,12 +25,20 @@ export default function TutorPage() {
         });
     }, []);
 
-    const joinMeeting = () => {
-        const roomName =
-            tutor?.name.replace(" ", "-") +
-            "-voluntor-call-" +
-            Math.random().toString();
-        window.location.assign(`https://meet.jit.si/${roomName}`);
+    const startChat = () => {
+        // this starts a chat between the user and the tutor
+        fetch("http://localhost:3000/api/user/start-chat", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ _id: tutorID, token: authUser.token, tutorName: tutor.name }),
+        }).then(async (res) => {
+            const data = await res.json();
+            console.log("Chat started", data.message);
+            navigate(`/chat/${data.chatID}`);
+        });
+        
     };
 
     return (
@@ -45,10 +58,10 @@ export default function TutorPage() {
                     <strong>Rating:</strong> {tutor?.rating}
                 </p>
                 <button
-                    onClick={joinMeeting}
+                    onClick={startChat}
                     className="bg-blue-600 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition"
                 >
-                    Join Meeting
+                    Start chat
                 </button>
             </div>
         </div>
