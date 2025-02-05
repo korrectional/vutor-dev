@@ -1,10 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
+import { useNavigate } from 'react-router';
 
 const Home = () => {
     const [message, setMessage] = useState({ message: '' });
+    const authUser = useAuthUser();
+    const navigate = useNavigate();
 
     useEffect(() => {
+        if (authUser) {
+            navigate('/dashboard');
+        }
+
         axios({
             method: 'GET',
             url: 'http://localhost:3000/api',

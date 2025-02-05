@@ -8,6 +8,7 @@ import Chats from './pages/Chats';
 import TutorPage from './pages/TutorPage';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import SignOut from './pages/SignOut';
 import './App.css';
 import { store } from './services/auth';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
@@ -28,6 +29,7 @@ function App() {
               <Route path="/contact" element={<Contact />} />
               <Route element={<ProtectedRoutes />}>
                 <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/signout" element={<SignOut />} />
                 <Route path="/search" element={<Search />} />
                 <Route path="/search/tutor/:tutorID" element={<TutorPage />} />
                 <Route path="/chat" element={<Chats />} />
