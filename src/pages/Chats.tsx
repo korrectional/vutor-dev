@@ -138,7 +138,6 @@ export default function Chats() {
             createdAt: new Date(),
         };
 
-        socket.emit("send", dataToSend);
 
         axios({
             url: `http://localhost:3000/api/chats/send`,
@@ -147,18 +146,21 @@ export default function Chats() {
             data: dataToSend,
         })
             .then((response) => {
-                if (response.status != 200) {
-                    alert("Failed to send message");
-                    console.error(
-                        "Error sending message:",
-                        response.data.message,
-                    );
-                }
+                socket.emit("send", dataToSend);
             })
             .catch((error) => {
-                alert("Failed to send message");
-                console.error("Error sending message:", error);
-            });
+                if (error.response) {
+                    if (error.response.status === 400 && error.response.data.message === "Profanity detected") {
+                        alert("Profanity detected. More attempts will result in a ban.");
+                    } else {
+                        alert("Failed to send message");
+                    }
+                    console.error("Error sending message:", error.response.data.message);
+                } else {
+                    alert("Failed to send message due to network error.");
+                    console.error("Error sending message:", error);
+                }
+            });        
 
         e.target.elements.msginput.value = "";
     }
