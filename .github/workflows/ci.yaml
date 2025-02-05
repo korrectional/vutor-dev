@@ -1,13 +1,14 @@
 name: Prettify Code
 
-on: [push, pull_request]
+on:
+  push:
+  pull_request:
 
 jobs:
   prettify:
     runs-on: ubuntu-latest
-
     permissions:
-      workflows: write
+      contents: write
 
     steps:
       - name: Checkout code
@@ -27,11 +28,11 @@ jobs:
         run: npx prettier --write .
 
       - name: Commit changes
-        run: |
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git add .
-          git commit -m 'chore: auto-format code' || exit 0  # Prevent failure if no changes
-          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git HEAD:${{ github.ref }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "chore: auto-format code" || echo "No changes to commit"
+          git push https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git HEAD:${{ github.ref }}
