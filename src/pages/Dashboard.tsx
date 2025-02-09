@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import '../App.css';
-import TextField from '../components/TextField';
 import SettingsButton from '../components/SettingsButton';
 import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
 
@@ -32,9 +31,6 @@ export default function Dashboard() {
                 <p className="text-gray-600 mb-4">
                     {authUser ? authUser.email : "Not authenticated"}
                 </p>
-                <div className="mb-6">
-                    <TextField type='default' placeholder='Enter some text here' />
-                </div>
                 <div className="mt-4 space-y-4">
                     <a href="/contact" className="text-blue-600 hover:underline block">Contact</a>
                     <a href="/search" className="text-blue-600 hover:underline block">Find tutor</a>
