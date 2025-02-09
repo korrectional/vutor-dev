@@ -11,6 +11,7 @@ export default function SettingsDashboard() {
         state: "",
         GPA: 4.0,
         teaches: [],
+        private_last_visit: false,
     });
 
     useEffect(() => {
@@ -30,6 +31,7 @@ export default function SettingsDashboard() {
                 state: data.state,
                 GPA: data.GPA,
                 teaches: data.teaches,
+                private_last_visit: data.private_last_visit,
             }));
         });
     }, []);
@@ -177,6 +179,20 @@ export default function SettingsDashboard() {
                             onChange={handleChange}
                             className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
                         />
+                    </label>
+
+                    <label className="flex items-center gap-3 mb-4">
+                        <input
+                            type="checkbox"
+                            checked={settings.private_last_visit}
+                            onChange={(e) =>
+                                setSettings((prevSettings) => ({
+                                    ...prevSettings,
+                                    private_last_visit: e.target.checked,
+                                }))
+                            }
+                        />
+                        hide last visit
                     </label>
 
                     {settings.role === "tutor" && (

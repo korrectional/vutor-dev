@@ -9,7 +9,13 @@ export default function Dashboard() {
     const [message, setMessage] = useState({ message: '' });
 
     useEffect(() => {
-        fetch("http://localhost:3000/api").then(
+        fetch("http://localhost:3000/api/hello", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ token: authUser.token }),
+        }).then(
             response => response.json()
         ).then(
             data => setMessage(data)

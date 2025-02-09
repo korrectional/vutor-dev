@@ -18,7 +18,7 @@ export default function SettingsButton() {
                             onClick={() => setIsPopupOpen(false)}
                             className="text-gray-500 hover:text-gray-700 transition absolute top-4 right-4"
                         >
-                            ✖
+                            X
                         </button>
                         <SettingsDashboard />
                     </div>

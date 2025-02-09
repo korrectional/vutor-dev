@@ -238,10 +238,11 @@ export default function Chats() {
     {/* Message Input Form */}
     <form className="flex items-center gap-2 mt-4" onSubmit={sendMsg}>
         <TextField
-            placeholder="Enter your message"
+            placeholder="Message"
             type="text"
             name="msginput"
             className="flex-1 px-3 py-2 border rounded-md"
+            autocomplete="off"
         />
         <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition">
             Send
