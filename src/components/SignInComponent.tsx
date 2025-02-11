@@ -33,6 +33,7 @@ export default function SignInComponent() {
                                 token: data.token,
                                 _id: data._id,
                                 role: data.role,
+                                name: data.name,
                             },
                         })
                     ) {

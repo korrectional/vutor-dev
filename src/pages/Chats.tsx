@@ -86,14 +86,21 @@ export default function Chats() {
                 });
         }
     }, []);
-    async function startCall() { // when user presses call a new message is sent that envites both to the call
+    async function startCall() {
+        // when user presses call a new message is sent that envites both to the call
         console.log("STARTING CALL");
-        
+
         const roomName =
-        "-voluntor-call-" +
-        Math.random().toString() + (Math.random()*2).toString();
-        
-        const msg = `\n` + userEmail + ` started a call at ` + `https://meet.jit.si/${roomName}` + ` click on the link to join\n`;
+            "-voluntor-call-" +
+            Math.random().toString() +
+            (Math.random() * 2).toString();
+
+        const msg =
+            `\n` +
+            userEmail +
+            ` started a call at ` +
+            `https://meet.jit.si/${roomName}` +
+            ` click on the link to join\n`;
         const dataToSend = {
             chatID: parseInt(chatID),
             content: msg,
@@ -101,7 +108,7 @@ export default function Chats() {
             createdAt: new Date(),
         };
         socket.emit("send", dataToSend);
-        
+
         axios({
             url: `http://localhost:3000/api/chats/send`,
             method: "POST",
@@ -121,12 +128,11 @@ export default function Chats() {
                 alert("Failed to send message");
                 console.error("Error sending message:", error);
             });
-        
-        //I wanted to use this but its being constantly blocked by the client 
+
+        //I wanted to use this but its being constantly blocked by the client
         //window.location.assign(`https://meet.jit.si/${roomName}`);
     }
-        //Send message to server
-
+    //Send message to server
 
     async function sendMsg(e) {
         e.preventDefault();
@@ -137,7 +143,6 @@ export default function Chats() {
             user: userEmail,
             createdAt: new Date(),
         };
-
 
         axios({
             url: `http://localhost:3000/api/chats/send`,
@@ -150,17 +155,25 @@ export default function Chats() {
             })
             .catch((error) => {
                 if (error.response) {
-                    if (error.response.status === 400 && error.response.data.message === "Profanity detected") {
-                        alert("Profanity detected. More attempts will result in a ban.");
+                    if (
+                        error.response.status === 400 &&
+                        error.response.data.message === "Profanity detected"
+                    ) {
+                        alert(
+                            "Profanity detected. More attempts will result in a ban.",
+                        );
                     } else {
                         alert("Failed to send message");
                     }
-                    console.error("Error sending message:", error.response.data.message);
+                    console.error(
+                        "Error sending message:",
+                        error.response.data.message,
+                    );
                 } else {
                     alert("Failed to send message due to network error.");
                     console.error("Error sending message:", error);
                 }
-            });        
+            });
 
         e.target.elements.msginput.value = "";
     }
@@ -181,80 +194,101 @@ export default function Chats() {
         window.scrollTo(0, document.body.scrollHeight);
     }, [userMsgs]);
 
-
-    function formatMessage(content: string) { // makes links clickable
+    function formatMessage(content: string) {
+        // makes links clickable
         const urlRegex = /(https?:\/\/[^\s]+)/g;
         return content.split(urlRegex).map((part, index) =>
             part.match(urlRegex) ? (
-                <a key={index} href={part} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">
+                <a
+                    key={index}
+                    href={part}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-500 underline"
+                >
                     {part}
                 </a>
             ) : (
                 part
-            )
+            ),
         );
     }
-    
 
     return (
-<div className="flex flex-col h-full p-4 bg-gray-100 rounded-lg shadow-md">
-    {/* Chat List */}
-    <ul className="mb-4 space-y-2">
-        {userChats.map((chatID) => (
-            <li key={chatID}>
-                <a
-                    href={`/chat/${chatID}`}
-                    className="block px-4 py-2 bg-white rounded-md shadow-sm hover:bg-gray-200 transition"
+        <div className="flex flex-col h-full p-4 bg-gray-100">
+            <div className="mb-8">
+                <h2 className="text-2xl font-bold mb-4">Chats</h2>
+                <ul className="space-y-2">
+                    {userChats.map((chatID) => (
+                        <li key={chatID}>
+                            <a
+                                href={`/chat/${chatID}`}
+                                className="block px-4 py-2 bg-white rounded-full shadow-sm hover:bg-gray-200 transition"
+                            >
+                                Chat {chatID}
+                            </a>
+                        </li>
+                    ))}
+                </ul>
+            </div>
+
+            <hr className="my-6 border-gray-300" />
+
+            <div className="flex-1 overflow-y-auto bg-white p-4 rounded-md shadow-sm">
+                {chatID ? null : (
+                    <h4 className="text-gray-500 text-center">
+                        Click a chat to view it!
+                    </h4>
+                )}
+                <ul className="space-y-2">
+                    {userMsgs.map((msg) => {
+                        if (!msg.content) return null;
+                        return (
+                            <li
+                                key={msg.createdAt}
+                                className="flex items-start"
+                            >
+                                {msg.user === "SYSTEM" ? (
+                                    <span className="bg-gray-200 text-gray-800 px-2 py-1 rounded-md mr-2 inline-block">
+                                        <strong>{msg.user}</strong>:{" "}
+                                        {formatMessage(msg.content)}
+                                    </span>
+                                ) : (
+                                    <span className="px-3 py-2 bg-blue-100 rounded-lg shadow-sm">
+                                        <strong>{msg.user}</strong>:{" "}
+                                        {formatMessage(msg.content)}
+                                    </span>
+                                )}
+                            </li>
+                        );
+                    })}
+                </ul>
+            </div>
+
+            <hr className="my-6 border-gray-300" />
+
+            <form className="flex items-center gap-2 mt-4" onSubmit={sendMsg}>
+                <TextField
+                    placeholder="Message"
+                    type="text"
+                    name="msginput"
+                    className="flex-1 px-3 py-2 border rounded-full"
+                    autocomplete="off"
+                />
+                <button
+                    type="submit"
+                    className="px-4 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition"
                 >
-                    Chat {chatID}
-                </a>
-            </li>
-        ))}
-    </ul>
+                    Send
+                </button>
+            </form>
 
-    {/* Chat Messages */}
-    <div className="flex-1 overflow-y-auto bg-white p-4 rounded-md shadow-sm">
-        {chatID ? null : <h4 className="text-gray-500 text-center">Click a chat to view it!</h4>}
-        <ul className="space-y-2">
-            {userMsgs.map((msg) => {
-                if (!msg.content) return null;
-                return (
-                    <li key={msg.createdAt} className="flex items-start">
-                        {msg.user === "SYSTEM" ? (
-                            <span className="bg-gray-200 text-gray-800 px-2 py-1 rounded-md mr-2 inline-block">
-                                <strong>{msg.user}</strong>: {formatMessage(msg.content)}
-                            </span>
-                        ) : (
-                            <span className="px-3 py-2 bg-blue-100 rounded-lg shadow-sm">
-                                <strong>{msg.user}</strong>: {formatMessage(msg.content)}
-                            </span>
-                        )}
-                    </li>
-                );
-            })}
-        </ul>
-    </div>
-
-    {/* Message Input Form */}
-    <form className="flex items-center gap-2 mt-4" onSubmit={sendMsg}>
-        <TextField
-            placeholder="Message"
-            type="text"
-            name="msginput"
-            className="flex-1 px-3 py-2 border rounded-md"
-            autocomplete="off"
-        />
-        <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition">
-            Send
-        </button>
-    </form>
-
-    {/* Call Button */}
-    <button
-        onClick={startCall}
-        className="mt-4 px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition"
-    >
-        Call
-    </button>
-</div>    );
+            <button
+                onClick={startCall}
+                className="mt-4 px-4 py-2 bg-green-500 text-white rounded-full hover:bg-green-600 transition"
+            >
+                Call
+            </button>
+        </div>
+    );
 }

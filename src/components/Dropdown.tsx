@@ -1,7 +1,6 @@
 import { useState } from "react";
 import SettingsDashboard from "./SettingsDashboard";
 
-
 export default function Dropdown() {
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     return (

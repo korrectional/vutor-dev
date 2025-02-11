@@ -36,7 +36,7 @@ export default function SignUpComponent() {
                     navigate("/");
                 } else {
                     console.error(
-                        `Sign-up failed with status: ${res.status} and error ${data.message}`
+                        `Sign-up failed with status: ${res.status} and error ${data.message}`,
                     );
                 }
             })
@@ -103,7 +103,10 @@ export default function SignUpComponent() {
                         placeholder="Password"
                         className="w-full p-2 border border-gray-300 rounded mb-4"
                         onChange={(e) =>
-                            setFormData({ ...formData, password: e.target.value })
+                            setFormData({
+                                ...formData,
+                                password: e.target.value,
+                            })
                         }
                         required
                     />

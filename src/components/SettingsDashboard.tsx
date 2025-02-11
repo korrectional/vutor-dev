@@ -62,7 +62,9 @@ export default function SettingsDashboard() {
             ...prevSettings,
             language: checked
                 ? [...(prevSettings.language || []), value] // Add if checked
-                : (prevSettings.language || []).filter((lang) => lang !== value), // Remove if unchecked
+                : (prevSettings.language || []).filter(
+                      (lang) => lang !== value,
+                  ), // Remove if unchecked
         }));
     };
 
@@ -91,7 +93,7 @@ export default function SettingsDashboard() {
     };
 
     return (
-        <div className="p-6 max-w-lg mx-auto bg-white rounded-lg shadow-md">
+        <div className="p-6 max-w-4xl mx-auto bg-white rounded-lg shadow-md">
             <h2 className="text-2xl font-semibold mb-4">Settings</h2>
             {settings.name === "LOADING" ? (
                 <p>Loading Page</p>
@@ -131,10 +133,15 @@ export default function SettingsDashboard() {
                         />
                     </label>
 
+                    <hr className="my-6 border-gray-300" />
+
                     <label className="block mb-2">Language:</label>
                     <div className="mb-2">
                         {["en", "es", "fr", "de"].map((lang) => (
-                            <label key={lang} className="inline-flex items-center mr-4">
+                            <label
+                                key={lang}
+                                className="inline-flex items-center mr-4"
+                            >
                                 <input
                                     type="checkbox"
                                     name="language"
@@ -147,10 +154,10 @@ export default function SettingsDashboard() {
                                     {lang === "en"
                                         ? "English"
                                         : lang === "es"
-                                        ? "Spanish"
-                                        : lang === "fr"
-                                        ? "French"
-                                        : "German"}
+                                          ? "Spanish"
+                                          : lang === "fr"
+                                            ? "French"
+                                            : "German"}
                                 </span>
                             </label>
                         ))}
@@ -195,25 +202,38 @@ export default function SettingsDashboard() {
                         hide last visit
                     </label>
 
+                    <hr className="my-6 border-gray-300" />
+
                     {settings.role === "tutor" && (
                         <div className="mb-2">
                             <label className="block mb-2">Teaches:</label>
                             <div>
-                                {["math", "english", "science", "history"].map((subject) => (
-                                    <label key={subject} className="inline-flex items-center mr-4">
-                                        <input
-                                            type="checkbox"
-                                            name="teaches"
-                                            value={subject}
-                                            checked={settings.teaches.includes(subject)} // Check if the subject is selected
-                                            onChange={handleTeachesToggle}
-                                            className="form-checkbox"
-                                        />
-                                        <span className="ml-2">
-                                            {subject.charAt(0).toUpperCase() + subject.slice(1)} {/* Capitalize the subject */}
-                                        </span>
-                                    </label>
-                                ))}
+                                {["math", "english", "science", "history"].map(
+                                    (subject) => (
+                                        <label
+                                            key={subject}
+                                            className="inline-flex items-center mr-4"
+                                        >
+                                            <input
+                                                type="checkbox"
+                                                name="teaches"
+                                                value={subject}
+                                                checked={settings.teaches.includes(
+                                                    subject,
+                                                )} // Check if the subject is selected
+                                                onChange={handleTeachesToggle}
+                                                className="form-checkbox"
+                                            />
+                                            <span className="ml-2">
+                                                {subject
+                                                    .charAt(0)
+                                                    .toUpperCase() +
+                                                    subject.slice(1)}{" "}
+                                                {/* Capitalize the subject */}
+                                            </span>
+                                        </label>
+                                    ),
+                                )}
                             </div>
                         </div>
                     )}
@@ -224,7 +244,6 @@ export default function SettingsDashboard() {
                     >
                         Save
                     </button>
-
                 </div>
             )}
         </div>
