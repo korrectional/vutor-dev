@@ -56,7 +56,9 @@ export default function Search() {
                 />
             </div>
             <div className="pt-12">
-                <h2 className="text-3xl font-bold text-gray-800 mb-6">Find a tutor for</h2>
+                <h2 className="text-3xl font-bold text-gray-800 mb-6">
+                    Find a tutor for
+                </h2>
             </div>
             {/* Search Form */}
             <div className="mt-4 space-y-2">
@@ -96,7 +98,8 @@ export default function Search() {
                                     <strong>GPA:</strong> {tutor.GPA}
                                 </p>
                                 <p className="mt-2">
-                                    <strong>Description:</strong> {tutor.description}
+                                    <strong>Description:</strong>{" "}
+                                    {tutor.description}
                                 </p>
                                 <p className="mt-2"></p>
                                 <p>

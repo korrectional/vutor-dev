@@ -21,7 +21,6 @@ export default function Dashboard() {
     }, [authUser.token]);
 
     return (
-            
         <div className="bg-white p-8 shadow-xl h-full rounded-2xl">
             <h2 className="text-3xl font-bold text-gray-800 mb-6">
                 Welcome, {authUser?.name || "User"}!
@@ -46,8 +45,5 @@ export default function Dashboard() {
                 />
             </div>
         </div>
-
     );
 }
-
-
