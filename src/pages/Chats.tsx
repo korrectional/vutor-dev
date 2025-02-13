@@ -204,7 +204,7 @@ export default function Chats() {
                     href={part}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-blue-500 underline"
+                    className="text-green-500 underline"
                 >
                     {part}
                 </a>
@@ -215,80 +215,83 @@ export default function Chats() {
     }
 
     return (
-        <div className="flex flex-col h-full p-4 bg-gray-100">
-            <div className="mb-8">
+        <div className="flex h-full p-4 bg-gray-100">
+            <div className="w-1/4 p-4 bg-white shadow-md">
                 <h2 className="text-2xl font-bold mb-4">Chats</h2>
                 <ul className="space-y-2">
                     {userChats.map((chatID) => (
                         <li key={chatID}>
                             <a
                                 href={`/chat/${chatID}`}
-                                className="block px-4 py-2 bg-white rounded-full shadow-sm hover:bg-gray-200 transition"
+                                className="block px-4 py-2 bg-gray-200 rounded-full shadow-sm hover:bg-gray-300 transition"
                             >
-                                Chat {chatID}
+                                {String(chatID).split("|")[0]}
                             </a>
                         </li>
                     ))}
                 </ul>
             </div>
 
-            <hr className="my-6 border-gray-300" />
+            <div className="flex-1 flex flex-col ml-4 p-4 bg-white shadow-md">
+                <div className="flex-1 overflow-y-auto p-4">
+                    {chatID ? null : (
+                        <h4 className="text-gray-500 text-center">
+                            Click a chat to view it!
+                        </h4>
+                    )}
+                    <ul className="space-y-2">
+                        {userMsgs.map((msg) => {
+                            if (!msg.content) return null;
+                            return (
+                                <li
+                                    key={msg.createdAt}
+                                    className="flex items-start"
+                                >
+                                    {msg.user === "SYSTEM" ? (
+                                        <span className="bg-gray-200 text-gray-800 px-2 py-1 rounded-md mr-2 inline-block">
+                                            <strong>{msg.user}</strong>:{" "}
+                                            {formatMessage(msg.content)}
+                                        </span>
+                                    ) : (
+                                        <span className="px-3 py-2 bg-green-100 rounded-lg shadow-sm">
+                                            <strong>{msg.user}</strong>:{" "}
+                                            {formatMessage(msg.content)}
+                                        </span>
+                                    )}
+                                </li>
+                            );
+                        })}
+                    </ul>
+                </div>
 
-            <div className="flex-1 overflow-y-auto bg-white p-4 rounded-md shadow-sm">
-                {chatID ? null : (
-                    <h4 className="text-gray-500 text-center">
-                        Click a chat to view it!
-                    </h4>
-                )}
-                <ul className="space-y-2">
-                    {userMsgs.map((msg) => {
-                        if (!msg.content) return null;
-                        return (
-                            <li
-                                key={msg.createdAt}
-                                className="flex items-start"
-                            >
-                                {msg.user === "SYSTEM" ? (
-                                    <span className="bg-gray-200 text-gray-800 px-2 py-1 rounded-md mr-2 inline-block">
-                                        <strong>{msg.user}</strong>:{" "}
-                                        {formatMessage(msg.content)}
-                                    </span>
-                                ) : (
-                                    <span className="px-3 py-2 bg-blue-100 rounded-lg shadow-sm">
-                                        <strong>{msg.user}</strong>:{" "}
-                                        {formatMessage(msg.content)}
-                                    </span>
-                                )}
-                            </li>
-                        );
-                    })}
-                </ul>
-            </div>
+                <hr className="my-6 border-gray-300" />
 
-            <hr className="my-6 border-gray-300" />
-
-            <form className="flex items-center gap-2 mt-4" onSubmit={sendMsg}>
-                <TextField
-                    placeholder="Message"
-                    type="text"
-                    name="msginput"
-                    className="flex-1 px-3 py-2 border rounded-full"
-                    autocomplete="off"
-                />
-                <button
-                    type="submit"
-                    className="px-4 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition"
+                <form
+                    className="flex items-center gap-2 mt-4"
+                    onSubmit={sendMsg}
                 >
-                    Send
-                </button>
-            </form>
+                    <TextField
+                        placeholder="Message"
+                        type="text"
+                        name="msginput"
+                        className="flex-1 px-3 py-2 border rounded-full"
+                        autocomplete="off"
+                    />
+                    <button
+                        type="submit"
+                        className="px-4 py-2 bg-green-500 text-white rounded-full hover:bg-green-600 transition"
+                    >
+                        Send
+                    </button>
+                </form>
 
-            <button
-                onClick={startCall}
-                className="mt-4 px-4 py-2 bg-green-500 text-white rounded-full hover:bg-green-600 transition"
-            >
-                Call
-            </button>
+                <button
+                    onClick={startCall}
+                    className="mt-4 px-4 py-2 bg-green-500 text-white rounded-full hover:bg-green-600 transition"
+                >
+                    Call
+                </button>
+            </div>
         </div>
     );
 }

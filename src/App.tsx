@@ -20,9 +20,9 @@ function App() {
     return (
         <AuthProvider store={store}>
             <BrowserRouter>
-                <div className="flex flex-col min-h-screen w-full bg-gray-100">
+                <div className="flex flex-col min-h-screen w-full bg-gray-200 text-gray-900">
                     <Header />
-                    <main className="flex-1 w-full">
+                    <main className="flex-1 w-full container mx-auto px-4 py-8">
                         <Routes>
                             <Route path="/" element={<Home />} />
                             <Route path="/signin" element={<SignIn />} />
