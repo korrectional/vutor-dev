@@ -16,11 +16,13 @@ export default function Chats() {
     const navigate = useNavigate();
     const userToken = useAuthUser<IUserData>().token;
     const userEmail = useAuthUser<IUserData>().email;
+    const userName = useAuthUser<IUserData>().name;
 
     let { chatID } = useParams();
     let chats = []; //This because react isnt letting me append to the state variables directly, so im doing appending and then setting.
     let msgs = new Array<Message>(); //Same here
     const [userChats, setUserChats] = useState([]);
+    const [participants, setParticipants] = useState([]);
     const [userMsgs, setUserMsgs] = useState<Message[]>([]);
 
     var socket: Socket = io("http://localhost:3000/");
@@ -42,6 +44,8 @@ export default function Chats() {
                         "Unauthorized access. Please sign-in before trying to access this page.",
                     );
                 chats = response.data.chatIDs;
+                
+                setParticipants(response.data.chatParticipants);
                 setUserChats(chats);
             })
             .catch((error) => {
@@ -51,7 +55,7 @@ export default function Chats() {
                 console.error("Error fetching chats:", error);
                 navigate("/signin");
             });
-
+            
         //Initialize socket (keep here so it runs only once)
         socket.on("connect", () => {
             console.log("Connected to websocket server");
@@ -132,8 +136,9 @@ export default function Chats() {
         //I wanted to use this but its being constantly blocked by the client
         //window.location.assign(`https://meet.jit.si/${roomName}`);
     }
-    //Send message to server
 
+    
+    //Send message to server
     async function sendMsg(e) {
         e.preventDefault();
         const msg = e.target.elements.msginput.value;
@@ -189,6 +194,16 @@ export default function Chats() {
         setUserMsgs([...msgs]);
     });
 
+    const displayUser = (users) => {
+        let display = "";
+        users.forEach((user) => {
+            if (user !== userName) {
+                display += user;
+            }
+        });
+        return display;
+    };
+
     //Scroll to bottom of page if there are new messages
     useEffect(() => {
         window.scrollTo(0, document.body.scrollHeight);
@@ -219,13 +234,13 @@ export default function Chats() {
             <div className="w-1/4 p-4 bg-white shadow-md">
                 <h2 className="text-2xl font-bold mb-4">Chats</h2>
                 <ul className="space-y-2">
-                    {userChats.map((chatID) => (
-                        <li key={chatID}>
+                    {participants.map((users, index) => (
+                        <li key={userChats[index]}>
                             <a
-                                href={`/chat/${chatID}`}
+                                href={`/chat/${userChats[index]}`}
                                 className="block px-4 py-2 bg-gray-200 rounded-full shadow-sm hover:bg-gray-300 transition"
                             >
-                                {String(chatID).split("|")[0]}
+                                {displayUser(users)}
                             </a>
                         </li>
                     ))}
