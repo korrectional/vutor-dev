@@ -44,7 +44,7 @@ export default function Chats() {
                         "Unauthorized access. Please sign-in before trying to access this page.",
                     );
                 chats = response.data.chatIDs;
-                
+
                 setParticipants(response.data.chatParticipants);
                 setUserChats(chats);
             })
@@ -55,7 +55,7 @@ export default function Chats() {
                 console.error("Error fetching chats:", error);
                 navigate("/signin");
             });
-            
+
         //Initialize socket (keep here so it runs only once)
         socket.on("connect", () => {
             console.log("Connected to websocket server");
@@ -137,7 +137,6 @@ export default function Chats() {
         //window.location.assign(`https://meet.jit.si/${roomName}`);
     }
 
-    
     //Send message to server
     async function sendMsg(e) {
         e.preventDefault();
