@@ -59,16 +59,16 @@ export default function Search() {
                 <h2 className="text-3xl font-bold text-gray-800 mb-6">
                     Find a tutor for
                     <label className="block font-medium ml-3 text-xl">
-                    <select
-                        name="teaches"
-                        value={parameters.teaches}
-                        onChange={handleChange}
-                        className="block w-full mt-1 p-2 border rounded-md"
-                    >
-                        <option value="math">Math</option>
-                        <option value="english">English</option>
-                    </select>
-                </label>
+                        <select
+                            name="teaches"
+                            value={parameters.teaches}
+                            onChange={handleChange}
+                            className="block w-full mt-1 p-2 border rounded-md"
+                        >
+                            <option value="math">Math</option>
+                            <option value="english">English</option>
+                        </select>
+                    </label>
                 </h2>
 
                 <button
@@ -79,11 +79,7 @@ export default function Search() {
                 </button>
             </div>
             {/* Search Form */}
-            <div className="mt-4 space-y-2">
-                
-
-                
-            </div>
+            <div className="mt-4 space-y-2"></div>
 
             {/* Tutor List */}
             <div className="mt-6">
@@ -94,24 +90,34 @@ export default function Search() {
                                 key={index}
                                 className="bg-gray-100 rounded-lg shadow-md"
                             >
-                                <a onClick={() => {openTutorPage(tutor._id)}} className="tutor-card">
+                                <a
+                                    onClick={() => {
+                                        openTutorPage(tutor._id);
+                                    }}
+                                    className="tutor-card"
+                                >
                                     <div className="tutor-card-title bg-green-400 p-1 flex justify-center align-center">
                                         <p className="text-lg font-semibold text-center">
                                             <strong></strong> {tutor.name}
                                         </p>
                                     </div>
-                                    
+
                                     <div className="tutor-card-body p-2">
                                         <p className="mt-2">
                                             <strong>GPA:</strong> {tutor.GPA}
                                         </p>
                                         <p className="mt-2">
                                             <strong>Description:</strong>{" "}
-                                            {tutor.description ? tutor.description : "I am a tutor on Voluntor!"}
+                                            {tutor.description
+                                                ? tutor.description
+                                                : "I am a tutor on Voluntor!"}
                                         </p>
                                         <p className="mt-2"></p>
                                         <p>
-                                            <strong>Rating:</strong> {tutor.rating ? tutor.rating : "This tutor has no ratings"}
+                                            <strong>Rating:</strong>{" "}
+                                            {tutor.rating
+                                                ? tutor.rating
+                                                : "This tutor has no ratings"}
                                         </p>
                                     </div>
                                 </a>
