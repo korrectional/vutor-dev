@@ -17,6 +17,7 @@ export default function Chats() {
     const userToken = useAuthUser<IUserData>().token;
     const userEmail = useAuthUser<IUserData>().email;
     const userName = useAuthUser<IUserData>().name;
+    const [file, setFile] = useState(null);
 
     let { chatID } = useParams();
     let chats = []; //This because react isnt letting me append to the state variables directly, so im doing appending and then setting.
@@ -90,6 +91,7 @@ export default function Chats() {
                 });
         }
     }, []);
+
     async function startCall() {
         // when user presses call a new message is sent that envites both to the call
         console.log("STARTING CALL");
@@ -137,6 +139,11 @@ export default function Chats() {
         //window.location.assign(`https://meet.jit.si/${roomName}`);
     }
 
+    const handleFileChange = (e) => {
+        setFile(e.target.files[0]);
+    };
+
+
     //Send message to server
     async function sendMsg(e) {
         e.preventDefault();
@@ -147,7 +154,9 @@ export default function Chats() {
             user: userEmail,
             createdAt: new Date(),
         };
+        
 
+        // send message
         axios({
             url: `http://localhost:3000/api/chats/send`,
             method: "POST",
@@ -178,6 +187,48 @@ export default function Chats() {
                     console.error("Error sending message:", error);
                 }
             });
+            
+        // if file to be uploaded, upload file
+        if (file) {
+            console.log("Sending file");
+            const formData = new FormData();
+            formData.append("content", "Hello world");
+            formData.append("createdAt", new Date().toISOString());
+            formData.append("file", file);
+            axios({
+                url: `http://localhost:3000/api/chats/upload`,
+                method: "POST",
+                headers: { Authorization: "Bearer " + userToken },
+                data: formData,
+            }).then((response) => {
+                if (response.status != 200) {
+                    alert("Failed to upload file");
+                    console.error(
+                        "Error uploading file:",
+                        response.data.message,
+                    );
+                }
+                console.log("stored at " + response.data.fileURL);
+                // if upload was successful, create message with link to file
+                console.log(file.name);
+                const msg = userEmail + ` - [${file.name}](http://localhost:5173/${response.data.fileURL})`;
+                const dataToSend = {
+                    chatID: parseInt(chatID),
+                    content: msg,
+                    user: "SYSTEM",
+                    createdAt: new Date(),
+                };
+                
+
+                // send message
+                axios({
+                    url: `http://localhost:3000/api/chats/send`,
+                    method: "POST",
+                    headers: { Authorization: "Bearer " + userToken },
+                    data: dataToSend,
+                })
+            });
+        }
 
         e.target.elements.msginput.value = "";
     }
@@ -209,24 +260,35 @@ export default function Chats() {
     }, [userMsgs]);
 
     function formatMessage(content: string) {
-        // makes links clickable
-        const urlRegex = /(https?:\/\/[^\s]+)/g;
-        return content.split(urlRegex).map((part, index) =>
-            part.match(urlRegex) ? (
+        // Regex for [name](link) format
+        const markdownLinkRegex = /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g;
+    
+        // Replace markdown links while keeping other text
+        const parts = [];
+        let lastIndex = 0;
+    
+        content.replace(markdownLinkRegex, (match, text, url, offset) => {
+            parts.push(content.slice(lastIndex, offset)); // Push text before match
+            parts.push(
                 <a
-                    key={index}
-                    href={part}
+                    key={offset}
+                    href={url}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-green-500 underline"
                 >
-                    {part}
+                    {text}
                 </a>
-            ) : (
-                part
-            ),
-        );
+            );
+            lastIndex = offset + match.length;
+            return match;
+        });
+    
+        parts.push(content.slice(lastIndex)); // Push remaining text
+    
+        return parts;
     }
+    
 
     return (
         <div className="flex h-full p-4 bg-gray-100">
@@ -291,6 +353,12 @@ export default function Chats() {
                         className="flex-1 px-3 py-2 border rounded-full"
                         autocomplete="off"
                     />
+                    <input
+                        type="file"
+                        onChange={handleFileChange}
+                        className="px-4 py-2 bg-green-500 text-white rounded-full hover:bg-green-600 transition"
+                    />
+
                     <button
                         type="submit"
                         className="px-4 py-2 bg-green-500 text-white rounded-full hover:bg-green-600 transition"
