@@ -143,7 +143,6 @@ export default function Chats() {
         setFile(e.target.files[0]);
     };
 
-
     //Send message to server
     async function sendMsg(e) {
         e.preventDefault();
@@ -154,7 +153,6 @@ export default function Chats() {
             user: userEmail,
             createdAt: new Date(),
         };
-        
 
         // send message
         axios({
@@ -187,7 +185,7 @@ export default function Chats() {
                     console.error("Error sending message:", error);
                 }
             });
-            
+
         // if file to be uploaded, upload file
         if (file) {
             console.log("Sending file");
@@ -211,14 +209,15 @@ export default function Chats() {
                 console.log("stored at " + response.data.fileURL);
                 // if upload was successful, create message with link to file
                 console.log(file.name);
-                const msg = userEmail + ` - [${file.name}](http://localhost:5173/${response.data.fileURL})`;
+                const msg =
+                    userEmail +
+                    ` - [${file.name}](http://localhost:5173/${response.data.fileURL})`;
                 const dataToSend = {
                     chatID: parseInt(chatID),
                     content: msg,
                     user: "SYSTEM",
                     createdAt: new Date(),
                 };
-                
 
                 // send message
                 axios({
@@ -226,7 +225,7 @@ export default function Chats() {
                     method: "POST",
                     headers: { Authorization: "Bearer " + userToken },
                     data: dataToSend,
-                })
+                });
             });
         }
 
@@ -262,11 +261,11 @@ export default function Chats() {
     function formatMessage(content: string) {
         // Regex for [name](link) format
         const markdownLinkRegex = /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g;
-    
+
         // Replace markdown links while keeping other text
         const parts = [];
         let lastIndex = 0;
-    
+
         content.replace(markdownLinkRegex, (match, text, url, offset) => {
             parts.push(content.slice(lastIndex, offset)); // Push text before match
             parts.push(
@@ -278,17 +277,16 @@ export default function Chats() {
                     className="text-green-500 underline"
                 >
                     {text}
-                </a>
+                </a>,
             );
             lastIndex = offset + match.length;
             return match;
         });
-    
+
         parts.push(content.slice(lastIndex)); // Push remaining text
-    
+
         return parts;
     }
-    
 
     return (
         <div className="flex h-full p-4 bg-gray-100">

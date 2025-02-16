@@ -8,8 +8,7 @@ export default function File() {
     axios({
         url: `http://localhost:3000/api/uploads/${filename}`,
         method: "GET",
-        responseType: 'blob', // Handle binary data properly
-
+        responseType: "blob", // Handle binary data properly
     }).then((response) => {
         const url = window.URL.createObjectURL(new Blob([response.data]));
         const a = document.createElement("a");
@@ -18,9 +17,8 @@ export default function File() {
         document.body.appendChild(a);
         a.click();
         a.remove();
-        window.open('', '_self')?.close();
-
+        window.open("", "_self")?.close();
     });
 
-    return (<></>);
+    return <></>;
 }

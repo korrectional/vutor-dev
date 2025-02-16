@@ -51,7 +51,11 @@ function App() {
                                 />
                                 <Route
                                     path="/uploads/:filename"
-                                    element={<div className="fixed inset-0 bg-black text-white flex justify-center items-center"><File /></div>}
+                                    element={
+                                        <div className="fixed inset-0 bg-black text-white flex justify-center items-center">
+                                            <File />
+                                        </div>
+                                    }
                                 />
                             </Route>
                         </Routes>
