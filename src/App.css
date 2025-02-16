@@ -210,3 +210,29 @@ body {
     bottom: 5px;
     width: 10vw;
 }
+
+.search-box {
+    justify-content: space-between;
+}
+
+.search-btn {
+    border-radius: 10px;
+    height: 50px;
+}
+
+.tutor-card {
+    text-decoration: none;
+    color: #1a202c;
+}
+
+.tutor-card-title {
+    border-radius: 0.5rem 0.5rem 0px 0px;
+}
+
+.tutor-card-title p {
+    margin-bottom: 0px !important;
+}
+
+.tutor-card:hover {
+    cursor: pointer;
+}

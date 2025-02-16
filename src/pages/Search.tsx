@@ -55,14 +55,10 @@ export default function Search() {
                     text="Back"
                 />
             </div>
-            <div className="pt-12">
+            <div className="pt-12 search-box flex">
                 <h2 className="text-3xl font-bold text-gray-800 mb-6">
                     Find a tutor for
-                </h2>
-            </div>
-            {/* Search Form */}
-            <div className="mt-4 space-y-2">
-                <label className="block font-medium">
+                    <label className="block font-medium ml-3 text-xl">
                     <select
                         name="teaches"
                         value={parameters.teaches}
@@ -73,13 +69,20 @@ export default function Search() {
                         <option value="english">English</option>
                     </select>
                 </label>
+                </h2>
 
                 <button
                     onClick={searchTutor}
-                    className="flex items-center justify-center gap-3 bg-blue-600 text-white py-3 px-6 font-medium hover:bg-blue-700 transition-colors duration-300 rounded-full"
+                    className="flex items-center p-3 justify-center gap-3 bg-blue-600 text-white py-3 px-6 font-medium hover:bg-blue-700 transition-colors duration-300 search-btn"
                 >
                     Search
                 </button>
+            </div>
+            {/* Search Form */}
+            <div className="mt-4 space-y-2">
+                
+
+                
             </div>
 
             {/* Tutor List */}
@@ -89,29 +92,29 @@ export default function Search() {
                         {tutors.map((tutor, index) => (
                             <li
                                 key={index}
-                                className="p-6 bg-gray-100 rounded-lg shadow-md"
+                                className="bg-gray-100 rounded-lg shadow-md"
                             >
-                                <p className="text-lg font-semibold">
-                                    <strong></strong> {tutor.name}
-                                </p>
-                                <p className="mt-2">
-                                    <strong>GPA:</strong> {tutor.GPA}
-                                </p>
-                                <p className="mt-2">
-                                    <strong>Description:</strong>{" "}
-                                    {tutor.description}
-                                </p>
-                                <p className="mt-2"></p>
-                                <p>
-                                    <strong>Rating:</strong> {tutor.rating}
-                                </p>
-
-                                <button
-                                    onClick={() => openTutorPage(tutor._id)}
-                                    className="mt-2 px-4 py-2 bg-green-500 text-white rounded-full hover:bg-green-600 transition"
-                                >
-                                    More
-                                </button>
+                                <a onClick={() => {openTutorPage(tutor._id)}} className="tutor-card">
+                                    <div className="tutor-card-title bg-green-400 p-1 flex justify-center align-center">
+                                        <p className="text-lg font-semibold text-center">
+                                            <strong></strong> {tutor.name}
+                                        </p>
+                                    </div>
+                                    
+                                    <div className="tutor-card-body p-2">
+                                        <p className="mt-2">
+                                            <strong>GPA:</strong> {tutor.GPA}
+                                        </p>
+                                        <p className="mt-2">
+                                            <strong>Description:</strong>{" "}
+                                            {tutor.description ? tutor.description : "I am a tutor on Voluntor!"}
+                                        </p>
+                                        <p className="mt-2"></p>
+                                        <p>
+                                            <strong>Rating:</strong> {tutor.rating ? tutor.rating : "This tutor has no ratings"}
+                                        </p>
+                                    </div>
+                                </a>
                             </li>
                         ))}
                     </ul>
