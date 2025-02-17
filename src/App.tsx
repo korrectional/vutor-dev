@@ -10,6 +10,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import SignOut from "./pages/SignOut";
 import Settings from "./pages/Settings";
+import File from "./pages/File";
 import "./App.css";
 import { store } from "./services/auth";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -47,6 +48,14 @@ function App() {
                                 <Route
                                     path="/settings"
                                     element={<Settings />}
+                                />
+                                <Route
+                                    path="/uploads/:filename"
+                                    element={
+                                        <div className="fixed inset-0 bg-black text-white flex justify-center items-center">
+                                            <File />
+                                        </div>
+                                    }
                                 />
                             </Route>
                         </Routes>
