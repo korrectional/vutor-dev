@@ -148,17 +148,6 @@ export default function SettingsDashboard() {
         return subject.charAt(0).toUpperCase() + subject.slice(1);
     };
 
-    const handleTeachesToggle = (e) => {
-        const { value, checked } = e.target;
-
-        setSettings((prevSettings) => ({
-            ...prevSettings,
-            teaches: checked
-                ? [...prevSettings.teaches, value] // Add if checked
-                : prevSettings.teaches.filter((teach) => teach !== value), // Remove if unchecked
-        }));
-    };
-
     const saveSettings = () => {
         console.log("Updated Settings:", settings);
         fetch("http://localhost:3000/api/user/user-modify", {
