@@ -12,7 +12,7 @@ function TextField(props: Props) {
         <input
             type="text"
             placeholder={props.placeholder}
-            className={props.classes} 
+            className={props.classes}
             name={props.name}
             autoComplete={props.autoComplete}
             disabled={props.disabled}

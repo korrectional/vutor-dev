@@ -40,23 +40,23 @@ export default function Chats() {
                 email: userEmail,
             },
         })
-        .then((response) => {
-            if (response.status === 401)
-                alert(
-                    "Unauthorized access. Please sign-in before trying to access this page.",
-                );
-            chats = response.data.chatIDs;
+            .then((response) => {
+                if (response.status === 401)
+                    alert(
+                        "Unauthorized access. Please sign-in before trying to access this page.",
+                    );
+                chats = response.data.chatIDs;
 
-            setParticipants(response.data.chatParticipants);
-            setUserChats(chats);
-        })
-        .catch((error) => {
-            alert(
-                "An error occurred while fetching chats. Please try again later.",
-            );
-            console.error("Error fetching chats:", error);
-            navigate("/signin");
-        });
+                setParticipants(response.data.chatParticipants);
+                setUserChats(chats);
+            })
+            .catch((error) => {
+                alert(
+                    "An error occurred while fetching chats. Please try again later.",
+                );
+                console.error("Error fetching chats:", error);
+                navigate("/signin");
+            });
 
         //Initialize socket (keep here so it runs only once)
         socket.on("connect", () => {
@@ -75,21 +75,21 @@ export default function Chats() {
                     email: userEmail,
                 },
             })
-            .then((response) => {
-                if (response.status === 401)
+                .then((response) => {
+                    if (response.status === 401)
+                        alert(
+                            "Unauthorized access. Please sign-in before trying to access this page.",
+                        );
+                    msgs = response.data.messages;
+                    setUserMsgs(msgs);
+                })
+                .catch((error) => {
                     alert(
-                        "Unauthorized access. Please sign-in before trying to access this page.",
+                        "An error occurred while fetching messages. Please try again later.",
                     );
-                msgs = response.data.messages;
-                setUserMsgs(msgs);
-            })
-            .catch((error) => {
-                alert(
-                    "An error occurred while fetching messages. Please try again later.",
-                );
-                console.error("Error fetching messages:", error);
-                navigate("/signin");
-            });
+                    console.error("Error fetching messages:", error);
+                    navigate("/signin");
+                });
         }
     }, []);
 
@@ -256,7 +256,9 @@ export default function Chats() {
 
     //Scroll to bottom of page if there are new messages
     useEffect(() => {
-        document.getElementById("msg-area").scrollTo(0, document.body.scrollHeight);
+        document
+            .getElementById("msg-area")
+            .scrollTo(0, document.body.scrollHeight);
     }, [userMsgs]);
 
     function formatMessage(content: string) {
@@ -312,21 +314,22 @@ export default function Chats() {
                     {chatID ? (
                         <div>
                             <div className="flex">
-                                <h3 className="m-10 mr-60">Placeholder for name</h3>
+                                <h3 className="m-10 mr-60">
+                                    Placeholder for name
+                                </h3>
                                 <button
                                     onClick={startCall}
                                     className="mb-3 px-3 py-2 bg-green-500 flex items-center justify-self-end text-white rounded-lg hover:bg-green-600 transition"
                                 >
-                                    <PhoneCall
-                                        size={17}
-                                        className="mr-2"
-                                    />
+                                    <PhoneCall size={17} className="mr-2" />
                                     Call
                                 </button>
-
                             </div>
 
-                            <ul className="space-y-2 h-80 overflow-y-scroll" id="msg-area">
+                            <ul
+                                className="space-y-2 h-80 overflow-y-scroll"
+                                id="msg-area"
+                            >
                                 {userMsgs.map((msg) => {
                                     if (!msg.content) return null;
                                     return (
@@ -359,22 +362,25 @@ export default function Chats() {
 
                 <hr className="my-6 border-gray-300" />
 
-                <form
-                    onSubmit={sendMsg}
-                >
+                <form onSubmit={sendMsg}>
                     <div className="flex flex-2 items-center gap-2 mb-2">
                         <TextField
                             placeholder="Message"
                             type="text"
                             name="msginput"
-                            classes={"w-lg mx-2 px-3 py-1.5 border rounded-3 disabled:bg-gray-200 disabled:cursor-not-allowed"}
+                            classes={
+                                "w-lg mx-2 px-3 py-1.5 border rounded-3 disabled:bg-gray-200 disabled:cursor-not-allowed"
+                            }
                             autoComplete="off"
                             disabled={chatID ? false : true}
                         />
 
                         <label
-                        className={"bg-green-500 p-1.5 rounded-full transition hover:bg-green-600 " + (chatID ? "" : "bg-gray-300 cursor-not-allowed")}
-                        htmlFor="files"
+                            className={
+                                "bg-green-500 p-1.5 rounded-full transition hover:bg-green-600 " +
+                                (chatID ? "" : "bg-gray-300 cursor-not-allowed")
+                            }
+                            htmlFor="files"
                         >
                             <Paperclip color="white" />
                         </label>
@@ -383,10 +389,9 @@ export default function Chats() {
                             type="file"
                             onChange={handleFileChange}
                             id="files"
-                            style={{display: "none"}}
+                            style={{ display: "none" }}
                             disabled={chatID ? false : true}
                             className="px-4 py-2 bg-green-500 w-25 text-white rounded-full hover:bg-green-600 transition"
-                            
                         />
 
                         <button
