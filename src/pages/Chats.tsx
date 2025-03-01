@@ -5,6 +5,7 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router";
 import { useEffect, useState } from "react";
 import TextField from "../components/TextField";
+import { ClipboardIcon, Paperclip, PhoneCall } from "lucide-react";
 
 interface Message {
     content: string;
@@ -253,7 +254,9 @@ export default function Chats() {
 
     //Scroll to bottom of page if there are new messages
     useEffect(() => {
-        window.scrollTo(0, document.body.scrollHeight);
+        document
+            .getElementById("msg-area")
+            .scrollTo(0, document.body.scrollHeight);
     }, [userMsgs]);
 
     function formatMessage(content: string) {
@@ -287,7 +290,7 @@ export default function Chats() {
     }
 
     return (
-        <div className="flex h-full p-4 bg-gray-100">
+        <div className="flex h-full p-4 /w-screen bg-gray-100">
             <div className="w-1/4 p-4 bg-white shadow-md">
                 <h2 className="text-2xl font-bold mb-4">Chats</h2>
                 <ul className="space-y-2">
@@ -305,70 +308,99 @@ export default function Chats() {
             </div>
 
             <div className="flex-1 flex flex-col ml-4 p-4 bg-white shadow-md">
-                <div className="flex-1 overflow-y-auto p-4">
-                    {chatID ? null : (
+                <div className="h-50 flex-1 p-4">
+                    {chatID ? (
+                        <div>
+                            <div className="flex">
+                                <h3 className="m-10 mr-60">
+                                    Placeholder for name
+                                </h3>
+                                <button
+                                    onClick={startCall}
+                                    className="mb-3 px-3 py-2 bg-green-500 flex items-center justify-self-end text-white rounded-lg hover:bg-green-600 transition"
+                                >
+                                    <PhoneCall size={17} className="mr-2" />
+                                    Call
+                                </button>
+                            </div>
+
+                            <ul
+                                className="space-y-2 h-80 overflow-y-scroll"
+                                id="msg-area"
+                            >
+                                {userMsgs.map((msg) => {
+                                    if (!msg.content) return null;
+                                    return (
+                                        <li
+                                            key={msg.createdAt}
+                                            className="flex items-start"
+                                        >
+                                            {msg.user === "SYSTEM" ? (
+                                                <span className="bg-gray-200 text-gray-800 px-2 py-1 rounded-md mr-2 inline-block">
+                                                    <strong>{}</strong>{" "}
+                                                    {formatMessage(msg.content)}
+                                                </span>
+                                            ) : (
+                                                <span className="px-3 py-2 bg-green-100 rounded-lg shadow-sm">
+                                                    <strong>{msg.user.split('@')[0]}</strong>:{" "}
+                                                    {formatMessage(msg.content)}
+                                                </span>
+                                            )}
+                                        </li>
+                                    );
+                                })}
+                            </ul>
+                        </div>
+                    ) : (
                         <h4 className="text-gray-500 text-center">
                             Click a chat to view it!
                         </h4>
                     )}
-                    <ul className="space-y-2">
-                        {userMsgs.map((msg) => {
-                            if (!msg.content) return null;
-                            return (
-                                <li
-                                    key={msg.createdAt}
-                                    className="flex items-start"
-                                >
-                                    {msg.user === "SYSTEM" ? (
-                                        <span className="bg-gray-200 text-gray-800 px-2 py-1 rounded-md mr-2 inline-block">
-                                            <strong>{}</strong>{" "}
-                                            {formatMessage(msg.content)}
-                                        </span>
-                                    ) : (
-                                        <span className="px-3 py-2 bg-green-100 rounded-lg shadow-sm">
-                                            <strong>{msg.user.split('@')[0]}</strong>:{" "}
-                                            {formatMessage(msg.content)}
-                                        </span>
-                                    )}
-                                </li>
-                            );
-                        })}
-                    </ul>
                 </div>
 
                 <hr className="my-6 border-gray-300" />
 
-                <form
-                    className="flex items-center gap-2 mt-4"
-                    onSubmit={sendMsg}
-                >
-                    <TextField
-                        placeholder="Message"
-                        type="text"
-                        name="msginput"
-                        className="flex-1 px-3 py-2 border rounded-full"
-                        autocomplete="off"
-                    />
-                    <input
-                        type="file"
-                        onChange={handleFileChange}
-                        className="px-4 py-2 bg-green-500 text-white rounded-full hover:bg-green-600 transition"
-                    />
+                <form onSubmit={sendMsg}>
+                    <div className="flex flex-2 items-center gap-2 mb-2">
+                        <TextField
+                            placeholder="Message"
+                            type="text"
+                            name="msginput"
+                            classes={
+                                "w-lg mx-2 px-3 py-1.5 border rounded-3 disabled:bg-gray-200 disabled:cursor-not-allowed"
+                            }
+                            autoComplete="off"
+                            disabled={chatID ? false : true}
+                        />
 
-                    <button
-                        type="submit"
-                        className="px-4 py-2 bg-green-500 text-white rounded-full hover:bg-green-600 transition"
-                    >
-                        Send
-                    </button>
+                        <label
+                            className={
+                                "bg-green-500 p-1.5 rounded-full transition hover:bg-green-600 " +
+                                (chatID ? "" : "bg-gray-300 cursor-not-allowed")
+                            }
+                            htmlFor="files"
+                        >
+                            <Paperclip color="white" />
+                        </label>
+
+                        <input
+                            type="file"
+                            onChange={handleFileChange}
+                            id="files"
+                            style={{ display: "none" }}
+                            disabled={chatID ? false : true}
+                            className="px-4 py-2 bg-green-500 w-25 text-white rounded-full hover:bg-green-600 transition"
+                        />
+
+                        <button
+                            type="submit"
+                            disabled={chatID ? false : true}
+                            className="px-4 py-1.5 bg-green-500 text-white rounded-3 hover:bg-green-600 transition disabled:bg-gray-300 disabled:cursor-not-allowed"
+                        >
+                            Send
+                        </button>
+                    </div>
                 </form>
-
-                <button
-                    onClick={startCall}
-                    className="mt-4 px-4 py-2 bg-green-500 text-white rounded-full hover:bg-green-600 transition"
-                >
-                    Call
-                </button>
             </div>
         </div>
     );

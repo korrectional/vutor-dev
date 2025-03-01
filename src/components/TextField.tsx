@@ -2,6 +2,9 @@ interface Props {
     placeholder: string;
     type: string;
     name: string;
+    classes: string;
+    autoComplete: string;
+    disabled: boolean;
 }
 
 function TextField(props: Props) {
@@ -9,8 +12,10 @@ function TextField(props: Props) {
         <input
             type="text"
             placeholder={props.placeholder}
-            className="text-input"
+            className={props.classes}
             name={props.name}
+            autoComplete={props.autoComplete}
+            disabled={props.disabled}
         />
     );
 }
