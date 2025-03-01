@@ -104,7 +104,9 @@ export default function Chats() {
 
         const msg =
             `\n` +
-            "[click to join " + userEmail.split('@')[0] + `'s call](https://meet.jit.si/${roomName})` +
+            "[click to join " +
+            userEmail.split("@")[0] +
+            `'s call](https://meet.jit.si/${roomName})` +
             `\n`;
         const dataToSend = {
             chatID: parseInt(chatID),
@@ -254,9 +256,11 @@ export default function Chats() {
 
     //Scroll to bottom of page if there are new messages
     useEffect(() => {
-        document
-            .getElementById("msg-area")
-            .scrollTo(0, document.body.scrollHeight);
+        document;
+        const msgArea = document.getElementById("msg-area");
+        if (msgArea) {
+            msgArea.scrollTop = msgArea.scrollHeight;
+        }
     }, [userMsgs]);
 
     function formatMessage(content: string) {
@@ -313,7 +317,7 @@ export default function Chats() {
                         <div>
                             <div className="flex">
                                 <h3 className="m-10 mr-60">
-                                    Placeholder for name
+                                    place holder text
                                 </h3>
                                 <button
                                     onClick={startCall}
@@ -337,12 +341,16 @@ export default function Chats() {
                                         >
                                             {msg.user === "SYSTEM" ? (
                                                 <span className="bg-gray-200 text-gray-800 px-2 py-1 rounded-md mr-2 inline-block">
-                                                    <strong>{}</strong>{" "}
+                                                    <strong></strong>
+                                                    {""}
                                                     {formatMessage(msg.content)}
                                                 </span>
                                             ) : (
                                                 <span className="px-3 py-2 bg-green-100 rounded-lg shadow-sm">
-                                                    <strong>{msg.user.split('@')[0]}</strong>:{" "}
+                                                    <strong>
+                                                        {msg.user.split("@")[0]}
+                                                    </strong>
+                                                    :{" "}
                                                     {formatMessage(msg.content)}
                                                 </span>
                                             )}
