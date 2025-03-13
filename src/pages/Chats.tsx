@@ -60,7 +60,8 @@ export default function Chats() {
 
         //Initialize socket (keep here so it runs only once)
         socket.on("connect", () => {
-            console.log("Connected to websocket server");
+            //console.log("Connected to websocket server");
+            console.log("");
         });
 
         //Looking at a specific chat room
@@ -95,7 +96,7 @@ export default function Chats() {
 
     async function startCall() {
         // when user presses call a new message is sent that envites both to the call
-        console.log("STARTING CALL");
+        //console.log("STARTING CALL");
 
         const roomName =
             "-voluntor-call-" +
@@ -189,7 +190,7 @@ export default function Chats() {
 
         // if file to be uploaded, upload file
         if (file) {
-            console.log("Sending file");
+            //console.log("Sending file");
             const formData = new FormData();
             formData.append("content", "Hello world");
             formData.append("createdAt", new Date().toISOString());
@@ -207,9 +208,9 @@ export default function Chats() {
                         response.data.message,
                     );
                 }
-                console.log("stored at " + response.data.fileURL);
+                //console.log("stored at " + response.data.fileURL);
                 // if upload was successful, create message with link to file
-                console.log(file.name);
+                //console.log(file.name);
                 const msg =
                     userEmail +
                     ` - [${file.name}](http://localhost:5173/${response.data.fileURL})`;

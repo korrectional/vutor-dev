@@ -20,7 +20,7 @@ export default function TutorPage() {
             body: JSON.stringify({ _id: tutorID }),
         }).then(async (res) => {
             const data = await res.json();
-            console.log("Data recieved", data);
+            //console.log("Data recieved", data);
             setTutor(data);
         });
     }, []);
@@ -39,7 +39,7 @@ export default function TutorPage() {
             }),
         }).then(async (res) => {
             const data = await res.json();
-            console.log("Chat started", data.message);
+            //console.log("Chat started", data.message);
             navigate(`/chat/${data.chatID}`);
         });
     };

@@ -32,7 +32,7 @@ export default function SignUpComponent() {
             .then(async (res) => {
                 const data = await res.json();
                 if (res.status === 201) {
-                    console.log("Account creation successful");
+                    //console.log("Account creation successful");
                     navigate("/");
                 } else {
                     console.error(

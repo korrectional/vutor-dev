@@ -18,7 +18,7 @@ export default function Search() {
     const handleChange = (e) => {
         const { name, value } = e.target;
 
-        console.log("changing to ", name, value);
+        //console.log("changing to ", name, value);
         setParameters((prevSettings) => ({
             ...prevSettings,
             [name]: value,
@@ -27,7 +27,7 @@ export default function Search() {
 
     const searchTutor = () => {
         setSearched(true);
-        console.log("Searching for tutor with parameters:", parameters);
+        //console.log("Searching for tutor with parameters:", parameters);
         fetch("http://localhost:3000/api/search-tutor", {
             method: "POST",
             headers: {
@@ -36,7 +36,7 @@ export default function Search() {
             body: JSON.stringify({ token: authUser.token, ...parameters }),
         }).then(async (res) => {
             const data = await res.json();
-            console.log("Data sent", data);
+            //console.log("Data sent", data);
             setTutors(data);
         });
     };

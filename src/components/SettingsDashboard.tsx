@@ -149,7 +149,7 @@ export default function SettingsDashboard() {
     };
 
     const saveSettings = () => {
-        console.log("Updated Settings:", settings);
+        //console.log("Updated Settings:", settings);
         fetch("http://localhost:3000/api/user/user-modify", {
             method: "POST",
             headers: {
@@ -157,7 +157,7 @@ export default function SettingsDashboard() {
             },
             body: JSON.stringify({ token: authUser.token, ...settings }),
         }).then(async (res) => {
-            console.log("data modified", await res.json());
+            //console.log("data modified", await res.json());
         });
         setLangMenuState(false);
         alert("Data saved successfully!");

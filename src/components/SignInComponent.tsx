@@ -19,7 +19,7 @@ export default function SignInComponent() {
             .then(async (res) => {
                 const data = await res.json(); // Parse JSON response
                 if (res.status === 200) {
-                    console.log(data.email);
+                    //console.log(data.email);
                     if (
                         signIn({
                             auth: {
@@ -37,7 +37,7 @@ export default function SignInComponent() {
                             },
                         })
                     ) {
-                        console.log("Sign-in successful!");
+                        //console.log("Sign-in successful!");
                         navigate("/dashboard");
                     } else {
                         console.error("Sign-in failed!");
