@@ -249,8 +249,6 @@ export default function SettingsDashboard() {
 
                     <div className="flex justify-between mx-5">
                         <div className=" max-w-1/2">
-
-
                             <div className="flex ">
                                 <label className="block mb-2 mx-4">
                                     State:
