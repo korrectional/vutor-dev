@@ -171,7 +171,10 @@ export default function SettingsDashboard() {
     };
 
     const capitalize = (subject: string) => {
-        return subject.charAt(0).toUpperCase() + subject.slice(1);
+        return subject
+            .split(" ")
+            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(" ");
     };
 
     const saveSettings = () => {
@@ -246,144 +249,7 @@ export default function SettingsDashboard() {
 
                     <div className="flex justify-between mx-5">
                         <div className=" max-w-1/2">
-                            <div className="mb-2.5">
-                                <label className="block">Languages:</label>
 
-                                {/*Selected Languages*/}
-                                {settings.language?.length ? (
-                                    <div className="bg-white w-80 relative text-xs flex flex-wrap gap-1 p-2 mb-1">
-                                        {settings.language.map((lang) => (
-                                            <div
-                                                key={lang}
-                                                className="rounded-full w-fit py-1 px-2.5 border border-gray-400 bg-gray-50 flex items-center gap-2"
-                                            >
-                                                {convertShortToLong(lang)}
-                                                <div
-                                                    onClick={(e) => {
-                                                        e.preventDefault();
-                                                        handleLangChange(
-                                                            e.currentTarget.getAttribute(
-                                                                "data-key",
-                                                            ),
-                                                            true,
-                                                        );
-                                                        setLangsRem([
-                                                            ...langsRem,
-                                                            e.currentTarget.getAttribute(
-                                                                "data-key",
-                                                            ),
-                                                        ]);
-                                                    }}
-                                                    className="rounded-full p-0.5 hover:bg-gray-200 hover:cursor-pointer"
-                                                    data-key={lang}
-                                                >
-                                                    <X size={15} />
-                                                </div>
-                                            </div>
-                                        ))}
-                                    </div>
-                                ) : (
-                                    "No languages selected"
-                                )}
-
-                                {/*Select a language*/}
-                                <div
-                                    className={
-                                        "relative w-80 " +
-                                        (langMenuState ? "h-51" : "") +
-                                        " mb-2 text-sm rounded-md"
-                                    }
-                                >
-                                    <div
-                                        className="flex items-center bg-white justify-between border border-gray-200 py-1 px-2 w-80 gap-2.5 shadow-md
-                                    rounded-md"
-                                    >
-                                        <Search size={13} />
-
-                                        <input
-                                            type="text"
-                                            className="bg-transparent text-sm flex-1 rounded-md px-2 py-1"
-                                            placeholder="Search and add a language"
-                                            id="langInput"
-                                            value={langQuery}
-                                            onChange={(e) => {
-                                                setLangQuery(
-                                                    e.currentTarget.value,
-                                                );
-                                            }}
-                                            onFocus={() => {
-                                                setLangMenuState(true);
-                                            }}
-                                            onBlur={() => {
-                                                setLangMenuState(false);
-                                            }}
-                                        />
-                                    </div>
-                                    {/*Menu*/}
-                                    {langMenuState ? (
-                                        <div
-                                            className="shadow-sm rounded-md bg-white absolute w-full max-h-40 mt-2 p-1 flex overflow-y-auto scroll-bar-thin
-                                        scrollbar-track-slate-50"
-                                        >
-                                            <ul className="w-full mb-0 p-1">
-                                                {langsToDisp?.length
-                                                    ? langsToDisp.map(
-                                                          (lang) => {
-                                                              return (
-                                                                  <li
-                                                                      key={lang}
-                                                                      data-key={
-                                                                          lang
-                                                                      }
-                                                                      className="p-2 cursor-pointer hover:bg-blue-200"
-                                                                      onMouseDown={(
-                                                                          e,
-                                                                      ) =>
-                                                                          e.preventDefault()
-                                                                      }
-                                                                      onClick={(
-                                                                          e,
-                                                                      ) => {
-                                                                          setLangMenuState(
-                                                                              true,
-                                                                          );
-                                                                          handleLangChange(
-                                                                              e.currentTarget.getAttribute(
-                                                                                  "data-key",
-                                                                              ),
-                                                                              false,
-                                                                          );
-                                                                          setLangsRem(
-                                                                              langsRem.filter(
-                                                                                  (
-                                                                                      lang,
-                                                                                  ) =>
-                                                                                      lang !==
-                                                                                      e.currentTarget.getAttribute(
-                                                                                          "data-key",
-                                                                                      ),
-                                                                              ),
-                                                                          );
-                                                                          setLangQuery(
-                                                                              "",
-                                                                          );
-                                                                      }}
-                                                                  >
-                                                                      {convertShortToLong(
-                                                                          lang,
-                                                                      )}
-                                                                  </li>
-                                                              );
-                                                          },
-                                                      )
-                                                    : "No More Languages"}
-                                            </ul>
-                                        </div>
-                                    ) : (
-                                        ""
-                                    )}
-                                </div>
-                            </div>
 
                             <div className="flex ">
                                 <label className="block mb-2 mx-4">
