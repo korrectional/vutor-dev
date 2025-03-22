@@ -24,7 +24,7 @@ export default function SettingsDashboard() {
 
     //Teaches selection state vars
     const [teachMenuState, setTeachMenuState] = useState(false);
-    const teaches = ["math", "english", "science", "history"];
+    const teaches = ["AP Precalculus", "AP Calculus AB", "AP Calculus BC", "Chemistry", "Biology", "Physics", "AP Physics 1", "AP Physics 2", "AP Physics C", "AP Chemistry", "AP Biology", "AP Environmental Science", "AP Computer Science A", "AP Computer Science Principles", "AP Statistics", "AP Psychology", "AP US History", "AP World History", "AP European History", "AP Government", "AP Economics", "AP Human Geography",];
     const [teachesRem, setTeachesRem] = useState([]);
     const [teachesToDisp, setTeachesToDisp] = useState([]);
     const [teachQuery, setTeachQuery] = useState("");
@@ -48,17 +48,11 @@ export default function SettingsDashboard() {
                 teaches: data.teaches,
                 private_last_visit: data.private_last_visit,
             }));
-            langs.forEach((lang) => {
-                if (!data.language.includes(lang)) {
-                    setLangsRem((prev) => [...prev, lang]);
-                }
-            });
 
-            teaches.forEach((teach) => {
-                if (!data.teaches.includes(teach)) {
-                    setTeachesRem((prev) => [...prev, teach]);
-                }
-            });
+            // Populate `teachesRem` with subjects not already selected
+            setTeachesRem(
+                teaches.filter((teach) => !data.teaches.includes(teach))
+            );
         });
     }, []);
 
@@ -149,6 +143,12 @@ export default function SettingsDashboard() {
     };
 
     const saveSettings = () => {
+        // modify subjects so they fit the database's format
+        for(let i = 0; i < settings.teaches.length; i++) {
+            settings.teaches[i] = settings.teaches[i].toLowerCase().replace(/\s/g, "-");
+        }
+        console.log("Teaches:", settings.teaches);
+
         //console.log("Updated Settings:", settings);
         fetch("http://localhost:3000/api/user/user-modify", {
             method: "POST",

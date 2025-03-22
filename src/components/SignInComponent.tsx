@@ -38,7 +38,8 @@ export default function SignInComponent() {
                         })
                     ) {
                         //console.log("Sign-in successful!");
-                        navigate("/dashboard");
+                        window.location.reload();
+                        //navigate("/dashboard");
                     } else {
                         console.error("Sign-in failed!");
                     }

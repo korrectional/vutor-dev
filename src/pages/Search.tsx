@@ -28,6 +28,7 @@ export default function Search() {
     const searchTutor = () => {
         setSearched(true);
         //console.log("Searching for tutor with parameters:", parameters);
+        console.log(parameters);
         fetch("http://localhost:3000/api/search-tutor", {
             method: "POST",
             headers: {
@@ -44,6 +45,31 @@ export default function Search() {
     const openTutorPage = (id) => {
         navigate(`/search/tutor/${id}`);
     };
+
+    const teaches = [
+        "AP Precalculus",
+        "AP Calculus AB",
+        "AP Calculus BC",
+        "Chemistry",
+        "Biology",
+        "Physics",
+        "AP Physics 1",
+        "AP Physics 2",
+        "AP Physics C",
+        "AP Chemistry",
+        "AP Biology",
+        "AP Environmental Science",
+        "AP Computer Science A",
+        "AP Computer Science Principles",
+        "AP Statistics",
+        "AP Psychology",
+        "AP US History",
+        "AP World History",
+        "AP European History",
+        "AP Government",
+        "AP Economics",
+        "AP Human Geography",
+    ];
 
     return (
         <div className="relative bg-white p-8 shadow-xl h-full rounded-2xl">
@@ -65,8 +91,11 @@ export default function Search() {
                             onChange={handleChange}
                             className="block w-full mt-1 p-2 border rounded-md"
                         >
-                            <option value="math">Math</option>
-                            <option value="english">English</option>
+                            {teaches.map((subject) => (
+                                <option key={subject} value={subject.toLowerCase().replace(/\s+/g, "-")}>
+                                    {subject}
+                                </option>
+                            ))}
                         </select>
                     </label>
                 </h2>
@@ -115,9 +144,9 @@ export default function Search() {
                                         <p className="mt-2"></p>
                                         <p>
                                             <strong>Rating:</strong>{" "}
-                                            {tutor.rating
+                                            {tutor.rating != 2.5
                                                 ? tutor.rating
-                                                : "This tutor has no ratings"}
+                                                : "This tutor has no ratings yet"}
                                         </p>
                                     </div>
                                 </a>

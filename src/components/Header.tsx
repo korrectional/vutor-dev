@@ -1,12 +1,19 @@
 import { LogOut, Settings } from "lucide-react";
+import useAuthUser from "react-auth-kit/hooks/useAuthUser";
+import { useEffect, useState } from "react";
 
 export default function Header() {
+    const authUser = useAuthUser();
+
+
+
     return (
         <nav className="w-full bg-white py-4 px-6 flex justify-between items-center shadow-sm">
             <h1 className="text-blue-600 text-2xl font-bold mx-auto">
                 voluntor
             </h1>
-            <div className="flex items-center gap-4">
+            {authUser ? 
+            (<div className="flex items-center gap-4">
                 <a
                     href="/signout"
                     className="flex items-center gap-2 rounded-full bg-red-500 text-white font-semibold py-2 px-4 hover:bg-red-600 transition-colors duration-300"
@@ -20,7 +27,8 @@ export default function Header() {
                 >
                     <Settings size={18} />
                 </a>
-            </div>
+            </div>) : <div></div>}
+            
         </nav>
     );
 }

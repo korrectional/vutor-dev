@@ -1,8 +1,10 @@
 import useSignOut from "react-auth-kit/hooks/useSignOut";
 import { useNavigate } from "react-router";
+
 export default function SignOut() {
     const signOut = useSignOut();
     const navigate = useNavigate();
+
 
     return (
         <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
@@ -14,6 +16,7 @@ export default function SignOut() {
                 onClick={() => {
                     signOut();
                     navigate("/");
+                    window.location.reload();
                 }}
                 className="w-full bg-blue-500 text-white font-bold py-2 rounded hover:bg-blue-600 transition"
             >
