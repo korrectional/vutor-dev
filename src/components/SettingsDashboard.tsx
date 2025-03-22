@@ -76,15 +76,11 @@ export default function SettingsDashboard() {
                 private_last_visit: data.private_last_visit,
             }));
 
-            
-
             // Populate `teachesRem` with subjects not already selected
             setTeachesRem(
                 teaches.filter((teach) => !data.teaches.includes(teach)),
             );
-            setLangsRem(
-                langs.filter((lang) => !data.language.includes(lang)),
-            );
+            setLangsRem(langs.filter((lang) => !data.language.includes(lang)));
         });
     }, []);
 
@@ -311,7 +307,9 @@ export default function SettingsDashboard() {
                                             id="langInput"
                                             value={langQuery}
                                             onChange={(e) => {
-                                                setLangQuery(e.currentTarget.value);
+                                                setLangQuery(
+                                                    e.currentTarget.value,
+                                                );
                                             }}
                                             onFocus={() => {
                                                 setLangMenuState(true);
@@ -329,43 +327,55 @@ export default function SettingsDashboard() {
                                         >
                                             <ul className="w-full mb-0 p-1">
                                                 {langsToDisp?.length
-                                                    ? langsToDisp.map((lang) => {
-                                                        return (
-                                                            <li
-                                                                key={lang}
-                                                                data-key={lang}
-                                                                className="p-2 cursor-pointer hover:bg-blue-200"
-                                                                onMouseDown={(e) =>
-                                                                    e.preventDefault()
-                                                                }
-                                                                onClick={(e) => {
-                                                                    setLangMenuState(
-                                                                        true,
-                                                                    );
-                                                                    handleLangChange(
-                                                                        e.currentTarget.getAttribute(
-                                                                            "data-key",
-                                                                        ),
-                                                                        false,
-                                                                    );
-                                                                    setLangsRem(
-                                                                        langsRem.filter(
-                                                                            (lang) =>
-                                                                                lang !==
-                                                                                e.currentTarget.getAttribute(
-                                                                                    "data-key",
-                                                                                ),
-                                                                        ),
-                                                                    );
-                                                                    setLangQuery("");
-                                                                }}
-                                                            >
-                                                                {convertShortToLong(
-                                                                    lang,
-                                                                )}
-                                                            </li>
-                                                        );
-                                                    })
+                                                    ? langsToDisp.map(
+                                                          (lang) => {
+                                                              return (
+                                                                  <li
+                                                                      key={lang}
+                                                                      data-key={
+                                                                          lang
+                                                                      }
+                                                                      className="p-2 cursor-pointer hover:bg-blue-200"
+                                                                      onMouseDown={(
+                                                                          e,
+                                                                      ) =>
+                                                                          e.preventDefault()
+                                                                      }
+                                                                      onClick={(
+                                                                          e,
+                                                                      ) => {
+                                                                          setLangMenuState(
+                                                                              true,
+                                                                          );
+                                                                          handleLangChange(
+                                                                              e.currentTarget.getAttribute(
+                                                                                  "data-key",
+                                                                              ),
+                                                                              false,
+                                                                          );
+                                                                          setLangsRem(
+                                                                              langsRem.filter(
+                                                                                  (
+                                                                                      lang,
+                                                                                  ) =>
+                                                                                      lang !==
+                                                                                      e.currentTarget.getAttribute(
+                                                                                          "data-key",
+                                                                                      ),
+                                                                              ),
+                                                                          );
+                                                                          setLangQuery(
+                                                                              "",
+                                                                          );
+                                                                      }}
+                                                                  >
+                                                                      {convertShortToLong(
+                                                                          lang,
+                                                                      )}
+                                                                  </li>
+                                                              );
+                                                          },
+                                                      )
                                                     : "No More Languages"}
                                             </ul>
                                         </div>
@@ -401,7 +411,7 @@ export default function SettingsDashboard() {
                                     />
                                 </label>
                             </div>
-                            
+
                             <label className="flex items-center gap-2 mb-4">
                                 <input
                                     type="checkbox"
@@ -409,14 +419,14 @@ export default function SettingsDashboard() {
                                     onChange={(e) =>
                                         setSettings((prevSettings) => ({
                                             ...prevSettings,
-                                            private_last_visit: !e.target.checked,
+                                            private_last_visit:
+                                                !e.target.checked,
                                         }))
                                     }
                                 />
                                 Display last visit
                             </label>
                         </div>
-                        
 
                         {settings.role === "tutor" && (
                             <div className="mb-2 max-w-1/2">
@@ -425,35 +435,37 @@ export default function SettingsDashboard() {
                                 {/*Selected subjects*/}
                                 {settings.teaches.length ? (
                                     <div className="bg-white w-80 relative text-xs flex flex-wrap gap-1 p-2 mb-1">
-                                        {settings.teaches.map((teach: string) => (
-                                            <div
-                                                key={teach}
-                                                className="rounded-full w-fit py-1 px-2.5 border border-gray-400 bg-gray-50 flex items-center gap-2"
-                                            >
-                                                {capitalize(teach)}
+                                        {settings.teaches.map(
+                                            (teach: string) => (
                                                 <div
-                                                    onClick={(e) => {
-                                                        e.preventDefault();
-                                                        handleTeachesChange(
-                                                            e.currentTarget.getAttribute(
-                                                                "data-key",
-                                                            ),
-                                                            true,
-                                                        );
-                                                        setTeachesRem([
-                                                            ...teachesRem,
-                                                            e.currentTarget.getAttribute(
-                                                                "data-key",
-                                                            ),
-                                                        ]);
-                                                    }}
-                                                    className="rounded-full p-0.5 hover:bg-gray-200 hover:cursor-pointer"
-                                                    data-key={teach}
+                                                    key={teach}
+                                                    className="rounded-full w-fit py-1 px-2.5 border border-gray-400 bg-gray-50 flex items-center gap-2"
                                                 >
-                                                    <X size={15} />
+                                                    {capitalize(teach)}
+                                                    <div
+                                                        onClick={(e) => {
+                                                            e.preventDefault();
+                                                            handleTeachesChange(
+                                                                e.currentTarget.getAttribute(
+                                                                    "data-key",
+                                                                ),
+                                                                true,
+                                                            );
+                                                            setTeachesRem([
+                                                                ...teachesRem,
+                                                                e.currentTarget.getAttribute(
+                                                                    "data-key",
+                                                                ),
+                                                            ]);
+                                                        }}
+                                                        className="rounded-full p-0.5 hover:bg-gray-200 hover:cursor-pointer"
+                                                        data-key={teach}
+                                                    >
+                                                        <X size={15} />
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        ))}
+                                            ),
+                                        )}
                                     </div>
                                 ) : (
                                     "No subjects selected"
@@ -499,47 +511,57 @@ export default function SettingsDashboard() {
                                         >
                                             <ul className="w-full mb-0 p-1">
                                                 {teachesToDisp?.length
-                                                    ? teachesToDisp.map((teach) => {
-                                                        return (
-                                                            <li
-                                                                key={teach}
-                                                                data-key={teach}
-                                                                className="p-2 cursor-pointer hover:bg-blue-200"
-                                                                onMouseDown={(
-                                                                    e,
-                                                                ) =>
-                                                                    e.preventDefault()
-                                                                }
-                                                                onClick={(e) => {
-                                                                    setTeachMenuState(
-                                                                        true,
-                                                                    );
-                                                                    handleTeachesChange(
-                                                                        e.currentTarget.getAttribute(
-                                                                            "data-key",
-                                                                        ),
-                                                                        false,
-                                                                    );
-                                                                    setTeachesRem(
-                                                                        teachesRem.filter(
-                                                                            (t) =>
-                                                                                t !==
-                                                                                e.currentTarget.getAttribute(
-                                                                                    "data-key",
-                                                                                ),
-                                                                        ),
-                                                                    );
-                                                                    setTeachQuery(
-                                                                        "",
-                                                                    );
-                                                                }}
-                                                            >
-                                                                {capitalize(
-                                                                    teach,
-                                                                )}
-                                                            </li>
-                                                        );
-                                                    })
+                                                    ? teachesToDisp.map(
+                                                          (teach) => {
+                                                              return (
+                                                                  <li
+                                                                      key={
+                                                                          teach
+                                                                      }
+                                                                      data-key={
+                                                                          teach
+                                                                      }
+                                                                      className="p-2 cursor-pointer hover:bg-blue-200"
+                                                                      onMouseDown={(
+                                                                          e,
+                                                                      ) =>
+                                                                          e.preventDefault()
+                                                                      }
+                                                                      onClick={(
+                                                                          e,
+                                                                      ) => {
+                                                                          setTeachMenuState(
+                                                                              true,
+                                                                          );
+                                                                          handleTeachesChange(
+                                                                              e.currentTarget.getAttribute(
+                                                                                  "data-key",
+                                                                              ),
+                                                                              false,
+                                                                          );
+                                                                          setTeachesRem(
+                                                                              teachesRem.filter(
+                                                                                  (
+                                                                                      t,
+                                                                                  ) =>
+                                                                                      t !==
+                                                                                      e.currentTarget.getAttribute(
+                                                                                          "data-key",
+                                                                                      ),
+                                                                              ),
+                                                                          );
+                                                                          setTeachQuery(
+                                                                              "",
+                                                                          );
+                                                                      }}
+                                                                  >
+                                                                      {capitalize(
+                                                                          teach,
+                                                                      )}
+                                                                  </li>
+                                                              );
+                                                          },
+                                                      )
                                                     : "No More Subjects"}
                                             </ul>
                                         </div>

@@ -1,13 +1,12 @@
-import { LogOut, Settings } from 'lucide-react';
-import React from 'react'
-import useAuthUser from 'react-auth-kit/hooks/useAuthUser'
+import { LogOut, Settings } from "lucide-react";
+import React from "react";
+import useAuthUser from "react-auth-kit/hooks/useAuthUser";
 
 export default function TopNavBar() {
     const authUser = useAuthUser();
     return (
         <nav className="w-full bg-white py-2 px-4 justify-between flex shadow-sm">
-            <a className="text-blue-600 text-3xl font-bold"
-            href='/dashboard'>
+            <a className="text-blue-600 text-3xl font-bold" href="/dashboard">
                 Voluntor
             </a>
             {authUser ? (
@@ -30,5 +29,5 @@ export default function TopNavBar() {
                 <div></div>
             )}
         </nav>
-    )
+    );
 }
