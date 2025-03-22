@@ -11,7 +11,6 @@ export default function SignUp() {
         if (authUser) {
             navigate("/dashboard");
         }
-    
     }, []);
 
     return (

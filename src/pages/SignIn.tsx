@@ -4,7 +4,6 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router";
 
 export default function SignIn() {
-    
     const navigate = useNavigate();
     const authUser = useAuthUser();
 
@@ -12,9 +11,8 @@ export default function SignIn() {
         if (authUser) {
             navigate("/dashboard");
         }
-    
     }, []);
-    
+
     return (
         <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
             <a href="/" className="text-blue-500 hover:underline">

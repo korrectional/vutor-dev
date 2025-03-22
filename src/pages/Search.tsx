@@ -92,7 +92,12 @@ export default function Search() {
                             className="block w-full mt-1 p-2 border rounded-md"
                         >
                             {teaches.map((subject) => (
-                                <option key={subject} value={subject.toLowerCase().replace(/\s+/g, "-")}>
+                                <option
+                                    key={subject}
+                                    value={subject
+                                        .toLowerCase()
+                                        .replace(/\s+/g, "-")}
+                                >
                                     {subject}
                                 </option>
                             ))}
