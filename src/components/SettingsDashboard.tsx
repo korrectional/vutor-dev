@@ -61,6 +61,10 @@ export default function SettingsDashboard() {
             body: JSON.stringify({ token: authUser.token }),
         }).then(async (res) => {
             const data = await res.json();
+            let subjects = [];
+            data.teaches.forEach((subject) => {
+                subjects.push(removeDashes(subject));
+            });
             setSettings(() => ({
                 name: data.name,
                 role: data.role,
@@ -68,13 +72,18 @@ export default function SettingsDashboard() {
                 language: data.language,
                 state: data.state,
                 GPA: data.GPA,
-                teaches: data.teaches,
+                teaches: subjects,
                 private_last_visit: data.private_last_visit,
             }));
+
+            
 
             // Populate `teachesRem` with subjects not already selected
             setTeachesRem(
                 teaches.filter((teach) => !data.teaches.includes(teach)),
+            );
+            setLangsRem(
+                langs.filter((lang) => !data.language.includes(lang)),
             );
         });
     }, []);
@@ -112,6 +121,10 @@ export default function SettingsDashboard() {
             default:
                 return shortLang;
         }
+    }
+
+    function removeDashes(str: string): string {
+        return str.replace(/-/g, " ");
     }
 
     const handleChange = (e) => {
@@ -172,7 +185,7 @@ export default function SettingsDashboard() {
                 .toLowerCase()
                 .replace(/\s/g, "-");
         }
-        console.log("Teaches:", settings.teaches);
+        //console.log("Teaches:", settings.teaches);
 
         //console.log("Updated Settings:", settings);
         fetch("http://localhost:3000/api/user/user-modify", {
@@ -185,7 +198,8 @@ export default function SettingsDashboard() {
             //console.log("data modified", await res.json());
         });
         setLangMenuState(false);
-        alert("Data saved successfully!");
+        alert("Settings saved successfully!");
+        location.reload();
     };
 
     return (
@@ -221,7 +235,7 @@ export default function SettingsDashboard() {
                         </label>
                     </div>
 
-                    <label className="block mb-2 w-50">
+                    <label className="block mb-2 w-70">
                         Description:
                         <textarea
                             name="description"
@@ -234,303 +248,308 @@ export default function SettingsDashboard() {
 
                     <hr className="my-6 border-gray-300" />
 
-                    <div className="mb-2.5">
-                        <label className="block">Languages:</label>
+                    <div className="flex justify-between mx-5">
+                        <div className=" max-w-1/2">
+                            <div className="mb-2.5">
+                                <label className="block">Languages:</label>
 
-                        {/*Selected Languages*/}
-                        {settings.language?.length ? (
-                            <div className="bg-white w-80 relative text-xs flex flex-wrap gap-1 p-2 mb-1">
-                                {settings.language.map((lang) => (
-                                    <div
-                                        key={lang}
-                                        className="rounded-full w-fit py-1 px-2.5 border border-gray-400 bg-gray-50 flex items-center gap-2"
-                                    >
-                                        {convertShortToLong(lang)}
-                                        <div
-                                            onClick={(e) => {
-                                                e.preventDefault();
-                                                handleLangChange(
-                                                    e.currentTarget.getAttribute(
-                                                        "data-key",
-                                                    ),
-                                                    true,
-                                                );
-                                                setLangsRem([
-                                                    ...langsRem,
-                                                    e.currentTarget.getAttribute(
-                                                        "data-key",
-                                                    ),
-                                                ]);
-                                            }}
-                                            className="rounded-full p-0.5 hover:bg-gray-200 hover:cursor-pointer"
-                                            data-key={lang}
-                                        >
-                                            <X size={15} />
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        ) : (
-                            "No languages selected"
-                        )}
-
-                        {/*Select a language*/}
-                        <div
-                            className={
-                                "relative w-80 " +
-                                (langMenuState ? "h-51" : "") +
-                                " mb-2 text-sm rounded-md"
-                            }
-                        >
-                            <div
-                                className="flex items-center bg-white justify-between border border-gray-200 py-1 px-2 w-80 gap-2.5 shadow-md
-                            rounded-md"
-                            >
-                                <Search size={13} />
-
-                                <input
-                                    type="text"
-                                    className="bg-transparent text-sm flex-1 rounded-md px-2 py-1"
-                                    placeholder="Search and add a language"
-                                    id="langInput"
-                                    value={langQuery}
-                                    onChange={(e) => {
-                                        setLangQuery(e.currentTarget.value);
-                                    }}
-                                    onFocus={() => {
-                                        setLangMenuState(true);
-                                    }}
-                                    onBlur={() => {
-                                        setLangMenuState(false);
-                                    }}
-                                />
-                            </div>
-                            {/*Menu*/}
-                            {langMenuState ? (
-                                <div
-                                    className="shadow-sm rounded-md bg-white absolute w-full max-h-40 mt-2 p-1 flex overflow-y-auto scroll-bar-thin
-                                scrollbar-track-slate-50"
-                                >
-                                    <ul className="w-full mb-0 p-1">
-                                        {langsToDisp?.length
-                                            ? langsToDisp.map((lang) => {
-                                                  return (
-                                                      <li
-                                                          key={lang}
-                                                          data-key={lang}
-                                                          className="p-2 cursor-pointer hover:bg-blue-200"
-                                                          onMouseDown={(e) =>
-                                                              e.preventDefault()
-                                                          }
-                                                          onClick={(e) => {
-                                                              setLangMenuState(
-                                                                  true,
-                                                              );
-                                                              handleLangChange(
-                                                                  e.currentTarget.getAttribute(
-                                                                      "data-key",
-                                                                  ),
-                                                                  false,
-                                                              );
-                                                              setLangsRem(
-                                                                  langsRem.filter(
-                                                                      (lang) =>
-                                                                          lang !==
-                                                                          e.currentTarget.getAttribute(
-                                                                              "data-key",
-                                                                          ),
-                                                                  ),
-                                                              );
-                                                              setLangQuery("");
-                                                          }}
-                                                      >
-                                                          {convertShortToLong(
-                                                              lang,
-                                                          )}
-                                                      </li>
-                                                  );
-                                              })
-                                            : "No More Languages"}
-                                    </ul>
-                                </div>
-                            ) : (
-                                ""
-                            )}
-                        </div>
-                    </div>
-
-                    <label className="block mb-2">
-                        State:
-                        <input
-                            type="text"
-                            name="state"
-                            value={settings.state}
-                            onChange={handleChange}
-                            className="mt-1 block w-50 border border-gray-300 rounded-md shadow-sm px-2 py-1"
-                        />
-                    </label>
-
-                    <label className="block mb-2">
-                        GPA:
-                        <input
-                            type="number"
-                            name="GPA"
-                            step="0.1"
-                            min="0.0"
-                            max="4.0"
-                            value={settings.GPA}
-                            onChange={handleChange}
-                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm px-2 py-1"
-                        />
-                    </label>
-
-                    <label className="flex items-center gap-2 mb-4">
-                        <input
-                            type="checkbox"
-                            checked={!settings.private_last_visit}
-                            onChange={(e) =>
-                                setSettings((prevSettings) => ({
-                                    ...prevSettings,
-                                    private_last_visit: !e.target.checked,
-                                }))
-                            }
-                        />
-                        Display last visit
-                    </label>
-
-                    <hr className="my-6 border-gray-300" />
-
-                    {settings.role === "tutor" && (
-                        <div className="mb-2">
-                            <label className="block mb-2">Teaches:</label>
-
-                            {/*Selected subjects*/}
-                            {settings.teaches.length ? (
-                                <div className="bg-white w-80 relative text-xs flex flex-wrap gap-1 p-2 mb-1">
-                                    {settings.teaches.map((teach: string) => (
-                                        <div
-                                            key={teach}
-                                            className="rounded-full w-fit py-1 px-2.5 border border-gray-400 bg-gray-50 flex items-center gap-2"
-                                        >
-                                            {capitalize(teach)}
+                                {/*Selected Languages*/}
+                                {settings.language?.length ? (
+                                    <div className="bg-white w-80 relative text-xs flex flex-wrap gap-1 p-2 mb-1">
+                                        {settings.language.map((lang) => (
                                             <div
-                                                onClick={(e) => {
-                                                    e.preventDefault();
-                                                    handleTeachesChange(
-                                                        e.currentTarget.getAttribute(
-                                                            "data-key",
-                                                        ),
-                                                        true,
-                                                    );
-                                                    setTeachesRem([
-                                                        ...teachesRem,
-                                                        e.currentTarget.getAttribute(
-                                                            "data-key",
-                                                        ),
-                                                    ]);
-                                                }}
-                                                className="rounded-full p-0.5 hover:bg-gray-200 hover:cursor-pointer"
-                                                data-key={teach}
+                                                key={lang}
+                                                className="rounded-full w-fit py-1 px-2.5 border border-gray-400 bg-gray-50 flex items-center gap-2"
                                             >
-                                                <X size={15} />
+                                                {convertShortToLong(lang)}
+                                                <div
+                                                    onClick={(e) => {
+                                                        e.preventDefault();
+                                                        handleLangChange(
+                                                            e.currentTarget.getAttribute(
+                                                                "data-key",
+                                                            ),
+                                                            true,
+                                                        );
+                                                        setLangsRem([
+                                                            ...langsRem,
+                                                            e.currentTarget.getAttribute(
+                                                                "data-key",
+                                                            ),
+                                                        ]);
+                                                    }}
+                                                    className="rounded-full p-0.5 hover:bg-gray-200 hover:cursor-pointer"
+                                                    data-key={lang}
+                                                >
+                                                    <X size={15} />
+                                                </div>
                                             </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            ) : (
-                                "No subjects selected"
-                            )}
-
-                            {/*Select a subject*/}
-                            <div
-                                className={
-                                    "relative w-80 " +
-                                    (teachMenuState ? "h-51" : "") +
-                                    " mb-2 text-sm rounded-md"
-                                }
-                            >
-                                <div
-                                    className="flex items-center bg-white justify-between border border-gray-200 py-1 px-2 w-80 gap-2.5 shadow-md
-                                rounded-md"
-                                >
-                                    <Search size={13} />
-
-                                    <input
-                                        type="text"
-                                        className="bg-transparent text-sm flex-1 rounded-md px-2 py-1"
-                                        placeholder="Search and add a subject to teach"
-                                        value={teachQuery}
-                                        onChange={(e) => {
-                                            setTeachQuery(
-                                                e.currentTarget.value,
-                                            );
-                                        }}
-                                        onFocus={() => {
-                                            setTeachMenuState(true);
-                                        }}
-                                        onBlur={() => {
-                                            setTeachMenuState(false);
-                                        }}
-                                    />
-                                </div>
-                                {/*Menu*/}
-                                {teachMenuState ? (
-                                    <div
-                                        className="shadow-sm rounded-md bg-white absolute w-full max-h-40 mt-2 p-1 flex overflow-y-auto scroll-bar-thin
-                                    scrollbar-track-slate-50"
-                                    >
-                                        <ul className="w-full mb-0 p-1">
-                                            {teachesToDisp?.length
-                                                ? teachesToDisp.map((teach) => {
-                                                      return (
-                                                          <li
-                                                              key={teach}
-                                                              data-key={teach}
-                                                              className="p-2 cursor-pointer hover:bg-blue-200"
-                                                              onMouseDown={(
-                                                                  e,
-                                                              ) =>
-                                                                  e.preventDefault()
-                                                              }
-                                                              onClick={(e) => {
-                                                                  setTeachMenuState(
-                                                                      true,
-                                                                  );
-                                                                  handleTeachesChange(
-                                                                      e.currentTarget.getAttribute(
-                                                                          "data-key",
-                                                                      ),
-                                                                      false,
-                                                                  );
-                                                                  setTeachesRem(
-                                                                      teachesRem.filter(
-                                                                          (t) =>
-                                                                              t !==
-                                                                              e.currentTarget.getAttribute(
-                                                                                  "data-key",
-                                                                              ),
-                                                                      ),
-                                                                  );
-                                                                  setTeachQuery(
-                                                                      "",
-                                                                  );
-                                                              }}
-                                                          >
-                                                              {capitalize(
-                                                                  teach,
-                                                              )}
-                                                          </li>
-                                                      );
-                                                  })
-                                                : "No More Subjects"}
-                                        </ul>
+                                        ))}
                                     </div>
                                 ) : (
-                                    ""
+                                    "No languages selected"
                                 )}
+
+                                {/*Select a language*/}
+                                <div
+                                    className={
+                                        "relative w-80 " +
+                                        (langMenuState ? "h-51" : "") +
+                                        " mb-2 text-sm rounded-md"
+                                    }
+                                >
+                                    <div
+                                        className="flex items-center bg-white justify-between border border-gray-200 py-1 px-2 w-80 gap-2.5 shadow-md
+                                    rounded-md"
+                                    >
+                                        <Search size={13} />
+
+                                        <input
+                                            type="text"
+                                            className="bg-transparent text-sm flex-1 rounded-md px-2 py-1"
+                                            placeholder="Search and add a language"
+                                            id="langInput"
+                                            value={langQuery}
+                                            onChange={(e) => {
+                                                setLangQuery(e.currentTarget.value);
+                                            }}
+                                            onFocus={() => {
+                                                setLangMenuState(true);
+                                            }}
+                                            onBlur={() => {
+                                                setLangMenuState(false);
+                                            }}
+                                        />
+                                    </div>
+                                    {/*Menu*/}
+                                    {langMenuState ? (
+                                        <div
+                                            className="shadow-sm rounded-md bg-white absolute w-full max-h-40 mt-2 p-1 flex overflow-y-auto scroll-bar-thin
+                                        scrollbar-track-slate-50"
+                                        >
+                                            <ul className="w-full mb-0 p-1">
+                                                {langsToDisp?.length
+                                                    ? langsToDisp.map((lang) => {
+                                                        return (
+                                                            <li
+                                                                key={lang}
+                                                                data-key={lang}
+                                                                className="p-2 cursor-pointer hover:bg-blue-200"
+                                                                onMouseDown={(e) =>
+                                                                    e.preventDefault()
+                                                                }
+                                                                onClick={(e) => {
+                                                                    setLangMenuState(
+                                                                        true,
+                                                                    );
+                                                                    handleLangChange(
+                                                                        e.currentTarget.getAttribute(
+                                                                            "data-key",
+                                                                        ),
+                                                                        false,
+                                                                    );
+                                                                    setLangsRem(
+                                                                        langsRem.filter(
+                                                                            (lang) =>
+                                                                                lang !==
+                                                                                e.currentTarget.getAttribute(
+                                                                                    "data-key",
+                                                                                ),
+                                                                        ),
+                                                                    );
+                                                                    setLangQuery("");
+                                                                }}
+                                                            >
+                                                                {convertShortToLong(
+                                                                    lang,
+                                                                )}
+                                                            </li>
+                                                        );
+                                                    })
+                                                    : "No More Languages"}
+                                            </ul>
+                                        </div>
+                                    ) : (
+                                        ""
+                                    )}
+                                </div>
                             </div>
+
+                            <div className="flex ">
+                                <label className="block mb-2 mx-4">
+                                    State:
+                                    <input
+                                        type="text"
+                                        name="state"
+                                        value={settings.state}
+                                        onChange={handleChange}
+                                        className="mt-1 block w-30 border border-gray-300 rounded-md shadow-sm px-2 py-1"
+                                    />
+                                </label>
+
+                                <label className="block mb-2 mx-4">
+                                    GPA:
+                                    <input
+                                        type="number"
+                                        name="GPA"
+                                        step="0.1"
+                                        min="0.0"
+                                        max="4.0"
+                                        value={settings.GPA}
+                                        onChange={handleChange}
+                                        className="mt-1 block w-30 border border-gray-300 rounded-md shadow-sm px-2 py-1"
+                                    />
+                                </label>
+                            </div>
+                            
+                            <label className="flex items-center gap-2 mb-4">
+                                <input
+                                    type="checkbox"
+                                    checked={!settings.private_last_visit}
+                                    onChange={(e) =>
+                                        setSettings((prevSettings) => ({
+                                            ...prevSettings,
+                                            private_last_visit: !e.target.checked,
+                                        }))
+                                    }
+                                />
+                                Display last visit
+                            </label>
                         </div>
-                    )}
+                        
+
+                        {settings.role === "tutor" && (
+                            <div className="mb-2 max-w-1/2">
+                                <label className="block mb-2">Teaches:</label>
+
+                                {/*Selected subjects*/}
+                                {settings.teaches.length ? (
+                                    <div className="bg-white w-80 relative text-xs flex flex-wrap gap-1 p-2 mb-1">
+                                        {settings.teaches.map((teach: string) => (
+                                            <div
+                                                key={teach}
+                                                className="rounded-full w-fit py-1 px-2.5 border border-gray-400 bg-gray-50 flex items-center gap-2"
+                                            >
+                                                {capitalize(teach)}
+                                                <div
+                                                    onClick={(e) => {
+                                                        e.preventDefault();
+                                                        handleTeachesChange(
+                                                            e.currentTarget.getAttribute(
+                                                                "data-key",
+                                                            ),
+                                                            true,
+                                                        );
+                                                        setTeachesRem([
+                                                            ...teachesRem,
+                                                            e.currentTarget.getAttribute(
+                                                                "data-key",
+                                                            ),
+                                                        ]);
+                                                    }}
+                                                    className="rounded-full p-0.5 hover:bg-gray-200 hover:cursor-pointer"
+                                                    data-key={teach}
+                                                >
+                                                    <X size={15} />
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                ) : (
+                                    "No subjects selected"
+                                )}
+
+                                {/*Select a subject*/}
+                                <div
+                                    className={
+                                        "relative w-80 " +
+                                        (teachMenuState ? "h-51" : "") +
+                                        " mb-2 text-sm rounded-md"
+                                    }
+                                >
+                                    <div
+                                        className="flex items-center bg-white justify-between border border-gray-200 py-1 px-2 w-80 gap-2.5 shadow-md
+                                    rounded-md"
+                                    >
+                                        <Search size={13} />
+
+                                        <input
+                                            type="text"
+                                            className="bg-transparent text-sm flex-1 rounded-md px-2 py-1"
+                                            placeholder="Search and add a subject to teach"
+                                            value={teachQuery}
+                                            onChange={(e) => {
+                                                setTeachQuery(
+                                                    e.currentTarget.value,
+                                                );
+                                            }}
+                                            onFocus={() => {
+                                                setTeachMenuState(true);
+                                            }}
+                                            onBlur={() => {
+                                                setTeachMenuState(false);
+                                            }}
+                                        />
+                                    </div>
+                                    {/*Menu*/}
+                                    {teachMenuState ? (
+                                        <div
+                                            className="shadow-sm rounded-md bg-white absolute w-full max-h-40 mt-2 p-1 flex overflow-y-auto scroll-bar-thin
+                                        scrollbar-track-slate-50"
+                                        >
+                                            <ul className="w-full mb-0 p-1">
+                                                {teachesToDisp?.length
+                                                    ? teachesToDisp.map((teach) => {
+                                                        return (
+                                                            <li
+                                                                key={teach}
+                                                                data-key={teach}
+                                                                className="p-2 cursor-pointer hover:bg-blue-200"
+                                                                onMouseDown={(
+                                                                    e,
+                                                                ) =>
+                                                                    e.preventDefault()
+                                                                }
+                                                                onClick={(e) => {
+                                                                    setTeachMenuState(
+                                                                        true,
+                                                                    );
+                                                                    handleTeachesChange(
+                                                                        e.currentTarget.getAttribute(
+                                                                            "data-key",
+                                                                        ),
+                                                                        false,
+                                                                    );
+                                                                    setTeachesRem(
+                                                                        teachesRem.filter(
+                                                                            (t) =>
+                                                                                t !==
+                                                                                e.currentTarget.getAttribute(
+                                                                                    "data-key",
+                                                                                ),
+                                                                        ),
+                                                                    );
+                                                                    setTeachQuery(
+                                                                        "",
+                                                                    );
+                                                                }}
+                                                            >
+                                                                {capitalize(
+                                                                    teach,
+                                                                )}
+                                                            </li>
+                                                        );
+                                                    })
+                                                    : "No More Subjects"}
+                                            </ul>
+                                        </div>
+                                    ) : (
+                                        ""
+                                    )}
+                                </div>
+                            </div>
+                        )}
+                    </div>
 
                     <button
                         onClick={saveSettings}
