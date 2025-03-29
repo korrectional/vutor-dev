@@ -22,9 +22,6 @@ const Home = () => {
     return (
         <div className="flex flex-col items-center justify-center text-center flex-1 bg-green-100 min-h-screen">
             <div className="p-8 w-full max-w-4xl">
-                <p className="text-gray-600 mb-4">
-                    {message.message || "Loading..."}
-                </p>
                 <h1 className="text-5xl font-bold mb-6 text-gray-900">
                     Welcome to Our Platform
                 </h1>
@@ -32,21 +29,9 @@ const Home = () => {
                     We connect students and tutors from all over the world. Join
                     us to start learning or teaching today!
                 </p>
-                <div className="flex space-x-4 mb-6">
-                    <a
-                        href="/signin"
-                        className="bg-green-600 text-white font-bold py-2 px-4 rounded-full hover:bg-green-700 transition"
-                    >
-                        Sign In
-                    </a>
-                    <a
-                        href="/signup"
-                        className="bg-gray-300 text-gray-700 font-bold py-2 px-4 rounded-full hover:bg-gray-400 transition"
-                    >
-                        Sign Up
-                    </a>
-                </div>
+
                 <hr className="my-6 border-gray-300 w-full" />
+                
                 <div className="text-left">
                     <h2 className="text-3xl font-semibold mb-4 text-gray-900">
                         Why Choose Us?

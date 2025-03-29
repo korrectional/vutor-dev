@@ -1,10 +1,8 @@
 import { useState } from "react";
-import { useNavigate } from "react-router";
 import useSignIn from "react-auth-kit/hooks/useSignIn";
 
 export default function SignInComponent() {
     const signIn = useSignIn();
-    const navigate = useNavigate();
     const [formData, setFormData] = useState({ email: "", password: "" });
 
     const onSubmit = (e) => {
@@ -53,7 +51,7 @@ export default function SignInComponent() {
     };
 
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
+        <div className="flex flex-col">
             <form
                 className="max-w-md w-full bg-white p-6 rounded-lg shadow-md"
                 onSubmit={onSubmit}
@@ -83,9 +81,14 @@ export default function SignInComponent() {
                     Submit
                 </button>
             </form>
-            <p className="mt-4">
+
+            <p className="mt-4 flex justify-between">
                 <a href="/signup" className="text-blue-500 hover:underline">
                     Don't have an account? Register
+                </a>
+
+                <a href="/" className="text-blue-500 hover:underline">
+                    Go back
                 </a>
             </p>
         </div>
