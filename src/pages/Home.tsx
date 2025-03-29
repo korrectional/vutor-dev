@@ -31,7 +31,7 @@ const Home = () => {
                 </p>
 
                 <hr className="my-6 border-gray-300 w-full" />
-                
+
                 <div className="text-left">
                     <h2 className="text-3xl font-semibold mb-4 text-gray-900">
                         Why Choose Us?

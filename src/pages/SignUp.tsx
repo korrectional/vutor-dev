@@ -16,7 +16,7 @@ export default function SignUp() {
     return (
         <div className="flex flex-col items-center justify-center">
             <h1 className="mb-4 text-2xl font-bold">Register</h1>
-            
+
             <SignUpComponent />
 
             <div className="flex justify-between gap-40">

@@ -7,21 +7,22 @@ export default function TopNavBar() {
     return (
         <nav className="flex w-full bg-white py-2 px-4 justify-between shadow-sm">
             <div className="flex-start">
-                <a className={"text-blue-600 text-3xl font-bold pb-0.5 pr-5 border-gray-400" + (authUser ? " border-r-2" : "")} href="/dashboard">
+                <a
+                    className={
+                        "text-blue-600 text-3xl font-bold pb-0.5 pr-5 border-gray-400" +
+                        (authUser ? " border-r-2" : "")
+                    }
+                    href="/dashboard"
+                >
                     Voluntor
                 </a>
                 {authUser ? (
-                        <a 
-                            href="/dashboard"
-                            className="font-normal text-xl ml-5"
-                        >
-                            Dashboard
-                        </a>
-                    )
-                    : (
-                        <div></div>
-                    )
-                }
+                    <a href="/dashboard" className="font-normal text-xl ml-5">
+                        Dashboard
+                    </a>
+                ) : (
+                    <div></div>
+                )}
             </div>
 
             {authUser ? (

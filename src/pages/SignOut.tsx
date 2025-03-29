@@ -7,7 +7,9 @@ export default function SignOut() {
 
     return (
         <div className="flex flex-col items-center justify-center bg-gray-50 w-1/2 m-auto rounded">
-            <h1 className="my-4 text-3xl font-bold">Are you sure you want to sign out?</h1>
+            <h1 className="my-4 text-3xl font-bold">
+                Are you sure you want to sign out?
+            </h1>
             <div className="flex gap-70 items-center mb-4">
                 <button
                     onClick={() => {
