@@ -8,7 +8,6 @@ import Chats from "./pages/Chats";
 import TutorPage from "./pages/TutorPage";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import SignOut from "./pages/SignOut";
 import Settings from "./pages/Settings";
 import File from "./pages/File";
 import "./App.css";
@@ -22,6 +21,7 @@ function App() {
         <AuthProvider store={store}>
             <BrowserRouter>
                 <div className="flex flex-col min-h-screen w-full bg-gray-200 text-gray-900">
+                    <div className="w-full h-full fixed toBlur" />
                     <Header />
                     <main className="flex-1 w-full container mx-auto px-4 py-8">
                         <Routes>
@@ -34,7 +34,6 @@ function App() {
                                     path="/dashboard"
                                     element={<Dashboard />}
                                 />
-                                <Route path="/signout" element={<SignOut />} />
                                 <Route path="/search" element={<Search />} />
                                 <Route
                                     path="/search/tutor/:tutorID"
