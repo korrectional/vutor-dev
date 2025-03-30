@@ -12,7 +12,9 @@ export default function TopNavBar() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const b = document.getElementsByClassName("toBlur")[0] as HTMLDivElement;
+        const b = document.getElementsByClassName(
+            "toBlur",
+        )[0] as HTMLDivElement;
         b.style.zIndex = signoutDialogOpen ? "10" : "-1";
         b.style.backdropFilter = signoutDialogOpen ? "blur(3px)" : "";
         b.style.backgroundColor = signoutDialogOpen ? "rgba(0, 0, 0, 0.3)" : "";
@@ -73,18 +75,28 @@ export default function TopNavBar() {
             )}
 
             <dialog
-            className={"flex flex-col items-center justify-center z-100 bg-gray-50 w-1/2 justify-self-center rounded p-4 shadow-lg shadow-gray-500 backdrop-blur-sm"} 
-            hidden={!signoutDialogOpen}
-            style={{alignSelf: "anchor-center"}}
+                className={
+                    "flex flex-col items-center justify-center z-100 bg-gray-50 w-1/2 justify-self-center rounded p-4 shadow-lg shadow-gray-500 backdrop-blur-sm"
+                }
+                hidden={!signoutDialogOpen}
+                style={{ alignSelf: "anchor-center" }}
             >
-                <a className="self-end hover:cursor-pointer" onClick={() => {
-                    setSignoutDialogOpen(false);
-                }}>
-                    <X size={15}/>
+                <a
+                    className="self-end hover:cursor-pointer"
+                    onClick={() => {
+                        setSignoutDialogOpen(false);
+                    }}
+                >
+                    <X size={15} />
                 </a>
-                <h1 className="font-bold text-2xl mb-5">Are you sure you want to sign out?</h1>
+                <h1 className="font-bold text-2xl mb-5">
+                    Are you sure you want to sign out?
+                </h1>
                 <div className="flex gap-60 items-center mb-4">
-                    <a onClick={() => setSignoutDialogOpen(false)} className="bg-blue-500 text-white font-bold py-2 px-3 rounded hover:bg-blue-600 transition hover:cursor-pointer">
+                    <a
+                        onClick={() => setSignoutDialogOpen(false)}
+                        className="bg-blue-500 text-white font-bold py-2 px-3 rounded hover:bg-blue-600 transition hover:cursor-pointer"
+                    >
                         Go back
                     </a>
                     <button
@@ -98,7 +110,6 @@ export default function TopNavBar() {
                     >
                         Sign Out
                     </button>
-                    
                 </div>
             </dialog>
         </nav>
