@@ -58,7 +58,9 @@ export default function Dashboard() {
             {showTutorial && (
                 <div className="absolute top-4 right-4 bg-blue-100 border border-blue-300 text-blue-800 p-4 rounded-lg shadow-lg">
                     <p className="text-sm">
-                        Welcome to Voluntors! Please go to the <strong>Settings</strong> (top-right corner) to complete your account setup.
+                        Welcome to Voluntors! Please go to the{" "}
+                        <strong>Settings</strong> (top-right corner) to complete
+                        your account setup.
                     </p>
                     <button
                         onClick={() => setShowTutorial(false)}
