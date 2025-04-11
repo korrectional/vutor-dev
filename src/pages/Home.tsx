@@ -61,7 +61,10 @@ const Home = () => {
                         <strong>Student volunteers:</strong>
                     </p>
                     <ul className="list-disc list-inside text-lg">
-                        <li>Do you want to earn volunteer hours by helping students?</li>
+                        <li>
+                            Do you want to earn volunteer hours by helping
+                            students?
+                        </li>
                         <li>Create a tutor account</li>
                         <li>Write a nice bio</li>
                         <li>Check your messages regularly!</li>

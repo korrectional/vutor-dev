@@ -24,9 +24,7 @@ export default function Contact() {
                 >
                     Go back
                 </a>
-                <div className="text-gray-600 mb-4">
-                    voluntor@gmail.com
-                </div>
+                <div className="text-gray-600 mb-4">voluntor@gmail.com</div>
                 <div className="text-gray-600">
                     {authenticated || "loading"}
                 </div>
