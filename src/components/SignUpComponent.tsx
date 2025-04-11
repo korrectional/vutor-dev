@@ -22,7 +22,7 @@ export default function SignUpComponent() {
     // Final submission on page 3.
     const onSubmit = (e) => {
         e.preventDefault();
-        fetch("http://api.voluntors.org//api/signup", {
+        fetch("https://api.voluntors.org//api/signup", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

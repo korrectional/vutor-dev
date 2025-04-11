@@ -9,7 +9,7 @@ export default function Dashboard() {
     const [message, setMessage] = useState({ message: "" });
 
     useEffect(() => {
-        fetch("http://api.voluntors.org//api/hello", {
+        fetch("https://api.voluntors.org//api/hello", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

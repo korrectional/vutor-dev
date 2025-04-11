@@ -15,7 +15,7 @@ const Home = () => {
 
         axios({
             method: "GET",
-            url: "http://api.voluntors.org//api",
+            url: "https://api.voluntors.org//api",
         }).then((response) => setMessage(response.data));
     }, []);
 

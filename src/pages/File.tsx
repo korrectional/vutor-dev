@@ -6,7 +6,7 @@ import { useNavigate, useParams } from "react-router";
 export default function File() {
     let { filename } = useParams();
     axios({
-        url: `http://api.voluntors.org//api/uploads/${filename}`,
+        url: `https://api.voluntors.org//api/uploads/${filename}`,
         method: "GET",
         responseType: "blob", // Handle binary data properly
     }).then((response) => {
