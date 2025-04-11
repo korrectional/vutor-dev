@@ -1,12 +1,13 @@
 import axios from "axios";
 import { useNavigate, useParams } from "react-router";
+export const API_URL = import.meta.env.VITE_API_URL;
 
 // this page exists to display/load uploaded files
 
 export default function File() {
     let { filename } = useParams();
     axios({
-        url: `https://api.voluntors.org//api/uploads/${filename}`,
+        url: `https:/api.voluntors.org/api/uploads/${filename}`,
         method: "GET",
         responseType: "blob", // Handle binary data properly
     }).then((response) => {

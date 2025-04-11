@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import useAuthUser from "react-auth-kit/hooks/useAuthUser";
 import { useNavigate } from "react-router";
+export const API_URL = import.meta.env.VITE_API_URL;
 
 const Home = () => {
     const [message, setMessage] = useState({ message: "" });
@@ -15,7 +16,7 @@ const Home = () => {
 
         axios({
             method: "GET",
-            url: "https://api.voluntors.org//api",
+            url: API_URL + "/api",
         }).then((response) => setMessage(response.data));
     }, []);
 

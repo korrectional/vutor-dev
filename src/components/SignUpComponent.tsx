@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
+export const API_URL = import.meta.env.VITE_API_URL;
 
 export default function SignUpComponent() {
     const [page, setPage] = useState(0);
@@ -22,7 +23,7 @@ export default function SignUpComponent() {
     // Final submission on page 3.
     const onSubmit = (e) => {
         e.preventDefault();
-        fetch("https://api.voluntors.org//api/signup", {
+        fetch(API_URL + "/api/signup", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

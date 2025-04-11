@@ -3,6 +3,7 @@ import { useNavigate } from "react-router";
 import useAuthUser from "react-auth-kit/hooks/useAuthUser";
 import QuickLinkButton from "../components/QuickLinkButton";
 import { ArrowLeft } from "lucide-react";
+export const API_URL = import.meta.env.VITE_API_URL;
 
 export default function Search() {
     const authUser = useAuthUser<any>();
@@ -33,7 +34,7 @@ export default function Search() {
         setSearched(true);
         //console.log("Searching for tutor with parameters:", parameters);
         console.log(parameters);
-        fetch("https://api.voluntors.org//api/search-tutor", {
+        fetch(API_URL + "/api/search-tutor", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

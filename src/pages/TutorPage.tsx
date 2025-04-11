@@ -3,6 +3,7 @@ import { useParams } from "react-router";
 import useAuthUser from "react-auth-kit/hooks/useAuthUser";
 import { useNavigate } from "react-router";
 import defualtProfile from "../assets/default_profile_img.jpg";
+export const API_URL = import.meta.env.VITE_API_URL;
 
 export default function TutorPage() {
     const [tutor, setTutor] = useState<any>();
@@ -12,7 +13,7 @@ export default function TutorPage() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        fetch("https://api.voluntors.org//api/get-tutor", {
+        fetch(API_URL + "/api/get-tutor", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -27,7 +28,7 @@ export default function TutorPage() {
 
     const startChat = () => {
         // this starts a chat between the user and the tutor
-        fetch("https://api.voluntors.org//api/user/start-chat", {
+        fetch(API_URL + "/api/user/start-chat", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

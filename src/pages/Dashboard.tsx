@@ -3,13 +3,14 @@ import "../App.css";
 import useAuthUser from "react-auth-kit/hooks/useAuthUser";
 import { MessageCircle, Search } from "lucide-react";
 import QuickLinkButton from "../components/QuickLinkButton";
+export const API_URL = import.meta.env.VITE_API_URL;
 
 export default function Dashboard() {
     const authUser = useAuthUser<any>();
     const [message, setMessage] = useState({ message: "" });
 
     useEffect(() => {
-        fetch("https://api.voluntors.org//api/hello", {
+        fetch(API_URL + "/api/hello", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

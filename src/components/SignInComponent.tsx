@@ -1,13 +1,16 @@
 import { useState } from "react";
 import useSignIn from "react-auth-kit/hooks/useSignIn";
+export const API_URL = import.meta.env.VITE_API_URL;
 
 export default function SignInComponent() {
     const signIn = useSignIn();
     const [formData, setFormData] = useState({ email: "", password: "" });
+    const [errorMessage, setErrorMessage] = useState(""); // State for error messages
 
     const onSubmit = (e) => {
         e.preventDefault();
-        fetch("https://api.voluntors.org//api/signin", {
+        setErrorMessage(""); // Clear previous error messages
+        fetch(API_URL + "/api/signin", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -17,15 +20,13 @@ export default function SignInComponent() {
             .then(async (res) => {
                 const data = await res.json(); // Parse JSON response
                 if (res.status === 200) {
-                    //console.log(data.email);
                     if (
                         signIn({
                             auth: {
                                 token: data.token,
                                 type: "Bearer",
-                                expiresAt: data.exp, // idk why this gives an error
+                                expiresAt: data.exp,
                             },
-                            //refresh: data.refreshToken, Ill add this later
                             userState: {
                                 email: data.email,
                                 token: data.token,
@@ -35,18 +36,19 @@ export default function SignInComponent() {
                             },
                         })
                     ) {
-                        //console.log("Sign-in successful!");
                         window.location.reload();
-                        //navigate("/dashboard");
                     } else {
-                        console.error("Sign-in failed!");
+                        setErrorMessage("Sign-in failed! Please try again.");
                     }
+                } else if (res.status === 401) {
+                    setErrorMessage("Incorrect email or password."); // Handle incorrect credentials
                 } else {
-                    console.error("Sign-in failed!");
+                    setErrorMessage("Sign-in failed! Please try again later.");
                 }
             })
             .catch((error) => {
                 console.error("Error during sign-in:", error);
+                setErrorMessage("An unexpected error occurred. Please try again.");
             });
     };
 
@@ -56,6 +58,9 @@ export default function SignInComponent() {
                 className="max-w-md w-full bg-white p-6 rounded-lg shadow-md"
                 onSubmit={onSubmit}
             >
+                {errorMessage && ( // Conditionally render error message
+                    <div className="mb-4 text-red-500 text-sm">{errorMessage}</div>
+                )}
                 <input
                     type="email"
                     placeholder="Email"

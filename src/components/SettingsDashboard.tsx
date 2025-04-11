@@ -1,6 +1,7 @@
 import { Search, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import useAuthUser from "react-auth-kit/hooks/useAuthUser";
+export const API_URL = import.meta.env.VITE_API_URL;
 
 export default function SettingsDashboard() {
     const authUser = useAuthUser<any>();
@@ -53,7 +54,7 @@ export default function SettingsDashboard() {
     const [teachQuery, setTeachQuery] = useState("");
 
     useEffect(() => {
-        fetch("https://api.voluntors.org//api/user/user-data", {
+        fetch(API_URL, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -187,7 +188,7 @@ export default function SettingsDashboard() {
         //console.log("Teaches:", settings.teaches);
 
         //console.log("Updated Settings:", settings);
-        fetch("https://api.voluntors.org//api/user/user-modify", {
+        fetch(API_URL + "/api/user/user-modify", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

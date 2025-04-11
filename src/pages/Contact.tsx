@@ -1,10 +1,11 @@
 import useIsAuthenticated from "react-auth-kit/hooks/useIsAuthenticated";
+export const API_URL = import.meta.env.VITE_API_URL;
 
 /*
 Some knowledge:
 
 useIsAuthenticated JUST checks if theres a supposed session at all
-https://api.voluntors.org//api/verify-session WILL provide information on the validity of the token
+https:/api.voluntors.org/api/verify-session WILL provide information on the validity of the token
 
 */
 
