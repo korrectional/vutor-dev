@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import useAuthUser from "react-auth-kit/hooks/useAuthUser";
 import QuickLinkButton from "../components/QuickLinkButton";
@@ -10,7 +10,7 @@ export default function Search() {
     const [parameters, setParameters] = useState({
         name: "",
         language: "",
-        teaches: "english",
+        teaches: "select",
     });
     const [searched, setSearched] = useState(false);
     const [tutors, setTutors] = useState([]); // State to store the list of tutors
@@ -24,6 +24,10 @@ export default function Search() {
             [name]: value,
         }));
     };
+
+    useEffect(() => {
+        searchTutor();
+    }, [parameters])
 
     const searchTutor = () => {
         setSearched(true);
@@ -47,6 +51,7 @@ export default function Search() {
     };
 
     const teaches = [
+        " ",
         "AP Precalculus",
         "AP Calculus AB",
         "AP Calculus BC",

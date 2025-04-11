@@ -20,13 +20,13 @@ const Home = () => {
     }, []);
 
     return (
-        <div className="flex flex-col items-center justify-center text-center flex-1 bg-green-100 min-h-screen">
+        <div className="flex flex-col items-center justify-center text-center flex-1 bg-gray-100 min-h-screen">
             <div className="p-8 w-full max-w-4xl">
                 <h1 className="text-5xl font-bold mb-6 text-gray-900">
-                    Welcome to Our Platform
+                    Welcome to Voluntors
                 </h1>
                 <p className="text-xl mb-6 text-gray-700">
-                    We connect students and tutors from all over the world. Join
+                    We connect students and tutors from all over the US. Join
                     us to start learning or teaching today!
                 </p>
 

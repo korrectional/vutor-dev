@@ -30,7 +30,7 @@ export default function TopNavBar() {
                     }
                     href="/dashboard"
                 >
-                    Voluntor
+                    Voluntors
                 </a>
                 {authUser ? (
                     <a href="/dashboard" className="font-normal text-xl ml-5">
