@@ -48,7 +48,9 @@ export default function SignInComponent() {
             })
             .catch((error) => {
                 console.error("Error during sign-in:", error);
-                setErrorMessage("An unexpected error occurred. Please try again.");
+                setErrorMessage(
+                    "An unexpected error occurred. Please try again.",
+                );
             });
     };
 
@@ -59,7 +61,9 @@ export default function SignInComponent() {
                 onSubmit={onSubmit}
             >
                 {errorMessage && ( // Conditionally render error message
-                    <div className="mb-4 text-red-500 text-sm">{errorMessage}</div>
+                    <div className="mb-4 text-red-500 text-sm">
+                        {errorMessage}
+                    </div>
                 )}
                 <input
                     type="email"
