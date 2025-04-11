@@ -53,7 +53,7 @@ export default function SettingsDashboard() {
     const [teachQuery, setTeachQuery] = useState("");
 
     useEffect(() => {
-        fetch("http://localhost:3000/api/user/user-data", {
+        fetch("http://api.voluntors.org//api/user/user-data", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -187,7 +187,7 @@ export default function SettingsDashboard() {
         //console.log("Teaches:", settings.teaches);
 
         //console.log("Updated Settings:", settings);
-        fetch("http://localhost:3000/api/user/user-modify", {
+        fetch("http://api.voluntors.org//api/user/user-modify", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

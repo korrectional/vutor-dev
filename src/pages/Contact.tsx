@@ -4,7 +4,7 @@ import useIsAuthenticated from "react-auth-kit/hooks/useIsAuthenticated";
 Some knowledge:
 
 useIsAuthenticated JUST checks if theres a supposed session at all
-http://localhost:3000/api/verify-session WILL provide information on the validity of the token
+http://api.voluntors.org//api/verify-session WILL provide information on the validity of the token
 
 */
 

@@ -27,13 +27,13 @@ export default function Chats() {
     const [participants, setParticipants] = useState([]);
     const [userMsgs, setUserMsgs] = useState<Message[]>([]);
 
-    var socket: Socket = io("http://localhost:3000/");
+    var socket: Socket = io("http://api.voluntors.org//");
 
     //Runs on page load
     useEffect(() => {
         //Retrieve chats accessable by user
         axios({
-            url: "http://localhost:3000/api/chats",
+            url: "http://api.voluntors.org//api/chats",
             method: "POST",
             headers: { Authorization: "Bearer " + userToken },
             data: {
@@ -69,7 +69,7 @@ export default function Chats() {
             socket.emit("joinChatRoom", chatID);
             //Request for all Msgs in chat room
             axios({
-                url: `http://localhost:3000/api/messages/${chatID}`,
+                url: `http://api.voluntors.org//api/messages/${chatID}`,
                 method: "POST",
                 headers: { Authorization: "Bearer " + userToken },
                 data: {
@@ -118,7 +118,7 @@ export default function Chats() {
         socket.emit("send", dataToSend);
 
         axios({
-            url: `http://localhost:3000/api/chats/send`,
+            url: `http://api.voluntors.org//api/chats/send`,
             method: "POST",
             headers: { Authorization: "Bearer " + userToken },
             data: dataToSend,
@@ -158,7 +158,7 @@ export default function Chats() {
 
         // send message
         axios({
-            url: `http://localhost:3000/api/chats/send`,
+            url: `http://api.voluntors.org//api/chats/send`,
             method: "POST",
             headers: { Authorization: "Bearer " + userToken },
             data: dataToSend,
@@ -196,7 +196,7 @@ export default function Chats() {
             formData.append("createdAt", new Date().toISOString());
             formData.append("file", file);
             axios({
-                url: `http://localhost:3000/api/chats/upload`,
+                url: `http://api.voluntors.org//api/chats/upload`,
                 method: "POST",
                 headers: { Authorization: "Bearer " + userToken },
                 data: formData,
@@ -223,7 +223,7 @@ export default function Chats() {
 
                 // send message
                 axios({
-                    url: `http://localhost:3000/api/chats/send`,
+                    url: `http://api.voluntors.org//api/chats/send`,
                     method: "POST",
                     headers: { Authorization: "Bearer " + userToken },
                     data: dataToSend,

@@ -7,7 +7,7 @@ export default function SignInComponent() {
 
     const onSubmit = (e) => {
         e.preventDefault();
-        fetch("http://localhost:3000/api/signin", {
+        fetch("http://api.voluntors.org//api/signin", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

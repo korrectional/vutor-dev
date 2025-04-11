@@ -29,7 +29,7 @@ export default function Search() {
         setSearched(true);
         //console.log("Searching for tutor with parameters:", parameters);
         console.log(parameters);
-        fetch("http://localhost:3000/api/search-tutor", {
+        fetch("http://api.voluntors.org//api/search-tutor", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

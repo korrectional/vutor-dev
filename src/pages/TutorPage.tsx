@@ -12,7 +12,7 @@ export default function TutorPage() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        fetch("http://localhost:3000/api/get-tutor", {
+        fetch("http://api.voluntors.org//api/get-tutor", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -27,7 +27,7 @@ export default function TutorPage() {
 
     const startChat = () => {
         // this starts a chat between the user and the tutor
-        fetch("http://localhost:3000/api/user/start-chat", {
+        fetch("http://api.voluntors.org//api/user/start-chat", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
