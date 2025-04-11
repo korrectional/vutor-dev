@@ -7,6 +7,7 @@ export const API_URL = import.meta.env.VITE_API_URL;
 
 export default function TutorPage() {
     const [tutor, setTutor] = useState<any>();
+    const [notification, setNotification] = useState<string | null>(null); // State for notifications
 
     let { tutorID } = useParams();
     const authUser = useAuthUser<any>();
@@ -21,13 +22,11 @@ export default function TutorPage() {
             body: JSON.stringify({ _id: tutorID }),
         }).then(async (res) => {
             const data = await res.json();
-            //console.log("Data recieved", data);
             setTutor(data);
         });
     }, []);
 
     const startChat = () => {
-        // this starts a chat between the user and the tutor
         fetch(API_URL + "/api/user/start-chat", {
             method: "POST",
             headers: {
@@ -40,14 +39,21 @@ export default function TutorPage() {
             }),
         }).then(async (res) => {
             const data = await res.json();
-            //console.log("Chat started", data.message);
-            navigate(`/chat/${data.chatID}`);
+            if (res.status === 400) {
+                setNotification("Chat already exists!"); // Set notification message
+                setTimeout(() => setNotification(null), 3000); // Clear notification after 3 seconds
+            } else {
+                navigate(`/chat/${data.chatID}`);
+            }
         });
     };
 
     return (
         <div className="flex flex-col items-center justify-center text-center flex-1 bg-gray-100 min-h-screen">
             <div className="bg-white p-8 rounded-lg shadow-md max-w-lg w-full">
+                {notification && ( // Conditionally render notification
+                    <div className="mb-4 text-red-500 text-sm">{notification}</div>
+                )}
                 <h1 className="text-3xl font-semibold mb-6 text-gray-900">
                     Tutor Information
                 </h1>
