@@ -52,7 +52,9 @@ export default function TutorPage() {
         <div className="flex flex-col items-center justify-center text-center flex-1 bg-gray-100 min-h-screen">
             <div className="bg-white p-8 rounded-lg shadow-md max-w-lg w-full">
                 {notification && ( // Conditionally render notification
-                    <div className="mb-4 text-red-500 text-sm">{notification}</div>
+                    <div className="mb-4 text-red-500 text-sm">
+                        {notification}
+                    </div>
                 )}
                 <h1 className="text-3xl font-semibold mb-6 text-gray-900">
                     Tutor Information
