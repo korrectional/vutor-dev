@@ -8,8 +8,16 @@ export const API_URL = import.meta.env.VITE_API_URL;
 export default function Dashboard() {
     const authUser = useAuthUser<any>();
     const [message, setMessage] = useState({ message: "" });
+    const [showTutorial, setShowTutorial] = useState(false); // State for tutorial visibility
 
     useEffect(() => {
+        // Check if the tutorial has already been shown
+        const tutorialShown = localStorage.getItem("tutorialShown");
+        if (!tutorialShown) {
+            setShowTutorial(true);
+            localStorage.setItem("tutorialShown", "true"); // Mark tutorial as shown
+        }
+
         fetch(API_URL + "/api/hello", {
             method: "POST",
             headers: {
@@ -22,7 +30,7 @@ export default function Dashboard() {
     }, [authUser.token]);
 
     return (
-        <div className="bg-white p-8 shadow-xl h-full rounded-2xl">
+        <div className="bg-white p-8 shadow-xl h-full rounded-2xl relative">
             <h2 className="text-3xl font-bold text-gray-800 mb-6">
                 Welcome, {authUser?.name || "User"}!
             </h2>
@@ -45,6 +53,21 @@ export default function Dashboard() {
                     text="Chat"
                 />
             </div>
+
+            {/* Tutorial Popup */}
+            {showTutorial && (
+                <div className="absolute top-4 right-4 bg-blue-100 border border-blue-300 text-blue-800 p-4 rounded-lg shadow-lg">
+                    <p className="text-sm">
+                        Welcome to Voluntors! Please go to the <strong>Settings</strong> (top-right corner) to complete your account setup.
+                    </p>
+                    <button
+                        onClick={() => setShowTutorial(false)}
+                        className="mt-2 text-blue-600 underline text-sm"
+                    >
+                        Got it!
+                    </button>
+                </div>
+            )}
         </div>
     );
 }

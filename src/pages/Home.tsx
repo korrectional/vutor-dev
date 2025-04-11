@@ -8,7 +8,6 @@ const Home = () => {
     const [message, setMessage] = useState({ message: "" });
     const authUser = useAuthUser();
     const navigate = useNavigate();
-
     useEffect(() => {
         if (authUser) {
             navigate("/dashboard");

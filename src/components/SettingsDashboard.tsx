@@ -54,7 +54,7 @@ export default function SettingsDashboard() {
     const [teachQuery, setTeachQuery] = useState("");
 
     useEffect(() => {
-        fetch(API_URL, {
+        fetch(API_URL + "/api/user/user-data", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
