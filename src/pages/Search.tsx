@@ -27,7 +27,7 @@ export default function Search() {
 
     useEffect(() => {
         searchTutor();
-    }, [parameters])
+    }, [parameters]);
 
     const searchTutor = () => {
         setSearched(true);

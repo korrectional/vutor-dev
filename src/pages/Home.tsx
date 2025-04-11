@@ -26,8 +26,8 @@ const Home = () => {
                     Welcome to Voluntors
                 </h1>
                 <p className="text-xl mb-6 text-gray-700">
-                    We connect students and tutors from all over the US. Join
-                    us to start learning or teaching today!
+                    We connect students and tutors from all over the US. Join us
+                    to start learning or teaching today!
                 </p>
 
                 <hr className="my-6 border-gray-300 w-full" />
