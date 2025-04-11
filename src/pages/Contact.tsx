@@ -25,7 +25,7 @@ export default function Contact() {
                     Go back
                 </a>
                 <div className="text-gray-600 mb-4">
-                    This is the contact page, also I use it for my silly tests
+                    voluntor@gmail.com
                 </div>
                 <div className="text-gray-600">
                     {authenticated || "loading"}
