@@ -24,8 +24,8 @@ const Home = () => {
 
         // Simulate fetching student and tutor counts
         setTimeout(() => {
-            setStudentsCount(5); // Replace with API call if available
-            setTutorsCount(3); // Replace with API call if available
+            setStudentsCount(10); // Replace with API call if available
+            setTutorsCount(4); // Replace with API call if available
         }, 1000);
     }, []);
 

@@ -296,8 +296,9 @@ export default function Chats() {
     }
 
     return (
-        <div className="flex h-full p-4 /w-screen bg-gray-100">
-            <div className="w-1/4 p-4 bg-white shadow-md">
+        <div className="flex h-full p-4 bg-gray-100">
+            {/* Sidebar for Chats */}
+            <aside className="w-1/4 p-4 bg-white shadow-md">
                 <h2 className="text-2xl font-bold mb-4">Chats</h2>
                 <ul className="space-y-2">
                     {participants.map((users, index) => (
@@ -311,107 +312,85 @@ export default function Chats() {
                         </li>
                     ))}
                 </ul>
-            </div>
+            </aside>
 
-            <div className="flex-1 flex flex-col ml-4 p-4 bg-white shadow-md">
-                <div className="h-50 flex-1 p-4">
-                    {chatID ? (
-                        <div>
-                            <div className="flex">
-                                <h3 className="m-10 mr-60">
-                                    place holder text
-                                </h3>
-                                <button
-                                    onClick={startCall}
-                                    className="mb-3 px-3 py-2 bg-green-500 flex items-center justify-self-end text-white rounded-lg hover:bg-green-600 transition"
-                                >
-                                    <PhoneCall size={17} className="mr-2" />
-                                    Call
-                                </button>
-                            </div>
-
-                            <ul
-                                className="space-y-2 h-80 overflow-y-scroll"
-                                id="msg-area"
+            {/* Main Chat Area */}
+            <main className="flex-1 flex flex-col ml-4 p-4 bg-white shadow-md">
+                {chatID ? (
+                    <>
+                        {/* Chat Header */}
+                        <header className="flex justify-between items-center mb-4">
+                            <h3 className="text-lg font-semibold"></h3>
+                            <button
+                                onClick={startCall}
+                                className="px-3 py-2 bg-green-500 flex items-center text-white rounded-lg hover:bg-green-600 transition"
                             >
-                                {userMsgs.map((msg) => {
-                                    if (!msg.content) return null;
-                                    return (
-                                        <li
-                                            key={msg.createdAt}
-                                            className="flex items-start"
-                                        >
-                                            {msg.user === "SYSTEM" ? (
-                                                <span className="bg-gray-200 text-gray-800 px-2 py-1 rounded-md mr-2 inline-block">
-                                                    <strong></strong>
-                                                    {""}
-                                                    {formatMessage(msg.content)}
-                                                </span>
-                                            ) : (
-                                                <span className="px-3 py-2 bg-green-100 rounded-lg shadow-sm">
-                                                    <strong>
-                                                        {msg.user.split("@")[0]}
-                                                    </strong>
-                                                    :{" "}
-                                                    {formatMessage(msg.content)}
-                                                </span>
-                                            )}
-                                        </li>
-                                    );
-                                })}
-                            </ul>
-                        </div>
-                    ) : (
-                        <h4 className="text-gray-500 text-center">
-                            Click a chat to view it!
-                        </h4>
-                    )}
-                </div>
+                                <PhoneCall size={17} className="mr-2" />
+                                Call
+                            </button>
+                        </header>
+
+                        {/* Messages List */}
+                        <ul className="space-y-2 h-80 overflow-y-scroll" id="msg-area">
+                            {userMsgs.map((msg) => {
+                                if (!msg.content) return null;
+                                return (
+                                    <li key={msg.createdAt} className="flex items-start">
+                                        {msg.user === "SYSTEM" ? (
+                                            <span className="bg-gray-200 text-gray-800 px-2 py-1 rounded-md">
+                                                {formatMessage(msg.content)}
+                                            </span>
+                                        ) : (
+                                            <span className="px-3 py-2 bg-green-100 rounded-lg shadow-sm">
+                                                <strong>{msg.user.split("@")[0]}</strong>:{" "}
+                                                {formatMessage(msg.content)}
+                                            </span>
+                                        )}
+                                    </li>
+                                );
+                            })}
+                        </ul>
+                    </>
+                ) : (
+                    <h4 className="text-gray-500 text-center">Click a chat to view it!</h4>
+                )}
 
                 <hr className="my-6 border-gray-300" />
 
-                <form onSubmit={sendMsg}>
-                    <div className="flex flex-2 items-center gap-2 mb-2">
-                        <TextField
-                            placeholder="Message"
-                            type="text"
-                            name="msginput"
-                            classes={
-                                "w-lg mx-2 px-3 py-1.5 border rounded-3 disabled:bg-gray-200 disabled:cursor-not-allowed"
-                            }
-                            autoComplete="off"
-                            disabled={chatID ? false : true}
-                        />
-
-                        <label
-                            className={
-                                "bg-green-500 p-1.5 rounded-full transition hover:bg-green-600 " +
-                                (chatID ? "" : "bg-gray-300 cursor-not-allowed")
-                            }
-                            htmlFor="files"
-                        >
-                            <Paperclip color="white" />
-                        </label>
-
-                        <input
-                            type="file"
-                            onChange={handleFileChange}
-                            id="files"
-                            style={{ display: "none" }}
-                            disabled={chatID ? false : true}
-                            className="px-4 py-2 bg-green-500 w-25 text-white rounded-full hover:bg-green-600 transition"
-                        />
-
-                        <button
-                            type="submit"
-                            disabled={chatID ? false : true}
-                            className="px-4 py-1.5 bg-green-500 text-white rounded-3 hover:bg-green-600 transition disabled:bg-gray-300 disabled:cursor-not-allowed"
-                        >
-                            Send
-                        </button>
-                    </div>
+                {/* Message Input Form */}
+                <form onSubmit={sendMsg} className="flex items-center gap-2">
+                    <TextField
+                        placeholder="Message"
+                        type="text"
+                        name="msginput"
+                        classes="flex-1 px-3 py-1.5 border rounded disabled:bg-gray-200 disabled:cursor-not-allowed"
+                        autoComplete="off"
+                        disabled={!chatID}
+                    />
+                    <label
+                        htmlFor="files"
+                        className={`bg-green-500 p-1.5 rounded-full transition hover:bg-green-600 ${
+                            chatID ? "" : "bg-gray-300 cursor-not-allowed"
+                        }`}
+                    >
+                        <Paperclip color="white" />
+                    </label>
+                    <input
+                        type="file"
+                        onChange={handleFileChange}
+                        id="files"
+                        style={{ display: "none" }}
+                        disabled={!chatID}
+                    />
+                    <button
+                        type="submit"
+                        disabled={!chatID}
+                        className="px-4 py-1.5 bg-green-500 text-white rounded hover:bg-green-600 transition disabled:bg-gray-300 disabled:cursor-not-allowed"
+                    >
+                        Send
+                    </button>
                 </form>
-            </div>
+            </main>
         </div>
     );
 }

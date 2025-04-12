@@ -32,23 +32,16 @@ export default function TopNavBar() {
                 >
                     Voluntors
                 </a>
-                {authUser ? (
-                    <a href="/dashboard" className="font-normal text-xl ml-5">
-                        Dashboard
-                    </a>
-                ) : (
-                    <div></div>
-                )}
             </div>
 
             {authUser ? (
                 <div className="flex self-end items-center gap-4">
                     <a
                         onClick={() => setSignoutDialogOpen(true)}
-                        className="flex items-center gap-2 rounded-full bg-red-500 text-white font-semibold py-2 px-4 hover:cursor-pointer hover:bg-red-600 transition-colors duration-300"
+                        className="flex items-center gap-2 rounded-full bg-red-500 text-white font-semibold py-2 px-4 hover:cursor-pointer hover:bg-red-600 transition-colors duration-300 hidden md:flex"
                     >
                         <LogOut size={18} />
-                        Sign Out
+                        <span className="hidden md:inline">Sign Out</span>
                     </a>
                     <a
                         href="/settings"
@@ -63,23 +56,20 @@ export default function TopNavBar() {
                         href="/signin"
                         className="bg-blue-600 text-white font-bold py-1.5 px-4 rounded-full hover:bg-green-700 transition"
                     >
-                        Sign In
+                        login
                     </a>
                     <a
                         href="/signup"
                         className="bg-gray-300 text-gray-700 font-bold py-1.5 px-4 rounded-full hover:bg-gray-400 transition"
                     >
-                        Sign Up
+                        register
                     </a>
                 </div>
             )}
 
             <dialog
-                className={
-                    "flex flex-col items-center justify-center z-100 bg-gray-50 w-1/2 justify-self-center rounded p-4 shadow-lg shadow-gray-500 backdrop-blur-sm"
-                }
+                className="flex flex-col items-center justify-center z-100 bg-gray-50 w-full max-w-md mx-auto rounded p-4 shadow-lg shadow-gray-500 backdrop-blur-sm"
                 hidden={!signoutDialogOpen}
-                style={{ alignSelf: "anchor-center" }}
             >
                 <a
                     className="self-end hover:cursor-pointer"
@@ -89,13 +79,13 @@ export default function TopNavBar() {
                 >
                     <X size={15} />
                 </a>
-                <h1 className="font-bold text-2xl mb-5">
+                <h1 className="font-bold text-xl text-center mb-5">
                     Are you sure you want to sign out?
                 </h1>
-                <div className="flex gap-60 items-center mb-4">
+                <div className="flex flex-col sm:flex-row gap-4 items-center w-full">
                     <a
                         onClick={() => setSignoutDialogOpen(false)}
-                        className="bg-blue-500 text-white font-bold py-2 px-3 rounded hover:bg-blue-600 transition hover:cursor-pointer"
+                        className="w-full sm:w-auto bg-blue-500 text-white font-bold py-2 px-3 rounded hover:bg-blue-600 transition hover:cursor-pointer text-center"
                     >
                         Go back
                     </a>
@@ -106,7 +96,7 @@ export default function TopNavBar() {
                             navigate("/");
                             window.location.reload();
                         }}
-                        className="bg-red-500 text-white font-bold py-2 px-3 rounded hover:bg-red-600 transition"
+                        className="w-full sm:w-auto bg-red-500 text-white font-bold py-2 px-3 rounded hover:bg-red-600 transition text-center"
                     >
                         Sign Out
                     </button>

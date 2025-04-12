@@ -31,6 +31,10 @@ export default function Search() {
     }, [parameters]);
 
     const searchTutor = () => {
+        if(parameters.teaches === "select"){
+            return
+        }
+        console.log(parameters.teaches)
         setSearched(true);
         //console.log("Searching for tutor with parameters:", parameters);
         console.log(parameters);
@@ -80,12 +84,11 @@ export default function Search() {
     return (
         <div className="relative bg-white p-8 shadow-xl h-full rounded-2xl">
             {/* Back Link */}
-            <div className="absolute top-4 left-4">
-                <QuickLinkButton
-                    href="/dashboard"
-                    icon={<ArrowLeft size={20} />}
-                    text="Back"
-                />
+            <div
+                className="flex items-center gap-2 mb-4 text-blue-600 hover:cursor-pointer hover:text-blue-800 transition"
+                onClick={() => navigate("/dashboard")}
+            >
+                <ArrowLeft size={20} />
             </div>
             <div className="pt-12 search-box flex">
                 <h2 className="text-3xl font-bold text-gray-800 mb-6">
@@ -111,12 +114,6 @@ export default function Search() {
                     </label>
                 </h2>
 
-                <button
-                    onClick={searchTutor}
-                    className="flex items-center p-3 justify-center gap-3 bg-blue-600 text-white py-3 px-6 font-medium hover:bg-blue-700 transition-colors duration-300 search-btn"
-                >
-                    Search
-                </button>
             </div>
             {/* Search Form */}
             <div className="mt-4 space-y-2"></div>
@@ -166,7 +163,7 @@ export default function Search() {
                     </ul>
                 ) : (
                     <p className="text-gray-500 text-center mt-4">
-                        {searched ? "No tutors found" : "Search for a tutor"}
+                        {searched ? "No tutors found for this subject. Come back soon!" : "Search for a tutor"}
                     </p>
                 )}
             </div>

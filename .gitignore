@@ -23,4 +23,3 @@ dist-ssr
 *.sln
 *.sw?
 deploy.ps1
-deploy.sh
