@@ -331,19 +331,27 @@ export default function Chats() {
                         </header>
 
                         {/* Messages List */}
-                        <ul className="space-y-2 h-80 overflow-y-scroll" id="msg-area">
+                        <ul
+                            className="space-y-2 h-80 overflow-y-scroll"
+                            id="msg-area"
+                        >
                             {userMsgs.map((msg) => {
                                 if (!msg.content) return null;
                                 return (
-                                    <li key={msg.createdAt} className="flex items-start">
+                                    <li
+                                        key={msg.createdAt}
+                                        className="flex items-start"
+                                    >
                                         {msg.user === "SYSTEM" ? (
                                             <span className="bg-gray-200 text-gray-800 px-2 py-1 rounded-md">
                                                 {formatMessage(msg.content)}
                                             </span>
                                         ) : (
                                             <span className="px-3 py-2 bg-green-100 rounded-lg shadow-sm">
-                                                <strong>{msg.user.split("@")[0]}</strong>:{" "}
-                                                {formatMessage(msg.content)}
+                                                <strong>
+                                                    {msg.user.split("@")[0]}
+                                                </strong>
+                                                : {formatMessage(msg.content)}
                                             </span>
                                         )}
                                     </li>
@@ -352,7 +360,9 @@ export default function Chats() {
                         </ul>
                     </>
                 ) : (
-                    <h4 className="text-gray-500 text-center">Click a chat to view it!</h4>
+                    <h4 className="text-gray-500 text-center">
+                        Click a chat to view it!
+                    </h4>
                 )}
 
                 <hr className="my-6 border-gray-300" />

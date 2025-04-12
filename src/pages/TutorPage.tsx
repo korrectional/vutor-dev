@@ -60,9 +60,7 @@ export default function TutorPage() {
             </div>
 
             {notification && ( // Conditionally render notification
-                <div className="mb-4 text-red-500 text-sm">
-                    {notification}
-                </div>
+                <div className="mb-4 text-red-500 text-sm">{notification}</div>
             )}
             <h1 className="text-3xl font-semibold mb-6 text-gray-900">
                 Tutor Information
@@ -76,8 +74,10 @@ export default function TutorPage() {
                 <strong>Name:</strong> {tutor?.name}
             </p>
             <p className="text-gray-600 mb-4">
-                <strong>GPA:</strong> {" "}
-                {tutor?.GPA != 2.5 ? tutor?.GPA : "This tutor has no ratings yet"}
+                <strong>GPA:</strong>{" "}
+                {tutor?.GPA != 2.5
+                    ? tutor?.GPA
+                    : "This tutor has no ratings yet"}
             </p>
             <p className="text-gray-600 mb-4">
                 <strong>Description:</strong> {tutor?.description}

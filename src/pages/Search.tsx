@@ -31,10 +31,10 @@ export default function Search() {
     }, [parameters]);
 
     const searchTutor = () => {
-        if(parameters.teaches === "select"){
-            return
+        if (parameters.teaches === "select") {
+            return;
         }
-        console.log(parameters.teaches)
+        console.log(parameters.teaches);
         setSearched(true);
         //console.log("Searching for tutor with parameters:", parameters);
         console.log(parameters);
@@ -113,7 +113,6 @@ export default function Search() {
                         </select>
                     </label>
                 </h2>
-
             </div>
             {/* Search Form */}
             <div className="mt-4 space-y-2"></div>
@@ -163,7 +162,9 @@ export default function Search() {
                     </ul>
                 ) : (
                     <p className="text-gray-500 text-center mt-4">
-                        {searched ? "No tutors found for this subject. Come back soon!" : "Search for a tutor"}
+                        {searched
+                            ? "No tutors found for this subject. Come back soon!"
+                            : "Search for a tutor"}
                     </p>
                 )}
             </div>
