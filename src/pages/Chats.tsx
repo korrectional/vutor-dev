@@ -62,7 +62,6 @@ export default function Chats() {
         //Initialize socket (keep here so it runs only once)
         socket.on("connect", () => {
             //console.log("Connected to websocket server");
-            console.log("Connected to websocket");
         });
 
         //Looking at a specific chat room
@@ -70,7 +69,7 @@ export default function Chats() {
             socket.emit("joinChatRoom", chatID);
             //Request for all Msgs in chat room
             axios({
-                url: `https:/api.voluntors.org/api/messages/${chatID}`,
+                url: `https://api.voluntors.org/api/messages/${chatID}`,
                 method: "POST",
                 headers: { Authorization: "Bearer " + userToken },
                 data: {
@@ -90,7 +89,7 @@ export default function Chats() {
                         "An error occurred while fetching messages. Please try again later.",
                     );
                     console.error("Error fetching messages:", error);
-                    navigate("/signin");
+                    navigate("/signin");    
                 });
         }
     }, []);
