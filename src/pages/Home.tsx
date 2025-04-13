@@ -33,8 +33,8 @@ const Home = () => {
         <div className="flex flex-col items-center justify-center text-center flex-1 bg-white min-h-screen text-gray-900">
             <div className="p-8 w-full max-w-4xl">
                 {/* Hero Section */}
-                <h1 className="text-6xl font-extrabold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500">
-                    Welcome to Voluntors
+                <h1 className="text-6xl font-extrabold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 leading-tight">
+                    Volunteer Tutoring
                 </h1>
                 <p className="text-2xl mb-6 bg-clip-text from-blue-500 via-purple-500 to-pink-500">
                     We connect students and tutors from all over the US. Join us

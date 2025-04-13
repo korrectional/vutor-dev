@@ -4,7 +4,10 @@ export default function Footer() {
             <p>
                 Voluntors 2025,{" "}
                 <a href="/contact" className="text-blue-600">
-                    Contact
+                    Contact,{" "}
+                </a>
+                <a href="https://discord.gg/9vwS9WMPAT" className="text-cyan-400">
+                    or Join our discord!
                 </a>
             </p>
         </footer>
