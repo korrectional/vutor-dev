@@ -56,13 +56,13 @@ export default function TopNavBar() {
                         href="/signin"
                         className="bg-blue-600 text-white font-bold py-1.5 px-4 rounded-full hover:bg-green-700 transition"
                     >
-                        login
+                        Login
                     </a>
                     <a
                         href="/signup"
                         className="bg-gray-300 text-gray-700 font-bold py-1.5 px-4 rounded-full hover:bg-gray-400 transition"
                     >
-                        register
+                        Register
                     </a>
                 </div>
             )}

@@ -28,7 +28,7 @@ export default function Chats() {
     const [participants, setParticipants] = useState([]);
     const [userMsgs, setUserMsgs] = useState<Message[]>([]);
 
-    var socket: Socket = io(API_URL + "//");
+    const socket: Socket = io(API_URL + "/");
 
     //Runs on page load
     useEffect(() => {
@@ -62,7 +62,7 @@ export default function Chats() {
         //Initialize socket (keep here so it runs only once)
         socket.on("connect", () => {
             //console.log("Connected to websocket server");
-            console.log("");
+            console.log("Connected to websocket");
         });
 
         //Looking at a specific chat room
