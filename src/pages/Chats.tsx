@@ -89,7 +89,7 @@ export default function Chats() {
                         "An error occurred while fetching messages. Please try again later.",
                     );
                     console.error("Error fetching messages:", error);
-                    navigate("/signin");    
+                    navigate("/signin");
                 });
         }
     }, []);
