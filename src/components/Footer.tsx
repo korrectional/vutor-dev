@@ -6,7 +6,10 @@ export default function Footer() {
                 <a href="/contact" className="text-blue-600">
                     Contact,{" "}
                 </a>
-                <a href="https://discord.gg/9vwS9WMPAT" className="text-cyan-400">
+                <a
+                    href="https://discord.gg/9vwS9WMPAT"
+                    className="text-cyan-400"
+                >
                     or Join our discord!
                 </a>
             </p>
