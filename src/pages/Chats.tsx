@@ -159,7 +159,7 @@ export default function Chats() {
 
         // send message
         axios({
-            url: `https:/api.voluntors.org/api/chats/send`,
+            url: `https://api.voluntors.org/api/chats/send`,
             method: "POST",
             headers: { Authorization: "Bearer " + userToken },
             data: dataToSend,
