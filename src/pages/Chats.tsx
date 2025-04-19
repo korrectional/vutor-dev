@@ -63,7 +63,7 @@ export default function Chats() {
         socket.on("connect", () => {
             console.log("Connected to websocket server");
         });
-        console.log("Socket connected to " + API_URL + "/")
+        console.log("Socket connected to " + API_URL + "/");
 
         //Looking at a specific chat room
         if (chatID) {
