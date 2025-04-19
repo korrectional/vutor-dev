@@ -134,7 +134,7 @@ export default function Chats() {
                 }
             })
             .catch((error) => {
-                alert("Failed to send message");
+                alert("Failed to send message (Server)");
                 console.error("Error sending message:", error);
             });
 
