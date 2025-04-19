@@ -61,9 +61,8 @@ export default function Chats() {
 
         //Initialize socket (keep here so it runs only once)
         socket.on("connect", () => {
-            console.log("Socket connected to " + API_URL + "/")
+            console.log("Socket connected to " + API_URL + "/");
         });
-        
 
         //Looking at a specific chat room
         if (chatID) {
