@@ -61,9 +61,9 @@ export default function Chats() {
 
         //Initialize socket (keep here so it runs only once)
         socket.on("connect", () => {
-            console.log("Connected to websocket server");
+            console.log("Socket connected to " + API_URL + "/")
         });
-        console.log("Socket connected to " + API_URL + "/");
+        
 
         //Looking at a specific chat room
         if (chatID) {
@@ -134,7 +134,7 @@ export default function Chats() {
                 }
             })
             .catch((error) => {
-                alert("Failed to send message (Server)");
+                alert("Failed to send message");
                 console.error("Error sending message:", error);
             });
 
