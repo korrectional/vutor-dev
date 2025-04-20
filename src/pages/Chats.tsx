@@ -5,7 +5,7 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router";
 import { useEffect, useState } from "react";
 import TextField from "../components/TextField";
-import { ClipboardIcon, Paperclip, PhoneCall } from "lucide-react";
+import { Paperclip, PhoneCall } from "lucide-react";
 export const API_URL = import.meta.env.VITE_API_URL;
 
 interface Message {
@@ -69,7 +69,7 @@ export default function Chats() {
             socket.emit("joinChatRoom", chatID);
             //Request for all Msgs in chat room
             axios({
-                url: `https://api.voluntors.org/api/messages/${chatID}`,
+                url: API_URL + `/api/messages/${chatID}`,
                 method: "POST",
                 headers: { Authorization: "Bearer " + userToken },
                 data: {
@@ -118,7 +118,7 @@ export default function Chats() {
         socket.emit("send", dataToSend);
 
         axios({
-            url: `https:/api.voluntors.org/api/chats/send`,
+            url: API_URL + `/api/chats/send`,
             method: "POST",
             headers: { Authorization: "Bearer " + userToken },
             data: dataToSend,
@@ -158,7 +158,7 @@ export default function Chats() {
 
         // send message
         axios({
-            url: `https://api.voluntors.org/api/chats/send`,
+            url: API_URL + `/api/chats/send`,
             method: "POST",
             headers: { Authorization: "Bearer " + userToken },
             data: dataToSend,
@@ -196,7 +196,7 @@ export default function Chats() {
             formData.append("createdAt", new Date().toISOString());
             formData.append("file", file);
             axios({
-                url: `https:/api.voluntors.org/api/chats/upload`,
+                url: API_URL + `/api/chats/upload`,
                 method: "POST",
                 headers: { Authorization: "Bearer " + userToken },
                 data: formData,
@@ -223,7 +223,7 @@ export default function Chats() {
 
                 // send message
                 axios({
-                    url: `https:/api.voluntors.org/api/chats/send`,
+                    url: API_URL + `/api/chats/send`,
                     method: "POST",
                     headers: { Authorization: "Bearer " + userToken },
                     data: dataToSend,
