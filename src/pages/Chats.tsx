@@ -315,7 +315,7 @@ export default function Chats() {
                         ))}
                     </ul>
                 </aside>
-    
+
                 {/* Main Chat Area */}
                 <main className="flex-1 flex flex-col ml-4 w-75 p-4 bg-white shadow-md">
                     {chatID ? (
@@ -331,7 +331,7 @@ export default function Chats() {
                                     Call
                                 </button>
                             </header>
-    
+
                             {/* Messages List */}
                             <ul
                                 className="space-y-2 h-80 overflow-y-scroll"
@@ -353,7 +353,8 @@ export default function Chats() {
                                                     <strong>
                                                         {msg.user.split("@")[0]}
                                                     </strong>
-                                                    : {formatMessage(msg.content)}
+                                                    :{" "}
+                                                    {formatMessage(msg.content)}
                                                 </span>
                                             )}
                                         </li>
@@ -366,11 +367,14 @@ export default function Chats() {
                             Click a chat to view it!
                         </h4>
                     )}
-    
+
                     <hr className="my-6 border-gray-300" />
-    
+
                     {/* Message Input Form */}
-                    <form onSubmit={sendMsg} className="flex items-center gap-2">
+                    <form
+                        onSubmit={sendMsg}
+                        className="flex items-center gap-2"
+                    >
                         <TextField
                             placeholder="Message"
                             type="text"
@@ -405,46 +409,73 @@ export default function Chats() {
                 </main>
             </div>
         );
-    }
-    else {
+    } else {
         return (
             <div className="flex p-4 bg-gray-100">
                 {/* Display available chats */}
-                <div className="w-full bg-white p-4 shadow-md" hidden={!!chatID}>
-                    <h2 className="text-2xl font-bold mb-4 text-center">Chats</h2>
+                <div
+                    className="w-full bg-white p-4 shadow-md"
+                    hidden={!!chatID}
+                >
+                    <h2 className="text-2xl font-bold mb-4 text-center">
+                        Chats
+                    </h2>
 
                     {/* Search bar */}
                     <div className="flex border-2 border-black-300 mb-2">
-                        <Search size={20} className="self-center ml-2 mr-2"/>
-                        <input type="text" placeholder="Search for a chat here" className="flex w-9/10 bg-white px-2 py-1 rounded-none" onChange={(e) => {setChatSearch(e.target.value)}}/>
+                        <Search size={20} className="self-center ml-2 mr-2" />
+                        <input
+                            type="text"
+                            placeholder="Search for a chat here"
+                            className="flex w-9/10 bg-white px-2 py-1 rounded-none"
+                            onChange={(e) => {
+                                setChatSearch(e.target.value);
+                            }}
+                        />
                     </div>
 
                     {/* List of all chats */}
-                    <ul className="space-y-2" hidden={participants.length === 0}>
-                        {participants.map((users, index) => (
-                            users.join(" ").toLowerCase().includes(chatSearch.toLowerCase()) ?
-                                (
-                                    <li key={userChats[index]}>
-                                        <a
-                                            href={`/chat/${userChats[index]}`}
-                                            className="block px-4 py-2 bg-gray-200 shadow-sm hover:bg-gray-500 focus:bg-gray-500 transition text-center"
-                                        >
-                                            {displayUser(users)}
-                                        </a>
-                                    </li>
-                                )
-                            : (null)
-                        ))}
+                    <ul
+                        className="space-y-2"
+                        hidden={participants.length === 0}
+                    >
+                        {participants.map((users, index) =>
+                            users
+                                .join(" ")
+                                .toLowerCase()
+                                .includes(chatSearch.toLowerCase()) ? (
+                                <li key={userChats[index]}>
+                                    <a
+                                        href={`/chat/${userChats[index]}`}
+                                        className="block px-4 py-2 bg-gray-200 shadow-sm hover:bg-gray-500 focus:bg-gray-500 transition text-center"
+                                    >
+                                        {displayUser(users)}
+                                    </a>
+                                </li>
+                            ) : null,
+                        )}
                     </ul>
                 </div>
-                
+
                 {/* Display chat messages */}
                 <div className="w-full bg-white p-4 shadow-md" hidden={!chatID}>
                     {chatID ? (
                         <>
                             {/* Chat Header */}
                             <header className="flex justify-between items-center mb-4">
-                                <h3 className="text-lg font-semibold">{participants[userChats.indexOf(parseInt(chatID))] ? displayUser(participants[userChats.indexOf(parseInt(chatID))]) : ""}</h3>
+                                <h3 className="text-lg font-semibold">
+                                    {participants[
+                                        userChats.indexOf(parseInt(chatID))
+                                    ]
+                                        ? displayUser(
+                                              participants[
+                                                  userChats.indexOf(
+                                                      parseInt(chatID),
+                                                  )
+                                              ],
+                                          )
+                                        : ""}
+                                </h3>
                                 <button
                                     onClick={startCall}
                                     className="px-3 py-2 bg-green-500 flex items-center text-white rounded-lg hover:bg-green-600 transition"
@@ -453,7 +484,7 @@ export default function Chats() {
                                     Call
                                 </button>
                             </header>
-    
+
                             {/* Messages List */}
                             <ul
                                 className="space-y-2 h-80 overflow-y-scroll"
@@ -475,7 +506,8 @@ export default function Chats() {
                                                     <strong>
                                                         {msg.user.split("@")[0]}
                                                     </strong>
-                                                    : {formatMessage(msg.content)}
+                                                    :{" "}
+                                                    {formatMessage(msg.content)}
                                                 </span>
                                             )}
                                         </li>
@@ -488,11 +520,14 @@ export default function Chats() {
                             Click a chat to view it!
                         </h4>
                     )}
-    
+
                     <hr className="my-6 border-gray-300" />
-    
+
                     {/* Message Input Form */}
-                    <form onSubmit={sendMsg} className="flex items-center gap-2">
+                    <form
+                        onSubmit={sendMsg}
+                        className="flex items-center gap-2"
+                    >
                         <TextField
                             placeholder="Message"
                             type="text"
@@ -526,6 +561,6 @@ export default function Chats() {
                     </form>
                 </div>
             </div>
-        )
+        );
     }
 }
