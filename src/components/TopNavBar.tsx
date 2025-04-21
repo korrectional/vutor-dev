@@ -41,7 +41,6 @@ export default function TopNavBar() {
                         className="flex items-center gap-2 rounded-full bg-red-500 text-white font-semibold py-2 px-4 hover:cursor-pointer hover:bg-red-600 transition-colors duration-300 hidden md:flex"
                     >
                         <LogOut size={18} />
-                        <span className="hidden md:inline">Sign Out</span>
                     </a>
                     <a
                         href="/settings"

@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import TextField from "../components/TextField";
 import { Paperclip, PhoneCall, Search } from "lucide-react";
 export const API_URL = import.meta.env.VITE_API_URL;
+import { ArrowLeft } from "lucide-react"; // Import the ArrowLeft icon
 
 interface Message {
     content: string;
@@ -298,7 +299,7 @@ export default function Chats() {
 
     if (window.innerWidth > 767) {
         return (
-            <div className="flex h-full p-4 bg-gray-100">
+            <div className="flex bg-gray-100 ">
                 {/* Sidebar for Chats */}
                 <aside className="w-1/4 p-4 bg-white shadow-md">
                     <h2 className="text-2xl font-bold mb-4">Chats</h2>
@@ -321,11 +322,23 @@ export default function Chats() {
                     {chatID ? (
                         <>
                             {/* Chat Header */}
-                            <header className="flex justify-between items-center mb-4">
-                                <h3 className="text-lg font-semibold"></h3>
+                            <header className="flex items-center gap-2 mb-4">
+                                <h3 className="text-lg font-semibold">
+                                    {participants[
+                                        userChats.indexOf(parseInt(chatID))
+                                    ]
+                                        ? displayUser(
+                                              participants[
+                                                  userChats.indexOf(
+                                                      parseInt(chatID),
+                                                  )
+                                              ],
+                                          )
+                                        : ""}
+                                </h3>
                                 <button
                                     onClick={startCall}
-                                    className="px-3 py-2 bg-green-500 flex items-center text-white rounded-lg hover:bg-green-600 transition"
+                                    className="ml-auto px-3 py-2 bg-green-500 flex items-center text-white rounded-lg hover:bg-green-600 transition"
                                 >
                                     <PhoneCall size={17} className="mr-2" />
                                     Call
@@ -411,7 +424,9 @@ export default function Chats() {
         );
     } else {
         return (
-            <div className="flex p-4 bg-gray-100">
+            <div className="flex bg-gray-100">
+            
+
                 {/* Display available chats */}
                 <div
                     className="w-full bg-white p-4 shadow-md"
@@ -462,7 +477,14 @@ export default function Chats() {
                     {chatID ? (
                         <>
                             {/* Chat Header */}
-                            <header className="flex justify-between items-center mb-4">
+                            <header className="flex items-center gap-2 mb-4">
+                                {/* Back Arrow */}
+                                <div
+                                    className="text-blue-600 hover:cursor-pointer hover:text-blue-800 transition"
+                                    onClick={() => navigate("/chat")}
+                                >
+                                    <ArrowLeft size={20} />
+                                </div>
                                 <h3 className="text-lg font-semibold">
                                     {participants[
                                         userChats.indexOf(parseInt(chatID))
@@ -478,7 +500,7 @@ export default function Chats() {
                                 </h3>
                                 <button
                                     onClick={startCall}
-                                    className="px-3 py-2 bg-green-500 flex items-center text-white rounded-lg hover:bg-green-600 transition"
+                                    className="ml-auto px-3 py-2 bg-green-500 flex items-center text-white rounded-lg hover:bg-green-600 transition"
                                 >
                                     <PhoneCall size={17} className="mr-2" />
                                     Call
