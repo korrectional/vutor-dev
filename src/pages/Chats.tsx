@@ -532,7 +532,7 @@ export default function Chats() {
                             placeholder="Message"
                             type="text"
                             name="msginput"
-                            classes="flex-1 px-3 py-1.5 border rounded disabled:bg-gray-200 disabled:cursor-not-allowed"
+                            classes="flex-1 px-3 py-1.5 w-1/2 border rounded disabled:bg-gray-200 disabled:cursor-not-allowed"
                             autoComplete="off"
                             disabled={!chatID}
                         />
