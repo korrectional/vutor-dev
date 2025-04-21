@@ -425,8 +425,6 @@ export default function Chats() {
     } else {
         return (
             <div className="flex bg-gray-100">
-            
-
                 {/* Display available chats */}
                 <div
                     className="w-full bg-white p-4 shadow-md"
