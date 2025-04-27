@@ -19,7 +19,7 @@ export default function SettingsDashboard() {
     //Language selection state vars
     const [langMenuState, setLangMenuState] = useState(false);
     const langs = ["en", "es", "fr", "de", "hi"];
-    var temp = ""
+    var temp = "";
     const [langsRem, setLangsRem] = useState([]);
     const [langsToDisp, setLangsToDisp] = useState([]);
     const [langQuery, setLangQuery] = useState("");
@@ -191,7 +191,7 @@ export default function SettingsDashboard() {
             const filteredTeaches = teachesRem.filter((teach) =>
                 teach.toLowerCase().includes(teachQuery.toLowerCase()),
             );
-            filteredTeaches.sort()
+            filteredTeaches.sort();
             setDisplaying(filteredTeaches);
         }, [teachQuery]);
 
@@ -202,34 +202,43 @@ export default function SettingsDashboard() {
 
                     {/*Selected subjects*/}
                     {settings.teaches.length ? (
-                        <div className={`bg-white relative text-xs ${window.innerWidth > 768 ? "w-80" : "" } flex flex-wrap gap-1 p-2 mb-1`}>
-                            {settings.teaches.map(
-                                (teach: string) => (
-                                    <div
-                                        key={teach}
-                                        className={"rounded-full w-fit py-1 px-2.5 border border-gray-400 bg-gray-50 flex items-center gap-2"}
-                                        onClick={(e) => {
-                                            e.preventDefault();
-                                            handleTeachesChange(e.currentTarget.getAttribute("data-key"), true);
-                                            setTeachesRem([
-                                                ...teachesRem,
-                                                e.currentTarget.getAttribute(
-                                                    "data-key",
-                                                ),
-                                            ]);
-                                        }}
-                                        data-key={teach}
-                                    >
-                                        {capitalize(teach)}
-                                        <div className="rounded-full p-0.5 hover:bg-gray-200 hover:cursor-pointer">
-                                            <X size={15} />
-                                        </div>
+                        <div
+                            className={`bg-white relative text-xs ${window.innerWidth > 768 ? "w-80" : ""} flex flex-wrap gap-1 p-2 mb-1`}
+                        >
+                            {settings.teaches.map((teach: string) => (
+                                <div
+                                    key={teach}
+                                    className={
+                                        "rounded-full w-fit py-1 px-2.5 border border-gray-400 bg-gray-50 flex items-center gap-2"
+                                    }
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        handleTeachesChange(
+                                            e.currentTarget.getAttribute(
+                                                "data-key",
+                                            ),
+                                            true,
+                                        );
+                                        setTeachesRem([
+                                            ...teachesRem,
+                                            e.currentTarget.getAttribute(
+                                                "data-key",
+                                            ),
+                                        ]);
+                                    }}
+                                    data-key={teach}
+                                >
+                                    {capitalize(teach)}
+                                    <div className="rounded-full p-0.5 hover:bg-gray-200 hover:cursor-pointer">
+                                        <X size={15} />
                                     </div>
-                                ),
-                            )}
+                                </div>
+                            ))}
                         </div>
                     ) : (
-                        <p className="text-sm text-gray-500 mb-2">No subjects selected</p>
+                        <p className="text-sm text-gray-500 mb-2">
+                            No subjects selected
+                        </p>
                     )}
 
                     {/*Select a subject*/}
@@ -242,22 +251,43 @@ export default function SettingsDashboard() {
                         }
                     >
                         <div
-                            className={"flex items-center bg-white justify-between border border-gray-200 " + 
-                                (window.innerWidth > 768 ? "py-1 px-2" : "px-0.5") + 
-                                " w-full gap-2.5 shadow-md rounded-md"}
+                            className={
+                                "flex items-center bg-white justify-between border border-gray-200 " +
+                                (window.innerWidth > 768
+                                    ? "py-1 px-2"
+                                    : "px-0.5") +
+                                " w-full gap-2.5 shadow-md rounded-md"
+                            }
                         >
-                            {window.innerWidth > 768 ? <Search size={13} /> : ""}
+                            {window.innerWidth > 768 ? (
+                                <Search size={13} />
+                            ) : (
+                                ""
+                            )}
 
                             <input
                                 type="text"
-                                className={"flex-1 rounded-md py-1 " + (window.innerWidth > 768 ? "px-2" : "pl-2")}
-                                placeholder={window.innerWidth > 768 ? "Search and add a subject to teach" : "Search and add a subject"}
-                                onChange={(e) => {setTeachQuery(e.target.value)}}
-                                onFocus={() => {setTeachMenuState(true)}}
-                                onBlur={() => {setTeachMenuState(false)}}
+                                className={
+                                    "flex-1 rounded-md py-1 " +
+                                    (window.innerWidth > 768 ? "px-2" : "pl-2")
+                                }
+                                placeholder={
+                                    window.innerWidth > 768
+                                        ? "Search and add a subject to teach"
+                                        : "Search and add a subject"
+                                }
+                                onChange={(e) => {
+                                    setTeachQuery(e.target.value);
+                                }}
+                                onFocus={() => {
+                                    setTeachMenuState(true);
+                                }}
+                                onBlur={() => {
+                                    setTeachMenuState(false);
+                                }}
                             />
                         </div>
-                        
+
                         {/*Menu*/}
                         {teachMenuState ? (
                             <div
@@ -270,7 +300,9 @@ export default function SettingsDashboard() {
                                             <li
                                                 key={teach}
                                                 className="flex items-center justify-between gap-2 p-2 hover:bg-gray-100 rounded-md cursor-pointer"
-                                                onMouseDown={e => e.preventDefault()}
+                                                onMouseDown={(e) =>
+                                                    e.preventDefault()
+                                                }
                                                 onClick={(e) => {
                                                     e.preventDefault();
                                                     handleTeachesChange(
@@ -301,7 +333,7 @@ export default function SettingsDashboard() {
                         )}
                     </div>
                 </div>
-            )
+            );
         }
     }
 
@@ -338,7 +370,12 @@ export default function SettingsDashboard() {
                         </label>
                     </div>
 
-                    <label className={"block mb-2 " + (window.innerWidth > 767 ? "max-w-1/2" : "w-full")}>
+                    <label
+                        className={
+                            "block mb-2 " +
+                            (window.innerWidth > 767 ? "max-w-1/2" : "w-full")
+                        }
+                    >
                         Description:
                         <textarea
                             name="description"
@@ -429,7 +466,7 @@ export default function SettingsDashboard() {
                             </div>
 
                             <SubjectSelect />
-                            
+
                             <label className="flex items-center gap-2 mb-4">
                                 <input
                                     type="checkbox"
@@ -454,7 +491,7 @@ export default function SettingsDashboard() {
                         Save
                     </button>
                 </div>
-            )} 
+            )}
         </div>
     );
 }

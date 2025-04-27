@@ -5,7 +5,15 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router";
 import { useEffect, useState } from "react";
 import TextField from "../components/TextField";
-import { MoveLeft, Paperclip, PhoneCall, Search, SkipBack, StepBack, StepBackIcon } from "lucide-react";
+import {
+    MoveLeft,
+    Paperclip,
+    PhoneCall,
+    Search,
+    SkipBack,
+    StepBack,
+    StepBackIcon,
+} from "lucide-react";
 export const API_URL = import.meta.env.VITE_API_URL;
 import { ArrowLeft } from "lucide-react"; // Import the ArrowLeft icon
 
@@ -421,7 +429,7 @@ export default function Chats() {
                     </form>
                 </main>
             </div>
-        )
+        );
     }
 
     function MobileView() {
@@ -598,7 +606,7 @@ export default function Chats() {
                     </a>
                 </div>
             </aside>
-            {(window.innerWidth > 767) ? <DesktopView /> : <MobileView />}
+            {window.innerWidth > 767 ? <DesktopView /> : <MobileView />}
         </>
-    )
+    );
 }

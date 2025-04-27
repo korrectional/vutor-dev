@@ -40,7 +40,7 @@ export default function TopNavBar() {
                         onClick={() => setSignoutDialogOpen(true)}
                         className="flex items-center gap-2 rounded-full bg-red-500 text-white font-semibold py-2 px-4 hover:cursor-pointer hover:bg-red-600 transition-colors duration-300 hidden md:flex"
                     >
-                        {window.innerWidth > 767 ? ("Sign Out") : ""}
+                        {window.innerWidth > 767 ? "Sign Out" : ""}
                         <LogOut size={18} />
                     </a>
                     <a
