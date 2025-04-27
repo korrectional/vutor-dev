@@ -5,15 +5,7 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router";
 import { useEffect, useState } from "react";
 import TextField from "../components/TextField";
-import {
-    MoveLeft,
-    Paperclip,
-    PhoneCall,
-    Search,
-    SkipBack,
-    StepBack,
-    StepBackIcon,
-} from "lucide-react";
+import { Paperclip, PhoneCall, Search } from "lucide-react";
 export const API_URL = import.meta.env.VITE_API_URL;
 import { ArrowLeft } from "lucide-react"; // Import the ArrowLeft icon
 
@@ -29,6 +21,7 @@ export default function Chats() {
     const userEmail = useAuthUser<IUserData>().email;
     const userName = useAuthUser<IUserData>().name;
     const [file, setFile] = useState(null);
+    const [popupVisible, setPopupVisible] = useState(false);
 
     let { chatID } = useParams();
     let chats = []; //This because react isnt letting me append to the state variables directly, so im doing appending and then setting.
@@ -153,7 +146,15 @@ export default function Chats() {
     }
 
     const handleFileChange = (e) => {
-        setFile(e.target.files[0]);
+        //const selectedFile = e.target.files[0];
+        if (true) {
+            //setFile(selectedFile);
+            setPopupVisible(true); // Show the popup
+        }
+    };
+
+    const closePopup = () => {
+        setPopupVisible(false); // Hide the popup
     };
 
     //Send message to server
@@ -305,7 +306,7 @@ export default function Chats() {
         return parts;
     }
 
-    function DesktopView() {
+    if (window.innerWidth > 767) {
         return (
             <div className="flex bg-gray-100 ">
                 {/* Sidebar for Chats */}
@@ -404,21 +405,16 @@ export default function Chats() {
                             autoComplete="off"
                             disabled={!chatID}
                         />
-                        <label
-                            htmlFor="files"
-                            className={`bg-green-500 p-1.5 rounded-full transition hover:bg-green-600 ${
+                        <button
+                            onClick={() => setPopupVisible(true)} // Show the popup
+                            className={`bg-green-500 p-2 rounded-full text-white hover:bg-green-600 transition ${
                                 chatID ? "" : "bg-gray-300 cursor-not-allowed"
                             }`}
-                        >
-                            <Paperclip color="white" />
-                        </label>
-                        <input
-                            type="file"
-                            onChange={handleFileChange}
-                            id="files"
-                            style={{ display: "none" }}
                             disabled={!chatID}
-                        />
+                        >
+                            <Paperclip size={20} />
+                        </button>
+
                         <button
                             type="submit"
                             disabled={!chatID}
@@ -427,12 +423,40 @@ export default function Chats() {
                             Send
                         </button>
                     </form>
+
+                    {/* Popup */}
+                    {popupVisible && (
+                        <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50">
+                            <div className="bg-white p-6 rounded shadow-lg text-center">
+                                <h2 className="text-xl font-bold mb-4">
+                                    File Upload Unavailable
+                                </h2>
+                                <p className="mb-4">
+                                    File uploads are not supported yet. Please
+                                    use{" "}
+                                    <a
+                                        href="https://send-anywhere.com/"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="text-blue-500 underline"
+                                    >
+                                        send-anywhere
+                                    </a>{" "}
+                                    to share files while we work on it.
+                                </p>
+                                <button
+                                    onClick={() => setPopupVisible(false)} // Close the popup
+                                    className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition"
+                                >
+                                    Close
+                                </button>
+                            </div>
+                        </div>
+                    )}
                 </main>
             </div>
         );
-    }
-
-    function MobileView() {
+    } else { ///////////////////////////////////////////
         return (
             <div className="flex bg-gray-100">
                 {/* Display available chats */}
@@ -566,21 +590,15 @@ export default function Chats() {
                             autoComplete="off"
                             disabled={!chatID}
                         />
-                        <label
-                            htmlFor="files"
-                            className={`bg-green-500 p-1.5 rounded-full transition hover:bg-green-600 ${
+                        <button
+                            onClick={() => setPopupVisible(true)} // Show the popup
+                            className={`bg-green-500 p-2 rounded-full text-white hover:bg-green-600 transition ${
                                 chatID ? "" : "bg-gray-300 cursor-not-allowed"
                             }`}
-                        >
-                            <Paperclip color="white" />
-                        </label>
-                        <input
-                            type="file"
-                            onChange={handleFileChange}
-                            id="files"
-                            style={{ display: "none" }}
                             disabled={!chatID}
-                        />
+                        >
+                            <Paperclip size={20} />
+                        </button>
                         <button
                             type="submit"
                             disabled={!chatID}
@@ -589,24 +607,38 @@ export default function Chats() {
                             Send
                         </button>
                     </form>
+
+                    {/* Popup */}
+                    {popupVisible && (
+                        <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50">
+                            <div className="bg-white p-6 rounded shadow-lg text-center">
+                                <h2 className="text-xl font-bold mb-4">
+                                    File Upload Unavailable
+                                </h2>
+                                <p className="mb-4">
+                                    File uploads are not supported yet. Please
+                                    use{" "}
+                                    <a
+                                        href="https://send-anywhere.com/"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="text-blue-500 underline"
+                                    >
+                                        send-anywhere
+                                    </a>{" "}
+                                    to share files while we work on this.
+                                </p>
+                                <button
+                                    onClick={() => setPopupVisible(false)} // Close the popup
+                                    className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition"
+                                >
+                                    Close
+                                </button>
+                            </div>
+                        </div>
+                    )}
                 </div>
             </div>
         );
     }
-
-    return (
-        <>
-            <aside>
-                <div className="flex items-center justify-start bg-gray-100 px-2 py-1 shadow-md">
-                    <a
-                        href="/dashboard"
-                        className="text-blue-500 rounded hover:text-blue-700 transition"
-                    >
-                        Back to dashboard
-                    </a>
-                </div>
-            </aside>
-            {window.innerWidth > 767 ? <DesktopView /> : <MobileView />}
-        </>
-    );
-}
+}  

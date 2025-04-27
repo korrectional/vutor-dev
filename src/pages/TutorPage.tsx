@@ -44,7 +44,8 @@ export default function TutorPage() {
                 setNotification("Chat already exists!"); // Set notification message
                 setTimeout(() => setNotification(null), 3000); // Clear notification after 3 seconds
             } else {
-                navigate(`/chat/${data.chatID}`);
+                // ${data.chatID}
+                navigate(`/chat`);
             }
         });
     };
