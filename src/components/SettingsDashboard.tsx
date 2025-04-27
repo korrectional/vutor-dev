@@ -1,5 +1,5 @@
 import { Search, X } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import useAuthUser from "react-auth-kit/hooks/useAuthUser";
 export const API_URL = import.meta.env.VITE_API_URL;
 
@@ -19,12 +19,12 @@ export default function SettingsDashboard() {
     //Language selection state vars
     const [langMenuState, setLangMenuState] = useState(false);
     const langs = ["en", "es", "fr", "de", "hi"];
+    var temp = ""
     const [langsRem, setLangsRem] = useState([]);
     const [langsToDisp, setLangsToDisp] = useState([]);
     const [langQuery, setLangQuery] = useState("");
 
     //Teaches selection state vars
-    const [teachMenuState, setTeachMenuState] = useState(false);
     const teaches = [
         "AP Precalculus",
         "AP Calculus AB",
@@ -50,8 +50,6 @@ export default function SettingsDashboard() {
         "AP Human Geography",
     ];
     const [teachesRem, setTeachesRem] = useState([]);
-    const [teachesToDisp, setTeachesToDisp] = useState([]);
-    const [teachQuery, setTeachQuery] = useState("");
 
     useEffect(() => {
         fetch(API_URL + "/api/user/user-data", {
@@ -84,24 +82,6 @@ export default function SettingsDashboard() {
             setLangsRem(langs.filter((lang) => !data.language.includes(lang)));
         });
     }, []);
-
-    useEffect(() => {
-        setLangsToDisp(
-            langsRem.filter((lang) => {
-                return convertShortToLong(lang)
-                    .toLowerCase()
-                    .startsWith(langQuery.toLowerCase());
-            }),
-        );
-    }, [langQuery, langsRem]);
-
-    useEffect(() => {
-        setTeachesToDisp(
-            teachesRem.filter((teach) => {
-                return teach.toLowerCase().startsWith(teachQuery.toLowerCase());
-            }),
-        );
-    }, [teachQuery, teachesRem]);
 
     function convertShortToLong(shortLang): string {
         switch (shortLang) {
@@ -202,14 +182,137 @@ export default function SettingsDashboard() {
         location.reload();
     };
 
+    function SubjectSelect() {
+        const [teachQuery, setTeachQuery] = useState("");
+        const [teachMenuState, setTeachMenuState] = useState(false);
+        const [displaying, setDisplaying] = useState([]);
+
+        useEffect(() => {
+            const filteredTeaches = teachesRem.filter((teach) =>
+                teach.toLowerCase().includes(teachQuery.toLowerCase()),
+            );
+            filteredTeaches.sort()
+            setDisplaying(filteredTeaches);
+        }, [teachQuery]);
+
+        if (settings.role === "tutor") {
+            return (
+                <div className="mb-2">
+                    <label className="block">Subjects you tutor:</label>
+
+                    {/*Selected subjects*/}
+                    {settings.teaches.length ? (
+                        <div className={`bg-white relative text-xs ${window.innerWidth > 768 ? "w-80" : "" } flex flex-wrap gap-1 p-2 mb-1`}>
+                            {settings.teaches.map(
+                                (teach: string) => (
+                                    <div
+                                        key={teach}
+                                        className={"rounded-full w-fit py-1 px-2.5 border border-gray-400 bg-gray-50 flex items-center gap-2"}
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            handleTeachesChange(e.currentTarget.getAttribute("data-key"), true);
+                                            setTeachesRem([
+                                                ...teachesRem,
+                                                e.currentTarget.getAttribute(
+                                                    "data-key",
+                                                ),
+                                            ]);
+                                        }}
+                                        data-key={teach}
+                                    >
+                                        {capitalize(teach)}
+                                        <div className="rounded-full p-0.5 hover:bg-gray-200 hover:cursor-pointer">
+                                            <X size={15} />
+                                        </div>
+                                    </div>
+                                ),
+                            )}
+                        </div>
+                    ) : (
+                        <p className="text-sm text-gray-500 mb-2">No subjects selected</p>
+                    )}
+
+                    {/*Select a subject*/}
+                    <div
+                        className={
+                            "relative " +
+                            (teachMenuState ? "h-51" : "") +
+                            (window.innerWidth < 768 ? " w-full " : " w-80 ") +
+                            " mb-2 text-sm rounded-md"
+                        }
+                    >
+                        <div
+                            className={"flex items-center bg-white justify-between border border-gray-200 " + 
+                                (window.innerWidth > 768 ? "py-1 px-2" : "px-0.5") + 
+                                " w-full gap-2.5 shadow-md rounded-md"}
+                        >
+                            {window.innerWidth > 768 ? <Search size={13} /> : ""}
+
+                            <input
+                                type="text"
+                                className={"flex-1 rounded-md py-1 " + (window.innerWidth > 768 ? "px-2" : "pl-2")}
+                                placeholder={window.innerWidth > 768 ? "Search and add a subject to teach" : "Search and add a subject"}
+                                onChange={(e) => {setTeachQuery(e.target.value)}}
+                                onFocus={() => {setTeachMenuState(true)}}
+                                onBlur={() => {setTeachMenuState(false)}}
+                            />
+                        </div>
+                        
+                        {/*Menu*/}
+                        {teachMenuState ? (
+                            <div
+                                className="shadow-sm rounded-md w-full bg-white absolute max-h-40 mt-2 p-1 flex overflow-y-auto scroll-bar-thin
+                            scrollbar-track-slate-50"
+                            >
+                                <ul className="w-full mb-0 p-1" id="menu">
+                                    {displaying.length ? (
+                                        displaying.map((teach: string) => (
+                                            <li
+                                                key={teach}
+                                                className="flex items-center justify-between gap-2 p-2 hover:bg-gray-100 rounded-md cursor-pointer"
+                                                onMouseDown={e => e.preventDefault()}
+                                                onClick={(e) => {
+                                                    e.preventDefault();
+                                                    handleTeachesChange(
+                                                        teach,
+                                                        false,
+                                                    );
+                                                    setTeachesRem(
+                                                        teachesRem.filter(
+                                                            (t) => t !== teach,
+                                                        ),
+                                                    );
+
+                                                    setTeachMenuState(true);
+                                                }}
+                                            >
+                                                {capitalize(teach)}
+                                            </li>
+                                        ))
+                                    ) : (
+                                        <p className="text-center text-sm text-gray-500">
+                                            No subjects found
+                                        </p>
+                                    )}
+                                </ul>
+                            </div>
+                        ) : (
+                            ""
+                        )}
+                    </div>
+                </div>
+            )
+        }
+    }
+
     return (
         <div className="p-6 max-w-4xl mx-auto bg-white rounded-lg shadow-md">
             <h2 className="text-2xl font-semibold mb-4">Settings</h2>
             {settings.name === "LOADING" ? (
-                <p>Loading Page</p>
+                <p>Loading...</p>
             ) : (
                 <div>
-                    <div className="flex gap-5 max-w-1/2">
+                    <div className="flex gap-5 lg:max-w-1/2 sm:max-w-full md:mb-4">
                         <label className="block mb-2">
                             Name:
                             <input
@@ -235,7 +338,7 @@ export default function SettingsDashboard() {
                         </label>
                     </div>
 
-                    <label className="block mb-2 w-70">
+                    <label className={"block mb-2 " + (window.innerWidth > 767 ? "max-w-1/2" : "w-full")}>
                         Description:
                         <textarea
                             name="description"
@@ -246,23 +349,71 @@ export default function SettingsDashboard() {
                         />
                     </label>
 
-                    <hr className="my-6 border-gray-300" />
+                    <hr className="my-2 mt-4 border-gray-300" />
 
-                    <div className="flex justify-between mx-5">
-                        <div className=" max-w-1/2">
-                            <div className="flex ">
-                                <label className="block mb-2 mx-4">
+                    {window.innerWidth > 767 ? (
+                        <div className="flex justify-between mx-5">
+                            <div className=" max-w-1/2">
+                                <div className="flex ">
+                                    <label className="block mb-2">
+                                        State:
+                                        <input
+                                            type="text"
+                                            name="state"
+                                            value={settings.state}
+                                            onChange={handleChange}
+                                            className="mt-1 block w-30 border border-gray-300 rounded-md shadow-sm px-2 py-1"
+                                        />
+                                    </label>
+
+                                    <label className="block mb-2 mx-4">
+                                        GPA:
+                                        <input
+                                            type="number"
+                                            name="GPA"
+                                            step="0.1"
+                                            min="0.0"
+                                            max="4.0"
+                                            value={settings.GPA}
+                                            onChange={handleChange}
+                                            className="mt-1 block w-30 border border-gray-300 rounded-md shadow-sm px-2 py-1"
+                                        />
+                                    </label>
+                                </div>
+
+                                <label className="flex items-center gap-2 mb-4">
+                                    <input
+                                        type="checkbox"
+                                        checked={!settings.private_last_visit}
+                                        onChange={(e) =>
+                                            setSettings((prevSettings) => ({
+                                                ...prevSettings,
+                                                private_last_visit:
+                                                    !e.target.checked,
+                                            }))
+                                        }
+                                    />
+                                    Display last visit
+                                </label>
+                            </div>
+
+                            <SubjectSelect />
+                        </div>
+                    ) : (
+                        <div>
+                            <div className="flex gap-2">
+                                <label className="block w-2/3 mb-2">
                                     State:
                                     <input
                                         type="text"
                                         name="state"
                                         value={settings.state}
                                         onChange={handleChange}
-                                        className="mt-1 block w-30 border border-gray-300 rounded-md shadow-sm px-2 py-1"
+                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm px-2 py-1"
                                     />
                                 </label>
 
-                                <label className="block mb-2 mx-4">
+                                <label className="block mb-2 w-1/3">
                                     GPA:
                                     <input
                                         type="number"
@@ -272,11 +423,13 @@ export default function SettingsDashboard() {
                                         max="4.0"
                                         value={settings.GPA}
                                         onChange={handleChange}
-                                        className="mt-1 block w-30 border border-gray-300 rounded-md shadow-sm px-2 py-1"
+                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm px-2 py-1"
                                     />
                                 </label>
                             </div>
 
+                            <SubjectSelect />
+                            
                             <label className="flex items-center gap-2 mb-4">
                                 <input
                                     type="checkbox"
@@ -292,151 +445,7 @@ export default function SettingsDashboard() {
                                 Display last visit
                             </label>
                         </div>
-
-                        {settings.role === "tutor" && (
-                            <div className="mb-2 max-w-1/2">
-                                <label className="block mb-2">Teaches:</label>
-
-                                {/*Selected subjects*/}
-                                {settings.teaches.length ? (
-                                    <div className="bg-white w-80 relative text-xs flex flex-wrap gap-1 p-2 mb-1">
-                                        {settings.teaches.map(
-                                            (teach: string) => (
-                                                <div
-                                                    key={teach}
-                                                    className="rounded-full w-fit py-1 px-2.5 border border-gray-400 bg-gray-50 flex items-center gap-2"
-                                                >
-                                                    {capitalize(teach)}
-                                                    <div
-                                                        onClick={(e) => {
-                                                            e.preventDefault();
-                                                            handleTeachesChange(
-                                                                e.currentTarget.getAttribute(
-                                                                    "data-key",
-                                                                ),
-                                                                true,
-                                                            );
-                                                            setTeachesRem([
-                                                                ...teachesRem,
-                                                                e.currentTarget.getAttribute(
-                                                                    "data-key",
-                                                                ),
-                                                            ]);
-                                                        }}
-                                                        className="rounded-full p-0.5 hover:bg-gray-200 hover:cursor-pointer"
-                                                        data-key={teach}
-                                                    >
-                                                        <X size={15} />
-                                                    </div>
-                                                </div>
-                                            ),
-                                        )}
-                                    </div>
-                                ) : (
-                                    "No subjects selected"
-                                )}
-
-                                {/*Select a subject*/}
-                                <div
-                                    className={
-                                        "relative w-80 " +
-                                        (teachMenuState ? "h-51" : "") +
-                                        " mb-2 text-sm rounded-md"
-                                    }
-                                >
-                                    <div
-                                        className="flex items-center bg-white justify-between border border-gray-200 py-1 px-2 w-80 gap-2.5 shadow-md
-                                    rounded-md"
-                                    >
-                                        <Search size={13} />
-
-                                        <input
-                                            type="text"
-                                            className="bg-transparent text-sm flex-1 rounded-md px-2 py-1"
-                                            placeholder="Search and add a subject to teach"
-                                            value={teachQuery}
-                                            onChange={(e) => {
-                                                setTeachQuery(
-                                                    e.currentTarget.value,
-                                                );
-                                            }}
-                                            onFocus={() => {
-                                                setTeachMenuState(true);
-                                            }}
-                                            onBlur={() => {
-                                                setTeachMenuState(false);
-                                            }}
-                                        />
-                                    </div>
-                                    {/*Menu*/}
-                                    {teachMenuState ? (
-                                        <div
-                                            className="shadow-sm rounded-md bg-white absolute w-full max-h-40 mt-2 p-1 flex overflow-y-auto scroll-bar-thin
-                                        scrollbar-track-slate-50"
-                                        >
-                                            <ul className="w-full mb-0 p-1">
-                                                {teachesToDisp?.length
-                                                    ? teachesToDisp.map(
-                                                          (teach) => {
-                                                              return (
-                                                                  <li
-                                                                      key={
-                                                                          teach
-                                                                      }
-                                                                      data-key={
-                                                                          teach
-                                                                      }
-                                                                      className="p-2 cursor-pointer hover:bg-blue-200"
-                                                                      onMouseDown={(
-                                                                          e,
-                                                                      ) =>
-                                                                          e.preventDefault()
-                                                                      }
-                                                                      onClick={(
-                                                                          e,
-                                                                      ) => {
-                                                                          setTeachMenuState(
-                                                                              true,
-                                                                          );
-                                                                          handleTeachesChange(
-                                                                              e.currentTarget.getAttribute(
-                                                                                  "data-key",
-                                                                              ),
-                                                                              false,
-                                                                          );
-                                                                          setTeachesRem(
-                                                                              teachesRem.filter(
-                                                                                  (
-                                                                                      t,
-                                                                                  ) =>
-                                                                                      t !==
-                                                                                      e.currentTarget.getAttribute(
-                                                                                          "data-key",
-                                                                                      ),
-                                                                              ),
-                                                                          );
-                                                                          setTeachQuery(
-                                                                              "",
-                                                                          );
-                                                                      }}
-                                                                  >
-                                                                      {capitalize(
-                                                                          teach,
-                                                                      )}
-                                                                  </li>
-                                                              );
-                                                          },
-                                                      )
-                                                    : "No More Subjects"}
-                                            </ul>
-                                        </div>
-                                    ) : (
-                                        ""
-                                    )}
-                                </div>
-                            </div>
-                        )}
-                    </div>
+                    )}
 
                     <button
                         onClick={saveSettings}
@@ -445,7 +454,7 @@ export default function SettingsDashboard() {
                         Save
                     </button>
                 </div>
-            )}
+            )} 
         </div>
     );
 }

@@ -5,7 +5,7 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router";
 import { useEffect, useState } from "react";
 import TextField from "../components/TextField";
-import { Paperclip, PhoneCall, Search } from "lucide-react";
+import { MoveLeft, Paperclip, PhoneCall, Search, SkipBack, StepBack, StepBackIcon } from "lucide-react";
 export const API_URL = import.meta.env.VITE_API_URL;
 import { ArrowLeft } from "lucide-react"; // Import the ArrowLeft icon
 
@@ -297,7 +297,7 @@ export default function Chats() {
         return parts;
     }
 
-    if (window.innerWidth > 767) {
+    function DesktopView() {
         return (
             <div className="flex bg-gray-100 ">
                 {/* Sidebar for Chats */}
@@ -421,8 +421,10 @@ export default function Chats() {
                     </form>
                 </main>
             </div>
-        );
-    } else {
+        )
+    }
+
+    function MobileView() {
         return (
             <div className="flex bg-gray-100">
                 {/* Display available chats */}
@@ -583,4 +585,20 @@ export default function Chats() {
             </div>
         );
     }
+
+    return (
+        <>
+            <aside>
+                <div className="flex items-center justify-start bg-gray-100 px-2 py-1 shadow-md">
+                    <a
+                        href="/dashboard"
+                        className="text-blue-500 rounded hover:text-blue-700 transition"
+                    >
+                        Back to dashboard
+                    </a>
+                </div>
+            </aside>
+            {(window.innerWidth > 767) ? <DesktopView /> : <MobileView />}
+        </>
+    )
 }
