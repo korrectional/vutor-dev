@@ -456,7 +456,8 @@ export default function Chats() {
                 </main>
             </div>
         );
-    } else { ///////////////////////////////////////////
+    } else {
+        ///////////////////////////////////////////
         return (
             <div className="flex bg-gray-100">
                 {/* Display available chats */}
@@ -641,4 +642,4 @@ export default function Chats() {
             </div>
         );
     }
-}  
+}
