@@ -113,8 +113,8 @@ export default function SignUpComponent() {
                     />
                     <input
                         type="tel"
-                        placeholder="123-456-7890"
-                        pattern="^\d{3}-\d{3}-\d{4}$"
+                        placeholder="1234567890"
+                        pattern="^\d{3}\d{3}\d{4}$"
                         className="w-full p-2 border border-gray-300 rounded mb-4"
                         onChange={(e) =>
                             setFormData({ ...formData, phone: e.target.value })
