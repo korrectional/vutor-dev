@@ -24,8 +24,8 @@ const Home = () => {
 
         // Simulate fetching student and tutor counts
         setTimeout(() => {
-            setStudentsCount(10); // Replace with API call if available
-            setTutorsCount(4); // Replace with API call if available
+            setStudentsCount(41); // Replace with API call if available
+            setTutorsCount(15); // Replace with API call if available
         }, 1000);
     }, []);
 
@@ -74,7 +74,7 @@ const Home = () => {
                 {/* Counter Section */}
                 <div className="mt-12 bg-gray-100 text-gray-900 p-6 rounded-lg shadow-lg">
                     <h2 className="text-4xl font-semibold mb-6 text-center">
-                        Our Community (beta)
+                        Our Community
                     </h2>
                     <div className="flex justify-around">
                         <div className="text-center">
