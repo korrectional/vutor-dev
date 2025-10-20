@@ -6,7 +6,7 @@ export const API_URL = import.meta.env.VITE_API_URL;
 
 const Home = () => {
     const [message, setMessage] = useState({ message: "" });
-    const [studentsCount, setStudentsCount] = useState(0);
+    const [studentsCount, setStudentsCount] = useState({ usercount: 0 });
     const [tutorsCount, setTutorsCount] = useState(0);
     const authUser = useAuthUser();
     const navigate = useNavigate();
@@ -22,10 +22,15 @@ const Home = () => {
             url: API_URL + "/api",
         }).then((response) => setMessage(response.data));
 
-        // Simulate fetching student and tutor counts
+        // Fetching student and tutor counts
         setTimeout(() => {
-            setStudentsCount(483); // Replace with API call if available
-            setTutorsCount(98); // Replace with API call if available
+            axios({
+                method: "GET",
+                url: API_URL + "/api/usercount",
+            }).then((response) => setStudentsCount(response.data));
+            console.log(message)
+        
+            setTutorsCount(37); // Replace with API call if available
         }, 1000);
     }, []);
 
@@ -79,7 +84,7 @@ const Home = () => {
                     <div className="flex justify-around">
                         <div className="text-center">
                             <h3 className="text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500">
-                                {studentsCount}
+                                {studentsCount.usercount}
                             </h3>
                             <p className="text-xl">Students</p>
                         </div>
