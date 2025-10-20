@@ -28,8 +28,8 @@ const Home = () => {
                 method: "GET",
                 url: API_URL + "/api/usercount",
             }).then((response) => setStudentsCount(response.data));
-            console.log(message)
-        
+            console.log(message);
+
             setTutorsCount(37); // Replace with API call if available
         }, 1000);
     }, []);
